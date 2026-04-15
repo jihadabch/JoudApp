@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOUD GROUP | مؤسسة جود</title>
+    
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/m2mXv7Yf/coffee-cup.jpg">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Joud Group">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Joud Group","short_name":"Joud","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#166534","icons":[{"src":"https://i.postimg.cc/m2mXv7Yf/coffee-cup.jpg","sizes":"512x512","type":"image/png"}]}'>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        .page { display: none; padding-bottom: 140px; min-height: 100vh; }
+        .active-page { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; color: #64748b; }
+        .nav-item.active { color: #166534; font-weight: 900; transform: translateY(-3px); transition: 0.3s; }
+        .nav-icon { font-size: 22px; margin-bottom: 2px; }
+
+        .cart-badge {
+            position: absolute; top: -5px; right: 50%; transform: translateX(120%);
+            background: #ef4444; color: white; font-size: 10px; min-width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            font-weight: 900; border: 2px solid white; z-index: 50;
+        }
+
+        .slider-wrapper { position: relative; width: 100%; height: 180px; border-radius: 1.5rem; overflow: hidden; background: #fff; }
+        .slider-container { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; }
+        .slide { min-width: 100%; height: 100%; object-fit: contain; background: #fff; }
+
+        .offers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .offer-card { background: #fff; border-radius: 1.2rem; overflow: hidden; height: 110px; border: 1px solid #f1f5f9; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .offer-card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        /* ستايل نافذة تكبير الصور */
+        #imageModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        #imageModal img { max-width: 100%; max-height: 80vh; border-radius: 15px; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+
+    <div id="imageModal" onclick="closeImage()">
+        <button class="absolute top-10 right-6 text-white text-3xl font-black">✕</button>
+        <img id="modalImg" src="" onclick="event.stopPropagation()">
+    </div>
+
+    <header class="bg-[#d5e8d4] text-center pt-8 pb-14 rounded-b-[3rem] shadow-sm relative z-10">
+        <div onclick="secretAdminTap()" class="cursor-pointer">
+            <h1 class="text-3xl font-black text-[#2e5734]">JOUD GROUP</h1>
+            <p class="text-[10px] text-green-700 font-black tracking-widest mt-1 uppercase italic">Abbousha Institution</p>
+        </div>
+    </header>
+
+    <main id="homePage" class="page active-page px-4 -mt-8 relative z-20">
+        <div class="bg-white p-1.5 rounded-[2rem] shadow-xl mb-5 overflow-hidden border border-gray-50">
+            <div class="slider-wrapper"><div id="sliderWrapper" class="slider-container"></div></div>
+        </div>
+
+        <div class="offers-grid" id="offersGrid">
+            <div class="offer-card" onclick="zoomImage('off1')"><img src="" id="off1"></div>
+            <div class="offer-card" onclick="zoomImage('off2')"><img src="" id="off2"></div>
+            <div class="offer-card" onclick="zoomImage('off3')"><img src="" id="off3"></div>
+        </div>
+
+        <input type="text" id="mainSearch" onkeyup="smartSearch()" placeholder="ابحث في المنتجات..." class="w-full p-4 rounded-2xl shadow-lg mb-6 border-none outline-none font-bold text-sm bg-white ring-1 ring-black/5">
+        <div id="homeList" class="grid grid-cols-2 gap-4"></div>
+    </main>
+
+    <main id="categoriesPage" class="page px-4 pt-8">
+        <div id="catsGrid" class="grid grid-cols-2 gap-4">
+            <div onclick="showCategoryItems('بلاستيك')" class="bg-white p-6 rounded-3xl text-center shadow-sm font-black active:scale-95 transition-all">🥤 بلاستيك</div>
+            <div onclick="showCategoryItems('ورق')" class="bg-white p-6 rounded-3xl text-center shadow-sm font-black active:scale-95 transition-all">📄 ورق</div>
+            <div onclick="showCategoryItems('نايلون')" class="bg-white p-6 rounded-3xl text-center shadow-sm font-black active:scale-95 transition-all">🛍️ نايلون</div>
+            <div onclick="showCategoryItems('أخرى')" class="bg-white p-6 rounded-3xl text-center shadow-sm font-black active:scale-95 transition-all">📦 أخرى</div>
+        </div>
+        <div id="categoryItemsSection" class="mt-4 hidden">
+            <div class="flex justify-between items-center bg-green-50 p-4 rounded-2xl mb-4">
+                <span id="selectedCatTitle" class="font-black"></span>
+                <button onclick="hideCategoryItems()" class="text-xs font-black text-red-500 bg-white px-3 py-1 rounded-full">رجوع ✕</button>
+            </div>
+            <div id="categoryList" class="grid grid-cols-2 gap-4"></div>
+        </div>
+    </main>
+
+    <main id="cartPage" class="page px-6 pt-10">
+        <h2 class="text-2xl font-black text-gray-800 mb-6 italic">سلة الطلبات 🛒</h2>
+        <div id="cartItems" class="space-y-4"></div>
+        <div id="cartTotal" class="mt-8 p-6 bg-white rounded-[2rem] shadow-sm hidden border border-gray-100">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-black text-gray-500 text-sm">المجموع النهائي:</span>
+                <span id="totalPrice" class="text-2xl font-black text-green-700">0$</span>
+            </div>
+            <button onclick="sendOrderWhatsApp()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black shadow-lg active:scale-95">إرسال الطلب واتساب ✅</button>
+        </div>
+        <div id="emptyCart" class="text-center py-20 text-gray-400 font-bold">السلة فارغة حالياً</div>
+    </main>
+
+    <main id="infoPage" class="page px-6 pt-10">
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm text-center border border-gray-50 mb-6">
+            <div class="text-4xl mb-3 text-green-700 font-black italic">JOUD</div>
+            <h2 class="text-2xl font-black text-gray-800">مؤسسة العبوشة</h2>
+        </div>
+        <div class="space-y-4">
+            <a href="https://wa.me/96176526242" class="flex items-center justify-between p-5 bg-white rounded-2xl shadow-sm border active:scale-95 transition-all">
+                <span class="font-black text-gray-700 text-sm">💬 تواصل عبر واتساب</span>
+                <span class="bg-green-500 text-white px-3 py-1.5 rounded-lg font-black text-[9px]">دردشة</span>
+            </a>
+            <a href="tel:96176526242" class="flex items-center justify-between p-5 bg-white rounded-2xl shadow-sm border active:scale-95 transition-all">
+                <span class="font-black text-gray-700 text-sm">📞 اتصال هاتفي مباشر</span>
+                <span class="bg-blue-600 text-white px-3 py-1.5 rounded-lg font-black text-[9px]">اتصل</span>
+            </a>
+            <a href="https://maps.google.com/?q=Joud+Group" target="_blank" class="flex items-center justify-between p-5 bg-white rounded-2xl shadow-sm border active:scale-95 transition-all">
+                <span class="font-black text-gray-700 text-sm">📍 موقعنا على الخريطة</span>
+                <span class="bg-red-500 text-white px-3 py-1.5 rounded-lg font-black text-[9px]">خرائط</span>
+            </a>
+        </div>
+    </main>
+
+    <main id="adminPage" class="page px-6 pt-10 bg-white">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-black text-red-600 italic">لوحة الإدارة ⚙️</h2>
+            <button onclick="location.reload()" class="bg-gray-100 px-4 py-2 rounded-xl text-xs font-bold">خروج</button>
+        </div>
+        <div class="space-y-6">
+            <div class="bg-blue-50 p-4 rounded-3xl">
+                <h3 class="font-black text-xs mb-3 text-blue-800">🖼️ صور السلايد (الفوق)</h3>
+                <input id="s1_input" placeholder="رابط 1" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <input id="s2_input" placeholder="رابط 2" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <input id="s3_input" placeholder="رابط 3" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <button onclick="updateSettings('slider')" class="w-full bg-blue-600 text-white py-2 rounded-xl font-black text-xs">تحديث</button>
+            </div>
+            <div class="bg-green-50 p-4 rounded-3xl">
+                <h3 class="font-black text-xs mb-3 text-green-800">🖼️ صور العروض (التحت)</h3>
+                <input id="o1_input" placeholder="رابط 1" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <input id="o2_input" placeholder="رابط 2" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <input id="o3_input" placeholder="رابط 3" class="w-full p-2 mb-2 rounded-xl border-none text-[10px]">
+                <button onclick="updateSettings('offers')" class="w-full bg-green-700 text-white py-2 rounded-xl font-black text-xs">تحديث</button>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-3xl">
+                <h3 class="font-black text-xs mb-3">📦 إضافة منتج</h3>
+                <input id="pName" placeholder="الاسم" class="w-full p-2 mb-2 rounded-lg text-sm">
+                <input id="pPrice" placeholder="السعر $" type="number" class="w-full p-2 mb-2 rounded-lg text-sm">
+                <select id="pCat" class="w-full p-2 mb-2 rounded-lg text-sm font-bold">
+                    <option value="بلاستيك">بلاستيك</option><option value="ورق">ورق</option><option value="نايلون">نايلون</option><option value="أخرى">أخرى</option>
+                </select>
+                <input id="pImg" placeholder="رابط الصورة" class="w-full p-2 mb-3 rounded-lg text-sm">
+                <button onclick="saveProduct()" class="w-full bg-black text-white py-3 rounded-xl font-black">حفظ</button>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md h-16 rounded-[2rem] shadow-2xl flex items-center justify-around z-50 border border-gray-100">
+        <button onclick="switchPage('home', this)" class="nav-item active"><span class="nav-icon">🏠</span><span class="text-[9px] font-black">الرئيسية</span></button>
+        <button onclick="switchPage('categories', this)" class="nav-item"><span class="nav-icon">📂</span><span class="text-[9px] font-black">الأقسام</span></button>
+        <button onclick="switchPage('cart', this)" class="nav-item">
+            <span id="cartCount" class="cart-badge hidden">0</span>
+            <span class="nav-icon">🛒</span><span class="text-[9px] font-black">السلة</span>
+        </button>
+        <button onclick="switchPage('info', this)" class="nav-item"><span class="nav-icon">ℹ️</span><span class="text-[9px] font-black">جود</span></button>
+    </nav>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = { databaseURL: "https://joudapp-5687c-default-rtdb.firebaseio.com" };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let allProducts = [], cart = JSON.parse(localStorage.getItem('joud_cart')) || [];
+
+        // تكبير الصور
+        window.zoomImage = (id) => {
+            const src = document.getElementById(id).src;
+            if(src) {
+                document.getElementById('modalImg').src = src;
+                document.getElementById('imageModal').style.display = 'flex';
+            }
+        };
+        window.closeImage = () => { document.getElementById('imageModal').style.display = 'none'; };
+
+        onValue(ref(db, 'settings'), (snap) => {
+            const s = snap.val() || {};
+            const imgs = [s.s1, s.s2, s.s3].filter(i=>i);
+            document.getElementById('sliderWrapper').innerHTML = imgs.length ? imgs.map(u => `<img src="${u}" class="slide" referrerpolicy="no-referrer">`).join('') : '<div class="slide flex items-center justify-center font-bold italic">JOUD GROUP</div>';
+            if(s.o1) document.getElementById('off1').src = s.o1;
+            if(s.o2) document.getElementById('off2').src = s.o2;
+            if(s.o3) document.getElementById('off3').src = s.o3;
+        });
+
+        onValue(ref(db, 'products'), (snap) => {
+            allProducts = []; snap.forEach(child => { allProducts.push({id: child.key, ...child.val()}) });
+            renderHome();
+        });
+
+        window.updateSettings = (type) => {
+            let data = {};
+            if(type === 'slider') { data.s1 = document.getElementById('s1_input').value; data.s2 = document.getElementById('s2_input').value; data.s3 = document.getElementById('s3_input').value; }
+            else { data.o1 = document.getElementById('o1_input').value; data.o2 = document.getElementById('o2_input').value; data.o3 = document.getElementById('o3_input').value; }
+            update(ref(db, 'settings'), data).then(() => alert("تم التحديث ✅"));
+        };
+
+        window.saveProduct = () => {
+            const name = document.getElementById('pName').value, price = document.getElementById('pPrice').value, image = document.getElementById('pImg').value, category = document.getElementById('pCat').value;
+            if(name && price && image) push(ref(db, 'products'), {name, price, image, category}).then(() => { alert("تم الحفظ ✅"); });
+        };
+
+        window.secretAdminTap = () => {
+            window.t = (window.t || 0) + 1;
+            if(window.t === 5) { const p = prompt("الرمز:"); if(p === "joud2026") { localStorage.setItem('isAdmin', 'true'); switchPage('admin', null); } }
+            setTimeout(() => window.t = 0, 3000);
+        };
+
+        window.addToCart = (id) => {
+            const p = allProducts.find(x => x.id === id), ex = cart.find(i => i.id === id);
+            if(ex) ex.qty += 1; else cart.push({...p, qty: 1});
+            saveCart(); if(window.navigator.vibrate) window.navigator.vibrate(50);
+        };
+
+        function saveCart() { localStorage.setItem('joud_cart', JSON.stringify(cart)); updateCartBadge(); if(document.getElementById('cartPage').classList.contains('active-page')) renderCart(); }
+
+        function updateCartBadge() {
+            const count = cart.reduce((s, i) => s + i.qty, 0), b = document.getElementById('cartCount');
+            if(count > 0) { b.innerText = count; b.classList.remove('hidden'); } else b.classList.add('hidden');
+        }
+
+        window.renderCart = () => {
+            const container = document.getElementById('cartItems');
+            if(!cart.length) { container.innerHTML = ""; document.getElementById('emptyCart').classList.remove('hidden'); document.getElementById('cartTotal').classList.add('hidden'); return; }
+            document.getElementById('emptyCart').classList.add('hidden'); document.getElementById('cartTotal').classList.remove('hidden');
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price * item.qty;
+                return `<div class="bg-white p-4 rounded-3xl shadow-sm flex items-center gap-4 border border-gray-50">
+                    <img src="${item.image}" class="w-12 h-12 object-contain rounded-lg">
+                    <div class="flex-1 text-xs font-black">${item.name}<br><span class="text-green-700 font-bold">${item.price}$</span></div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateQty(${index}, -1)" class="w-8 h-8 bg-gray-100 rounded-full font-black">-</button>
+                        <span class="font-black text-sm w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty(${index}, 1)" class="w-8 h-8 bg-gray-100 rounded-full font-black">+</button>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('totalPrice').innerText = total.toFixed(2) + "$";
+        };
+
+        window.updateQty = (idx, c) => { cart[idx].qty += c; if(cart[idx].qty <= 0) cart.splice(idx, 1); saveCart(); };
+
+        window.sendOrderWhatsApp = () => {
+            let m = "طلب جديد من مؤسسة جود:\n------------------\n";
+            cart.forEach(i => m += `• ${i.name} (${i.qty})\n`);
+            window.open(`https://wa.me/96176526242?text=${encodeURIComponent(m)}`, '_blank');
+            cart = []; saveCart(); switchPage('home', document.querySelector('.nav-item'));
+        };
+
+        window.renderHome = () => { document.getElementById('homeList').innerHTML = allProducts.slice(-30).reverse().map(p => createHTML(p)).join(''); };
+
+        window.switchPage = (pageId, el) => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId + 'Page').classList.add('active-page');
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            if(el) el.classList.add('active'); if(pageId === 'cart') renderCart(); window.scrollTo(0,0);
+        };
+
+        window.showCategoryItems = (cat) => {
+            document.getElementById('catsGrid').classList.add('hidden'); document.getElementById('categoryItemsSection').classList.remove('hidden');
+            document.getElementById('selectedCatTitle').innerText = "قسم: " + cat;
+            document.getElementById('categoryList').innerHTML = allProducts.filter(p => p.category === cat).map(p => createHTML(p)).join('');
+        };
+
+        window.hideCategoryItems = () => { document.getElementById('catsGrid').classList.remove('hidden'); document.getElementById('categoryItemsSection').classList.add('hidden'); };
+
+        window.smartSearch = () => {
+            const term = document.getElementById('mainSearch').value.toLowerCase();
+            document.getElementById('homeList').innerHTML = allProducts.filter(p => p.name.toLowerCase().includes(term)).map(p => createHTML(p)).join('');
+        };
+
+        function createHTML(p) {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            return `<div class="bg-white rounded-[2rem] shadow-sm border p-3 flex flex-col active:scale-95 transition-all">
+                <img src="${p.image}" class="h-24 w-full object-contain mb-3" referrerpolicy="no-referrer">
+                <h3 class="font-black text-[10px] text-center h-8 line-clamp-2 text-gray-700 leading-tight">${p.name}</h3>
+                <div class="flex justify-between items-center mt-3">
+                    <span class="text-green-700 font-black text-xs">${p.price}$</span>
+                    <button onclick="addToCart('${p.id}')" class="bg-[#166534] text-white px-3 py-1.5 rounded-xl text-[9px] font-black">أضف 🛒</button>
+                </div>
+                ${isAdmin ? `<button onclick="deleteProduct('${p.id}')" class="text-[8px] text-red-500 mt-2 font-bold underline">حذف</button>` : ''}
+            </div>`;
+        }
+
+        window.deleteProduct = (id) => { if(confirm("حذف؟")) remove(ref(db, 'products/'+id)); };
+
+        let curS = 0;
+        setInterval(() => {
+            const slides = document.querySelectorAll('.slide');
+            if(slides.length > 1) { curS = (curS + 1) % slides.length; document.getElementById('sliderWrapper').style.transform = `translateX(${curS * 100}%)`; }
+        }, 4000);
+
+        updateCartBadge();
+    </script>
+</body>
+</html>

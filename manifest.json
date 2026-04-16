@@ -1,22 +1,23 @@
 {
-  "name": "مؤسسة جود",
-  "short_name": "JOUD",
-  "start_url": "./index.html",
+  "name": "Joud Group - مؤسسة جود",
+  "short_name": "Joud Group",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#166534",
+  "theme_color": "#d5e8d4",
+  "description": "تطبيق إدارة منتجات مؤسسة جود",
   "icons": [
     {
-      "src": "j_group_limited_logo.jfif",
+      "src": "https://img.icons8.com/fluency/192/000000/shop.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "j_group_limited_logo.jfif",
+      "src": "https://img.icons8.com/fluency/512/000000/shop.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

@@ -144,125 +144,125 @@
         <div onclick="swPage('contact', this)" class="nav-item"><span class="text-xl">📞</span><span class="text-[9px] font-bold">تواصل</span></div>
     </nav>
 
-    <script>
-        let allProds = JSON.parse(localStorage.getItem('jprods')) || [];
-        let cart = [];
-        let curS = 0;
+<script>
+    // 1. تحميل البيانات عند فتح الصفحة
+    // بنشوف إذا في صور مخزنة سابقاً، إذا لأ بنحط صور افتراضية
+    let savedSlider = JSON.parse(localStorage.getItem('joud_slider')) || [
+        "https://via.placeholder.com/800x400?text=Slide+1",
+        "https://via.placeholder.com/800x400?text=Slide+2"
+    ];
+    let savedBoxes = JSON.parse(localStorage.getItem('joud_boxes')) || [
+        "https://via.placeholder.com/100?text=1",
+        "https://via.placeholder.com/100?text=2",
+        "https://via.placeholder.com/100?text=3"
+    ];
 
-        // نظام السلايدر التلقائي + اللمس
-        function initSlider() {
+    let allProds = JSON.parse(localStorage.getItem('jprods')) || [];
+    let curS = 0;
+
+    function initApp() {
+        renderSlider();
+        renderBoxes();
+        renderProducts();
+        startAutoSlider();
+        
+        // تعبئة الخانات في صفحة الإدارة بالروابط الحالية عشان ما تعذب حالك
+        savedSlider.forEach((url, i) => { if(document.getElementById('s'+(i+1))) document.getElementById('s'+(i+1)).value = url; });
+        savedBoxes.forEach((url, i) => { if(document.getElementById('b'+(i+1))) document.getElementById('b'+(i+1)).value = url; });
+    }
+
+    // 2. وظائف التحديث (التي كانت متوقفة)
+    function upSlider() {
+        let newSlider = [];
+        for(let i=1; i<=5; i++) {
+            let val = document.getElementById('s'+i).value;
+            if(val) newSlider.push(val);
+        }
+        if(newSlider.length > 0) {
+            localStorage.setItem('joud_slider', JSON.stringify(newSlider));
+            savedSlider = newSlider;
+            renderSlider();
+            alert("تم تحديث السلايدر بنجاح ✅");
+        }
+    }
+
+    function upBoxes() {
+        let newBoxes = [];
+        for(let i=1; i<=5; i++) {
+            let val = document.getElementById('b'+i).value;
+            if(val) newBoxes.push(val);
+        }
+        if(newBoxes.length > 0) {
+            localStorage.setItem('joud_boxes', JSON.stringify(newBoxes));
+            savedBoxes = newBoxes;
+            renderBoxes();
+            alert("تم تحديث المربعات بنجاح ✅");
+        }
+    }
+
+    // 3. وظائف العرض (الرسم)
+    function renderSlider() {
+        const wrap = document.getElementById('mainSlider');
+        if(wrap) wrap.innerHTML = savedSlider.map(img => `<img src="${img}" class="slide">`).join('');
+    }
+
+    function renderBoxes() {
+        const wrap = document.getElementById('boxes3D');
+        if(wrap) wrap.innerHTML = savedBoxes.map(img => `<div class="box-3d"><img src="${img}"></div>`).join('');
+    }
+
+    function startAutoSlider() {
+        setInterval(() => {
             const wrap = document.getElementById('mainSlider');
-            const cont = document.getElementById('sliderCont');
-            let startX, moveX;
-            
-            // تلقائي
-            setInterval(() => { moveSlide(1); }, 4000);
-
-            function moveSlide(dir) {
-                const slides = wrap.getElementsByClassName('slide');
-                if(slides.length < 2) return;
-                curS = (curS + dir + slides.length) % slides.length;
+            const slides = document.querySelectorAll('.slide');
+            if(slides && slides.length > 1) {
+                curS = (curS + 1) % slides.length;
                 wrap.style.transform = `translateX(${curS * 100}%)`;
             }
+        }, 3000);
+    }
 
-            // دعم اللمس
-            cont.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-            cont.addEventListener('touchmove', e => moveX = e.touches[0].clientX);
-            cont.addEventListener('touchend', () => {
-                if(!startX || !moveX) return;
-                const diff = startX - moveX;
-                if(Math.abs(diff) > 50) moveSlide(diff > 0 ? 1 : -1);
-                startX = null; moveX = null;
-            });
+    // نظام الدخول للإدارة (6 ضغطات على العنوان العلوي)
+    let taps = 0;
+    function handleSecretTap() {
+        taps++;
+        if(taps === 6) {
+            let p = prompt("كلمة السر:");
+            if(p === "joud2026") swPage('admin');
+            taps = 0;
         }
+        setTimeout(() => taps = 0, 2000);
+    }
 
-        function upSlider() {
-            let h = ""; for(let i=1;i<=5;i++){ let v=document.getElementById('s'+i).value; if(v) h+=`<img src="${v}" class="slide">`; }
-            if(h) { document.getElementById('mainSlider').innerHTML=h; curS=0; alert("تم ✅"); }
+    function swPage(id, el) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(id + 'Page').classList.add('active-page');
+        if(el) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
         }
+    }
 
-        function upBoxes() {
-            let h = ""; for(let i=1;i<=5;i++){ let v=document.getElementById('b'+i).value; if(v) h+=`<div class="box-3d"><img src="${v}"></div>`; }
-            if(h) { document.getElementById('boxes3D').innerHTML=h; alert("تم ✅"); }
-        }
+    function renderProducts(data = allProds) {
+        const grid = document.getElementById('homeProductGrid');
+        if(!grid) return;
+        grid.innerHTML = data.map(p => `
+            <div class="product-card flex flex-col items-center">
+                <img src="${p.img}" class="h-24 w-full object-contain mb-2">
+                <h3 class="font-black text-[10px] text-center mb-2">${p.name}</h3>
+                <div class="flex justify-between items-center w-full px-1">
+                    <span class="text-green-700 font-black text-xs">${p.price}$</span>
+                    <button class="bg-green-800 text-white px-2 py-1 rounded-lg text-[9px]">أضف</button>
+                </div>
+            </div>`).join('');
+    }
 
-        function renderProducts(data = allProds) {
-            document.getElementById('homeProductGrid').innerHTML = data.map(p => `
-                <div class="product-card flex flex-col items-center">
-                    <img src="${p.img}" class="h-24 w-full object-contain mb-2">
-                    <h3 class="font-black text-[10px] text-center mb-2 h-8 overflow-hidden">${p.name}</h3>
-                    <div class="flex justify-between items-center w-full px-1">
-                        <span class="text-green-700 font-black text-xs">${p.price}$</span>
-                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-green-800 text-white px-2 py-1 rounded-lg text-[9px]">أضف</button>
-                    </div>
-                </div>`).join('');
-        }
+    window.onload = initApp;
 
-        function addToCart(n, p) {
-            let i = cart.find(x => x.name === n);
-            if(i) i.qty++; else cart.push({name:n, price:p, qty:1});
-            const b = document.getElementById('cartBadge');
-            b.innerText = cart.length; b.style.opacity = "1";
-            alert("تمت الإضافة 🛒");
-        }
 
-        function swPage(id, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(id + 'Page').classList.add('active-page');
-            if(el) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); }
-            if(id === 'cart') renderCart();
-        }
 
-        function renderCart() {
-            const list = document.getElementById('cartItemsList');
-            if(cart.length === 0) { list.innerHTML = '<p class="text-center py-10">السلة فارغة</p>'; document.getElementById('cartTotal').classList.add('hidden'); return; }
-            let total = 0;
-            list.innerHTML = cart.map((item, idx) => {
-                total += (item.price * item.qty);
-                return `<div class="bg-white p-4 rounded-xl flex justify-between border"><div>${item.name}</div><div>${item.qty} x ${item.price}$</div></div>`;
-            }).join('');
-            document.getElementById('totalPrice').innerText = total.toFixed(2);
-            document.getElementById('cartTotal').classList.remove('hidden');
-        }
-
-        function saveProduct() {
-            const n=document.getElementById('pName').value, p=document.getElementById('pPrice').value, i=document.getElementById('pImg').value, c=document.getElementById('pCat').value;
-            if(!n || !p) return alert("اكمل البيانات");
-            allProds.unshift({name:n, price:parseFloat(p), img:i, category:c});
-            localStorage.setItem('jprods', JSON.stringify(allProds));
-            renderProducts(); swPage('home');
-        }
-
-        function filterByCat(cat) {
-            const filtered = allProds.filter(p => p.category === cat);
-            const grid = document.getElementById('catProductGrid');
-            grid.innerHTML = filtered.map(p => `<div class="product-card flex flex-col items-center"><img src="${p.img}" class="h-20 object-contain mb-2"><p class="text-[10px] font-bold text-center">${p.name}</p><button onclick="addToCart('${p.name}', ${p.price})" class="bg-green-800 text-white w-full py-1 rounded-lg text-[9px] mt-2">أضف</button></div>`).join('');
-            document.getElementById('catsMenu').classList.add('hidden');
-            document.getElementById('catItemsSection').classList.remove('hidden');
-        }
-
-        function showCatsMenu() { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); }
-
-        function doSearch() {
-            const q = document.getElementById('smartSearch').value.toLowerCase();
-            const f = allProds.filter(p => p.name.toLowerCase().includes(q));
-            renderProducts(f);
-        }
-
-        function sendOrder() {
-            let m = "طلب جديد من مؤسسة جود:\n";
-            cart.forEach(i => m += `• ${i.name} (${i.qty}) = ${i.price * i.qty}$\n`);
-            m += `\nالمجموع: ${document.getElementById('totalPrice').innerText}$`;
-            window.open(`https://wa.me/96176985172?text=${encodeURIComponent(m)}`);
-        }
-
-        function handleSecretTap() {
-            taps = (window.taps || 0) + 1; window.taps = taps;
-            if(taps === 6) { if(prompt("الرمز:") === "joud2026") swPage('admin'); window.taps = 0; }
-            setTimeout(() => window.taps = 0, 2000);
-        }
-
-        window.onload = () => { renderProducts(); initSlider(); };
-    </script>
+    
+</script>
+    
 </body>
 </html>

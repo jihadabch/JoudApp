@@ -333,76 +333,93 @@ slides.addEventListener("touchend", () => {
     prevTranslate = currentTranslate;
 });
 </script>
+
+
+
+<div id="joudPopUp" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:999999; align-items:center; justify-content:center;" onclick="this.style.display='none'">
+    <img id="joudPopImg" src="" style="max-width:90%; max-height:80%; border-radius:15px; border:3px solid #d5e8d4; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+</div>
+
 <script>
-// 1. كود السلايدر الأول (العلوي) - اللي زبطناه من شوي
-let slidesTop = document.getElementById("mainSlider"); 
-let sliderTopContainer = document.querySelector(".slider-container");
-let startX1 = 0;
-let currentTranslate1 = 0;
-let prevTranslate1 = 0;
-let isDragging1 = false;
+// دالة لفتح أي صورة بشكل مكبّر
+function openJoudImg(url) {
+    const pop = document.getElementById('joudPopUp');
+    const img = document.getElementById('joudPopImg');
+    img.src = url;
+    pop.style.display = 'flex';
+}
 
-sliderTopContainer.addEventListener("touchstart", (e) => {
-    startX1 = e.touches[0].clientX;
-    isDragging1 = true;
-    slidesTop.style.transition = "none";
-}, {passive: true});
+// مراقبة السلايدر الثاني والتحكم فيه باللمس
+function initSliderTouch() {
+    const mSlider = document.getElementById('mainSlider');
+    if (!mSlider) return;
 
-sliderTopContainer.addEventListener("touchmove", (e) => {
-    if (!isDragging1) return;
-    const currentX = e.touches[0].clientX;
-    const diff = currentX - startX1;
-    let move = prevTranslate1 + diff;
-    if (move > 20) move = 20; 
-    slidesTop.style.transform = `translateX(${move}px)`;
-    currentTranslate1 = move;
-}, {passive: true});
+    let startX = 0;
+    let isScrolling = false;
 
-sliderTopContainer.addEventListener("touchend", () => {
-    isDragging1 = false;
-    slidesTop.style.transition = "transform 0.4s ease-out";
-    const minOffset = sliderTopContainer.offsetWidth - slidesTop.scrollWidth;
-    if (currentTranslate1 > 0) currentTranslate1 = 0;
-    else if (currentTranslate1 < minOffset) currentTranslate1 = minOffset;
-    slidesTop.style.transform = `translateX(${currentTranslate1}px)`;
-    prevTranslate1 = currentTranslate1;
-});
+    // منع المتصفح من سحب الصور كملفات (حل مشكلة التعليق)
+    mSlider.querySelectorAll('img').forEach(img => {
+        img.draggable = false;
+        img.style.userSelect = 'none';
+        img.style.webkitUserDrag = 'none';
+    });
 
-// 2. كود السلايدر الثاني (السفلي - الكروت) 
-const slidesBottom = document.getElementById("slides");
-let isDragging2 = false;
-let startX2, scrollLeft;
+    mSlider.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isScrolling = false;
+    }, {passive: true});
 
-slidesBottom.addEventListener('touchstart', (e) => {
-    isDragging2 = true;
-    startX2 = e.touches[0].pageX - slidesBottom.offsetLeft;
-    scrollLeft = slidesBottom.scrollLeft;
-}, {passive: true});
+    mSlider.addEventListener('touchmove', () => {
+        isScrolling = true;
+    }, {passive: true});
 
-slidesBottom.addEventListener('touchmove', (e) => {
-    if(!isDragging2) return;
-    const x = e.touches[0].pageX - slidesBottom.offsetLeft;
-    const walk = (x - startX2) * 1.5; // سرعة السحب
-    slidesBottom.scrollLeft = scrollLeft - walk;
-}, {passive: true});
+    mSlider.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
 
-slidesBottom.addEventListener('touchend', () => { isDragging2 = false; });
-
-// 3. ميزة تكبير الصور عند النقر (Lightbox)
-document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'IMG') {
-        // إذا كانت الصورة داخل كارت أو منتج أو سلايدر
-        if (e.target.closest('.card') || e.target.closest('.box-3d') || e.target.closest('.product-card') || e.target.closest('.slider-container')) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImg');
-            if(modal && modalImg) {
-                modal.style.display = 'flex';
-                modalImg.src = e.target.src;
+        if (isScrolling) {
+            // إذا كان المستخدم يسحب لليمين أو اليسار
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    if (typeof moveSlide === "function") moveSlide(1); // التالي
+                } else {
+                    if (typeof moveSlide === "function") moveSlide(-1); // السابق
+                }
+            }
+        } else {
+            // إذا كانت مجرد نقرة واحدة
+            if (e.target.tagName === 'IMG') {
+                openJoudImg(e.target.src);
             }
         }
+    });
+}
+
+// تشغيل الكود بمجرد تحميل الصفحة ومراقبته دورياً لضمان لقط الصور من Firebase
+setInterval(() => {
+    const slider = document.getElementById('mainSlider');
+    if (slider && slider.children.length > 0 && !slider.dataset.touchInit) {
+        initSliderTouch();
+        slider.dataset.touchInit = "true"; // لضمان عدم التكرار
+    }
+}, 1000);
+
+// مراقب عام لفتح الصور في باقي الصفحة (المنتجات والمربعات)
+document.addEventListener('click', (e) => {
+    if (e.target.tagName === 'IMG' && !e.target.closest('#mainSlider') && e.target.id !== 'joudPopImg') {
+        openJoudImg(e.target.src);
     }
 });
+
+
+
+
+
 </script>
+
+
+
+
 </body>
 </html>
 

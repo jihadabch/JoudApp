@@ -282,41 +282,125 @@ function getLocation() {
     </script>
 <script>
 let slides = document.getElementById("slides");
+let sliderContainer = document.querySelector(".slider");
+
+// نثبت اتجاه السلايدر لضمان توافق الحسابات مع حركة اليد
+slides.style.direction = "ltr"; 
 
 let startX = 0;
-let currentX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
 let isDragging = false;
-let offset = 0;
+
+slides.querySelectorAll('img').forEach(img => {
+    img.addEventListener('dragstart', (e) => e.preventDefault());
+});
 
 slides.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-  isDragging = true;
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    slides.style.transition = "none";
 });
 
 slides.addEventListener("touchmove", (e) => {
-  if (!isDragging) return;
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    let move = prevTranslate + diff;
 
-  currentX = e.touches[0].clientX;
-  let move = currentX - startX;
+    // منع السحب بعيداً جداً لليمين (بداية السلايدر)
+    if (move > 20) move = 20; 
 
-  slides.style.transform = `translateX(${offset + move}px)`;
+    slides.style.transform = `translateX(${move}px)`;
+    currentTranslate = move;
 });
 
-slides.addEventListener("touchend", (e) => {
-  isDragging = false;
+slides.addEventListener("touchend", () => {
+    isDragging = false;
+    slides.style.transition = "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
-  let endX = currentX;
-  let diff = endX - startX;
+    // تحديد الحدود القصوى
+    const minOffset = sliderContainer.offsetWidth - slides.scrollWidth - 20;
 
-  // إذا السحب كبير ننتقل
-  if (diff < -80) {
-    offset -= 270;
-  } 
-  else if (diff > 80) {
-    offset += 270;
-  }
+    if (currentTranslate > 0) {
+        currentTranslate = 0;
+    } else if (currentTranslate < minOffset) {
+        currentTranslate = minOffset;
+    }
 
-  slides.style.transform = `translateX(${offset}px)`;
+    slides.style.transform = `translateX(${currentTranslate}px)`;
+    prevTranslate = currentTranslate;
+});
+</script>
+<script>
+// 1. كود السلايدر الأول (العلوي) - اللي زبطناه من شوي
+let slidesTop = document.getElementById("mainSlider"); 
+let sliderTopContainer = document.querySelector(".slider-container");
+let startX1 = 0;
+let currentTranslate1 = 0;
+let prevTranslate1 = 0;
+let isDragging1 = false;
+
+sliderTopContainer.addEventListener("touchstart", (e) => {
+    startX1 = e.touches[0].clientX;
+    isDragging1 = true;
+    slidesTop.style.transition = "none";
+}, {passive: true});
+
+sliderTopContainer.addEventListener("touchmove", (e) => {
+    if (!isDragging1) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX1;
+    let move = prevTranslate1 + diff;
+    if (move > 20) move = 20; 
+    slidesTop.style.transform = `translateX(${move}px)`;
+    currentTranslate1 = move;
+}, {passive: true});
+
+sliderTopContainer.addEventListener("touchend", () => {
+    isDragging1 = false;
+    slidesTop.style.transition = "transform 0.4s ease-out";
+    const minOffset = sliderTopContainer.offsetWidth - slidesTop.scrollWidth;
+    if (currentTranslate1 > 0) currentTranslate1 = 0;
+    else if (currentTranslate1 < minOffset) currentTranslate1 = minOffset;
+    slidesTop.style.transform = `translateX(${currentTranslate1}px)`;
+    prevTranslate1 = currentTranslate1;
+});
+
+// 2. كود السلايدر الثاني (السفلي - الكروت) 
+const slidesBottom = document.getElementById("slides");
+let isDragging2 = false;
+let startX2, scrollLeft;
+
+slidesBottom.addEventListener('touchstart', (e) => {
+    isDragging2 = true;
+    startX2 = e.touches[0].pageX - slidesBottom.offsetLeft;
+    scrollLeft = slidesBottom.scrollLeft;
+}, {passive: true});
+
+slidesBottom.addEventListener('touchmove', (e) => {
+    if(!isDragging2) return;
+    const x = e.touches[0].pageX - slidesBottom.offsetLeft;
+    const walk = (x - startX2) * 1.5; // سرعة السحب
+    slidesBottom.scrollLeft = scrollLeft - walk;
+}, {passive: true});
+
+slidesBottom.addEventListener('touchend', () => { isDragging2 = false; });
+
+// 3. ميزة تكبير الصور عند النقر (Lightbox)
+document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'IMG') {
+        // إذا كانت الصورة داخل كارت أو منتج أو سلايدر
+        if (e.target.closest('.card') || e.target.closest('.box-3d') || e.target.closest('.product-card') || e.target.closest('.slider-container')) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            if(modal && modalImg) {
+                modal.style.display = 'flex';
+                modalImg.src = e.target.src;
+            }
+        }
+    }
 });
 </script>
 </body>

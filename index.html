@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JOUD GROUP | مؤسسة جود</title>
 
-    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/000000/j.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/000000/j.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="JOUD GROUP">
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/j.png">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/j.png">
 
     <link rel="manifest" href="manifest.json">
 
@@ -51,7 +51,7 @@
 
     <div id="welcomeModal">
         <div class="bg-white w-[85%] p-6 rounded-[2.5rem] text-center shadow-2xl">
-            <img src="https://img.icons8.com/fluency/96/000000/j.png" class="mx-auto mb-4">
+            <img src="https://img.icons8.com/color/96/000000/j.png" class="mx-auto mb-4">
             <h2 class="text-2xl font-black text-green-800 mb-2 italic">تثبيت JOUD GROUP</h2>
             <p class="text-gray-600 text-sm mb-6 font-bold">ثبت التطبيق الآن على هاتفك لسهولة الطلب والمتابعة</p>
             <button id="installBtn" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black mb-3">تثبيت الآن</button>
@@ -81,7 +81,6 @@
     <main id="adminPage" class="page px-6 pt-10 bg-white">
         <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
         <div class="space-y-6 pb-40 text-right">
-            
             <div class="bg-blue-50 p-5 rounded-[2rem] border-2 border-blue-100">
                 <p class="font-black text-sm mb-3">🖼️ صور السلايدر العلوي (Cards)</p>
                 <div class="grid grid-cols-1 gap-2">
@@ -162,7 +161,7 @@
 
     <nav class="fixed bottom-6 left-6 right-6 bg-white/95 h-16 rounded-[2.2rem] shadow-2xl flex items-center justify-around z-[1000] border">
         <div onclick="swPage('home', this)" class="nav-item active">
-            <img src="https://img.icons8.com/fluency-systems-filled/24/166534/j.png" class="w-6 h-6">
+            <img src="https://img.icons8.com/color/24/000000/j.png" class="w-6 h-6">
             <span class="text-[9px] font-bold">الرئيسية</span>
         </div>
         <div onclick="swPage('cats', this)" class="nav-item"><span>📂</span><span class="text-[9px] font-bold">الأقسام</span></div>
@@ -295,7 +294,6 @@ function initSliderTouch() {
 }
 setInterval(() => { const slider = document.getElementById('mainSlider'); if (slider && slider.children.length > 0 && !slider.dataset.touchInit) { initSliderTouch(); slider.dataset.touchInit = "true"; } }, 1000);
 
-// تم تعديل هذا الجزء لمنع ظهور حرف J عند الضغط على أيقونات التنقل
 document.addEventListener('click', (e) => { 
     if (e.target.tagName === 'IMG' && e.target.id !== 'joudPopImg' && !e.target.closest('.nav-item')) { 
         openJoudImg(e.target.src); 

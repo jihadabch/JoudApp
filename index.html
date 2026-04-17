@@ -276,7 +276,17 @@ function getLocation() {
         window.showCatsMenu = () => { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); };
         window.sendOrder = () => { let m="طلب جديد:\n"; cart.forEach(i=>m+=`• ${i.name} (${i.qty}) = ${i.price*i.qty}$\n`); m+=`\nالمجموع: ${document.getElementById('totalPrice').innerText}$`; window.open(`https://wa.me/96176985172?text=${encodeURIComponent(m)}`); };
         window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
-        function moveSlide(dir) { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
+
+        // تعديل دالة الحركة لدعم الاتجاه من اليمين لليسار في RTL
+        window.moveSlide = (dir) => { 
+            const w=document.getElementById('mainSlider'); 
+            const s=w.querySelectorAll('.slide'); 
+            if(s.length<=1)return; 
+            curS=(curS+dir+s.length)%s.length; 
+            // في وضع RTL، التحريك الموجب يذهب لليمين
+            w.style.transform=`translateX(${curS*100}%)`; 
+        }
+
         window.onload = initApp;
         
     </script>
@@ -349,15 +359,15 @@ function openJoudImg(url) {
     pop.style.display = 'flex';
 }
 
-// مراقبة السلايدر الثاني والتحكم فيه باللمس
+// مراقبة السلايدر الثاني (mainSlider) والتحكم فيه باللمس
 function initSliderTouch() {
     const mSlider = document.getElementById('mainSlider');
     if (!mSlider) return;
 
-    let startX = 0;
-    let isScrolling = false;
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-    // منع المتصفح من سحب الصور كملفات (حل مشكلة التعليق)
+    // منع التعليق عند سحب الصور
     mSlider.querySelectorAll('img').forEach(img => {
         img.draggable = false;
         img.style.userSelect = 'none';
@@ -365,61 +375,49 @@ function initSliderTouch() {
     });
 
     mSlider.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        isScrolling = false;
-    }, {passive: true});
-
-    mSlider.addEventListener('touchmove', () => {
-        isScrolling = true;
+        touchStartX = e.changedTouches[0].screenX;
     }, {passive: true});
 
     mSlider.addEventListener('touchend', (e) => {
-        const endX = e.changedTouches[0].clientX;
-        const diffX = startX - endX;
+        touchEndX = e.changedTouches[0].screenX;
+        handleGesture();
+    }, {passive: true});
 
-        if (isScrolling) {
-            // إذا كان المستخدم يسحب لليمين أو اليسار
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    if (typeof moveSlide === "function") moveSlide(1); // التالي
-                } else {
-                    if (typeof moveSlide === "function") moveSlide(-1); // السابق
-                }
+    function handleGesture() {
+        const diff = touchStartX - touchEndX;
+        // إذا كان السحب كافياً (أكبر من 50 بكسل)
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                // سحب لليسار -> الصورة التالية (بما أن الصفحة RTL)
+                window.moveSlide(1);
+            } else {
+                // سحب لليمين -> الصورة السابقة
+                window.moveSlide(-1);
             }
         } else {
-            // إذا كانت مجرد نقرة واحدة
-            if (e.target.tagName === 'IMG') {
-                openJoudImg(e.target.src);
-            }
+            // إذا كانت نقرة بسيطة وليست سحباً، نفتح الصورة
+            const target = document.elementFromPoint(touchEndX, touchStartX); // تقريبي
+            // نعتمد على الحدث العادي لفتح الصورة للنقرات البسيطة
         }
-    });
+    }
 }
 
-// تشغيل الكود بمجرد تحميل الصفحة ومراقبته دورياً لضمان لقط الصور من Firebase
+// تشغيل الكود بمجرد تحميل الصفحة ومراقبته لضمان لقط الصور
 setInterval(() => {
     const slider = document.getElementById('mainSlider');
     if (slider && slider.children.length > 0 && !slider.dataset.touchInit) {
         initSliderTouch();
-        slider.dataset.touchInit = "true"; // لضمان عدم التكرار
+        slider.dataset.touchInit = "true"; 
     }
 }, 1000);
 
-// مراقب عام لفتح الصور في باقي الصفحة (المنتجات والمربعات)
+// مراقب عام لفتح الصور عند النقر
 document.addEventListener('click', (e) => {
-    if (e.target.tagName === 'IMG' && !e.target.closest('#mainSlider') && e.target.id !== 'joudPopImg') {
+    if (e.target.tagName === 'IMG' && e.target.id !== 'joudPopImg') {
         openJoudImg(e.target.src);
     }
 });
-
-
-
-
-
 </script>
-
-
-
 
 </body>
 </html>
-

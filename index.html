@@ -140,9 +140,12 @@
                 <input id="pName" placeholder="اسم المنتج" class="w-full p-3 mb-2 border rounded-xl text-right">
                 <input id="pPrice" placeholder="السعر" class="w-full p-3 mb-2 border rounded-xl text-right">
                 <input id="pImg" placeholder="رابط صورة المنتج" class="w-full p-3 mb-2 border rounded-xl text-right">
-                <select id="pCat" class="w-full p-3 mb-4 border rounded-xl text-right">
-                    <option value="بلاستيك">بلاستيك</option><option value="ورق">ورق</option><option value="نايلون">نايلون</option><option value="أخرى">أخرى</option>
-                </select>
+               <select id="pCat" class="w-full p-3 mb-4 border rounded-xl text-right">
+    <option value="بلاستيك">بلاستيك</option>
+    <option value="ورق">ورق</option>
+    <option value="نايلون">نايلون</option>
+    <option value="كرتون">كرتون</option> <option value="المنيوم">ألمنيوم</option> <option value="أخرى">أخرى</option>
+</select>
                 <button type="button" onclick="saveProduct()" class="w-full bg-black text-white py-4 rounded-xl font-black italic">نشر المنتج</button>
             </div>
             <div id="adminProductList" class="space-y-2"></div>
@@ -155,11 +158,15 @@
         <div id="catsMenu">
             <h2 class="text-xl font-black mb-8 text-center text-green-900 italic underline">الأقسام</h2>
             <div class="grid grid-cols-2 gap-4 text-center">
-                <div onclick="filterByCat('بلاستيك')" class="bg-white p-6 rounded-[2rem] border font-black shadow-sm">🥤 بلاستيك</div>
-                <div onclick="filterByCat('ورق')" class="bg-white p-6 rounded-[2rem] border font-black shadow-sm">📄 ورق</div>
-                <div onclick="filterByCat('نايلون')" class="bg-white p-6 rounded-[2rem] border font-black shadow-sm">🛍️ نايلون</div>
-                <div onclick="filterByCat('أخرى')" class="bg-white p-6 rounded-[2rem] border font-black shadow-sm">📦 أخرى</div>
-            </div>
+    <div onclick="filterByCat('بلاستيك')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🥤 بلاستيك</div>
+    <div onclick="filterByCat('ورق')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">📄 ورق</div>
+    <div onclick="filterByCat('نايلون')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🛍️ نايلون</div>
+    
+    <div onclick="filterByCat('كرتون')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">📦 كرتون</div>
+    <div onclick="filterByCat('المنيوم')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🍱 ألمنيوم</div>
+    
+    <div onclick="filterByCat('أخرى')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🔘 أخرى</div>
+</div>
             <div class="flex flex-col items-center justify-center mt-16 mb-10 opacity-20 group">
     <span class="text-8xl font-black text-green-900 italic select-none">J</span>
     <p class="text-xs text-green-800 font-bold tracking-[0.3em] uppercase mt-2">Joud Group</p>

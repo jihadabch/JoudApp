@@ -35,7 +35,8 @@
         .nav-item.active { color: #82b0ec; font-weight: 900; }
         #cartBadge { position: absolute; top: -5px; right: 15%; background: #ef4444; color: white; font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; border: 2px solid white; }
         
-        #welcomeModal { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.8); display: flex; align-items: center; justify-content: center; z-index: 9999; display: none; }
+        /* التعديل هنا لضمان ظهور الرسالة بشكل صحيح */
+        #welcomeModal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
         
         .slider { width: 100%; overflow: hidden; padding: 20px 0; }
         .slides { display: flex; gap: 15px; transform: translateX(0px); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; touch-action: pan-y; }
@@ -53,16 +54,26 @@
         <div class="bg-white w-[85%] p-6 rounded-[2.5rem] text-center shadow-2xl">
             <img src="https://img.icons8.com/color/96/000000/j.png" class="mx-auto mb-4">
             <h2 class="text-2xl font-black text-green-800 mb-2 italic">تثبيت JOUD GROUP</h2>
-            <p class="text-gray-600 text-sm mb-6 font-bold">ثبت التطبيق الآن على هاتفك لسهولة الطلب والمتابعة</p>
-            <button id="installBtn" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black mb-3">تثبيت الآن</button>
+            
+            <div id="androidInfo">
+                <p class="text-gray-600 text-sm mb-6 font-bold">ثبت التطبيق الآن على هاتفك لسهولة الطلب والمتابعة</p>
+                <button id="installBtn" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black mb-3">تثبيت الآن</button>
+            </div>
+
+            <div id="iosInfo" style="display: none;">
+                <p class="text-gray-600 text-sm mb-4 font-bold">لتثبيت التطبيق على الأيفون:</p>
+                <div class="bg-gray-50 p-4 rounded-2xl border text-right text-xs mb-4">
+                    <p class="mb-2">1️⃣ اضغط على زر المشاركة 📤 أسفل الشاشة.</p>
+                    <p>2️⃣ اختر <b>"إضافة إلى الشاشة الرئيسية"</b> أو <b>"Add to Home Screen"</b>.</p>
+                </div>
+            </div>
+
             <button onclick="closeModal()" class="text-gray-400 text-xs underline">استمرار في الموقع</button>
         </div>
     </div>
 
 <header onclick="handleSecretTap()" class="relative overflow-hidden">
     <div style="position:absolute; top:-20px; right:-20px; font-size:150px; font-weight:900; color:rgba(22, 101, 52, 0.05); pointer-events:none; font-style:bold;">J</div>
-    
-    
     
     <div class="flex justify-center my-2 relative z-10">
         <div style="width:50px; height:50px; background:white; border:1px solid #ddd; border-radius:50%;border-style: outset; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
@@ -79,7 +90,6 @@
         <div class="slider"><div class="slides" id="slides"></div></div>
         <h2 class="text-right px-2 mt-6 mb-2 font-black text-green-900 text-sm italic">🌟 الجودة التي تثق بها</h2>
         <div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
-            
             <div class="slider-container"><div id="mainSlider" class="slider-wrapper"></div></div>
         </div>
         <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">✨  بضائعك اليومية</h2>
@@ -253,8 +263,36 @@
         let allProds = [], cart = [], curS = 0, deferredPrompt, currentCat = "";
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; document.getElementById('welcomeModal').style.display = 'flex'; });
-        document.getElementById('installBtn').addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } closeModal(); });
+        
+        // --- تعديل منطق التثبيت ليدعم الأيفون والأندرويد ---
+        window.addEventListener('beforeinstallprompt', (e) => { 
+            e.preventDefault(); 
+            deferredPrompt = e; 
+            document.getElementById('welcomeModal').style.display = 'flex'; 
+            document.getElementById('androidInfo').style.display = 'block';
+            document.getElementById('iosInfo').style.display = 'none';
+        });
+
+        window.addEventListener('load', () => {
+            const isIos = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+            const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+
+            // إذا كان المستخدم داخل الأيفون والموقع غير مثبت بعد
+            if (isIos && !isInStandaloneMode) {
+                document.getElementById('welcomeModal').style.display = 'flex';
+                document.getElementById('androidInfo').style.display = 'none';
+                document.getElementById('iosInfo').style.display = 'block';
+            }
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => { 
+            if (deferredPrompt) { 
+                deferredPrompt.prompt(); 
+                deferredPrompt = null; 
+            } 
+            closeModal(); 
+        });
+
         window.closeModal = () => document.getElementById('welcomeModal').style.display = 'none';
 
 window.updateUI = () => {
@@ -351,13 +389,9 @@ window.updateUI = () => {
     }).then(() => { 
         alert("تم نشر المنتج بنجاح ✅"); 
         
-        // مسح الخانات بعد النجاح لتجهيزها للمنتج الجديد
         document.getElementById('pName').value = "";
         document.getElementById('pPrice').value = "";
         document.getElementById('pImg').value = "";
-        
-        // لا نحتاج للذهاب للرئيسية، سنبقى في الإدارة
-        // window.swPage('home'); <-- احذف هذا السطر أو عطلّه
     });
 };
 
@@ -480,13 +514,10 @@ document.addEventListener('click', (e) => {
 
 <script>
 window.getLocation = () => {
-    // ضع رابط موقعك الحقيقي من خرائط جوجل هنا مكان الرابط أدناه
-    const mapUrl = "https://maps.app.goo.gl/QLqHDqk4d8E8fhTw6";
+    const mapUrl = "https://www.google.com/maps?q=33.8886,35.4955"; // مثال لموقع
     window.open(mapUrl, '_blank');
 };
 </script>
 
-
-
-</body>
+</body> 
 </html>

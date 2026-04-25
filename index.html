@@ -483,27 +483,66 @@ window.updateUI = () => {
     }
 }
 
-     window.saveProduct = () => {
-    const n=document.getElementById('pName').value, 
-          p=document.getElementById('pPrice').value, 
-          i=document.getElementById('pImg').value, 
-          c=document.getElementById('pCat').value;
+window.saveProduct = () => {
+    const n = document.getElementById('pName').value, 
+          p = document.getElementById('pPrice').value, 
+          i = document.getElementById('pImg').value, 
+          c = document.getElementById('pCat').value;
 
     if(!n || !p) return alert("أكمل البيانات");
 
-    push(ref(db,'products'), {
-        name:n, 
-        price:parseFloat(p), 
-        img:i||"https://via.placeholder.com/150", 
-        category:c, 
-        time:Date.now()
-    }).then(() => { 
-        alert("تم نشر المنتج بنجاح ✅"); 
-        
-        document.getElementById('pName').value = "";
-        document.getElementById('pPrice').value = "";
-        document.getElementById('pImg').value = "";
-    });
+    const productData = {
+        name: n, 
+        price: parseFloat(p), 
+        img: i || "https://via.placeholder.com/150", 
+        category: c, 
+        time: Date.now()
+    };
+
+    if (window.editingId) {
+        // تحديث المنتج الحالي
+        set(ref(db, 'products/' + window.editingId), productData)
+            .then(() => { 
+                alert("تم تحديث المنتج بنجاح ✅"); 
+                // تنظيف الفورم
+                document.getElementById('pName').value = "";
+                document.getElementById('pPrice').value = "";
+                document.getElementById('pImg').value = "";
+                window.editingId = null;
+                const btn = document.querySelector('button[onclick="saveProduct()"]');
+                if(btn) btn.innerText = "نشر المنتج";
+            });
+    } else {
+        // إضافة منتج جديد
+        push(ref(db, 'products'), productData)
+            .then(() => { 
+                alert("تم نشر المنتج بنجاح 🚀"); 
+                document.getElementById('pName').value = "";
+                document.getElementById('pPrice').value = "";
+                document.getElementById('pImg').value = "";
+            });
+    }
+};
+
+window.editProduct = (id) => {
+    const p = allProds.find(item => item.id === id);
+    if (p) {
+        // تعبئة الخانات بالبيانات القديمة
+        document.getElementById('pName').value = p.name || "";
+        document.getElementById('pPrice').value = p.price || "";
+        document.getElementById('pImg').value = p.img || "";
+        document.getElementById('pCat').value = p.category || "بلاستيك";
+
+        // حفظ الـ ID عشان نعرف إننا بوضع التعديل
+        window.editingId = id;
+
+        // تغيير شكل الزر عشان تعرف إنك عم تعدل
+        const btn = document.querySelector('button[onclick="saveProduct()"]');
+        if(btn) btn.innerText = "تحديث البيانات الحالية 📝";
+
+        // طلوع لفوق عشان تشوف الخانات
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 };
 
         window.renderProducts = (d) => { 

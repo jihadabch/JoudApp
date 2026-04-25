@@ -222,13 +222,18 @@
             </div>
         </label>
 
-        <label class="flex-1 cursor-pointer">
-            <input type="radio" name="payment" value="تحويل عبر Wish Money" class="hidden peer" id="wishOption">
-            <div class="peer-checked:border-orange-500 peer-checked:bg-orange-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full flex flex-col items-center justify-center">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1qM7bROOZhnWkWDt6nSjJfmaK8zYlVdxMsg&s" class="w-8 mb-1" alt="Wish">
-                <span class="text-[10px] font-bold block">Wish Money</span>
-            </div>
-        </label>
+       <label class="flex-1 cursor-pointer">
+    <input type="radio" name="payment" value="تحويل عبر Wish Money" class="hidden peer" id="wishOption">
+    <div class="peer-checked:border-orange-500 peer-checked:bg-orange-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full flex flex-col items-center justify-center relative">
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1qM7bROOZhnWkWDt6nSjJfmaK8zYlVdxMsg&s" 
+             class="w-10 mb-1 pointer-events-none select-none" 
+             alt="Wish" 
+             style="pointer-events: none;">
+             
+        <span class="text-[10px] font-bold block pointer-events-none">Wish Money</span>
+    </div>
+</label>
     </div>
 
     <div id="wishDetails" class="hidden mt-4 p-3 bg-orange-500 text-white rounded-xl text-center shadow-lg">

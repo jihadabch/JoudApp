@@ -209,6 +209,35 @@
         <div id="cartItemsList" class="space-y-4 mb-10 text-right"></div>
         <div id="cartTotal" class="bg-white p-6 rounded-[2.5rem] text-center font-black shadow-xl border-2 border-green-100 hidden">
             <p class="text-lg">المجموع: <span id="totalPrice" class="text-green-700">0</span>$</p>
+
+<div class="p-4 bg-gray-50 rounded-2xl mb-4 border border-gray-200 text-right" dir="rtl">
+    <p class="text-sm font-bold mb-3 text-gray-700">اختر طريقة الدفع:</p>
+    
+    <div class="flex gap-3">
+        <label class="flex-1 cursor-pointer">
+            <input type="radio" name="payment" value="نقداً عند الاستلام" checked class="hidden peer">
+            <div class="peer-checked:border-blue-600 peer-checked:bg-blue-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full">
+                <span class="block text-xl mb-1">💵</span>
+                <span class="text-[10px] font-bold block">نقداً عند الاستلام</span>
+            </div>
+        </label>
+
+        <label class="flex-1 cursor-pointer">
+            <input type="radio" name="payment" value="تحويل عبر Wish Money" class="hidden peer" id="wishOption">
+            <div class="peer-checked:border-orange-500 peer-checked:bg-orange-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full flex flex-col items-center justify-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1qM7bROOZhnWkWDt6nSjJfmaK8zYlVdxMsg&s" class="w-8 mb-1" alt="Wish">
+                <span class="text-[10px] font-bold block">Wish Money</span>
+            </div>
+        </label>
+    </div>
+
+    <div id="wishDetails" class="hidden mt-4 p-3 bg-orange-500 text-white rounded-xl text-center shadow-lg">
+        <p class="text-[10px] font-bold">يرجى تحويل المبلغ إلى حسابنا:</p>
+        <p class="text-lg font-black tracking-widest">30618616-03</p>
+        <p class="text-[10px]">الاسم: Jihad Abbouche</p>
+    </div>
+</div>
+            
             <button onclick="sendOrder()" class="w-full bg-green-700 text-white mt-4 py-4 rounded-2xl font-black">إرسال الطلب واتساب</button>
         </div>
     </main>
@@ -468,7 +497,37 @@ window.renderCart = () => {
         function renderCatItems(items) { document.getElementById('catProductGrid').innerHTML = items.map(p => `<div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border"><img src="${p.img}" class="h-20 object-contain"><p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p><div class="flex justify-between items-center w-full px-1 mt-1"><span class="price-tag">${p.price}$</span><button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button></div></div>`).join(''); }
 
         window.showCatsMenu = () => { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); };
-        window.sendOrder = () => { let m="مرحبا مؤسسة الجود، لدي رغبة في طلب الأصناف التالية:  :\n"; cart.forEach(i=>m+=`• ${i.name} (${i.qty}) = ${i.price*i.qty}$\n`); m+=`\nالمجموع: ${document.getElementById('totalPrice').innerText}$`; window.open(`https://wa.me/96176526242?text=${encodeURIComponent(m)}`); };
+       window.sendOrder = () => {
+    // 1. جلب الخيار اللي نقّاه الزبون (نقداً أو Wish)
+    const paymentElement = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = paymentElement ? paymentElement.value : "غير محدد";
+
+    // 2. بداية الرسالة مع توضيح طريقة الدفع فوراً
+    let message = `*مرحبا Joud Group  اود طلب التالي* \n`;
+    message += `--------------------------\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod} \n`; 
+    message += `--------------------------\n\n`;
+    
+    message += `*الأصناف المطلوبة:*\n`;
+
+    // 3. إضافة البضائع من السلة (تأكد أن اسم المتغير 'cart' صحيح عندك)
+    cart.forEach(item => {
+        message += `• ${item.name} | العدد: ${item.qty} \n`;
+    });
+
+    // 4. المجموع النهائي
+    const total = document.getElementById('totalPrice').innerText;
+    message += `\n*المجموع النهائي:* ${total}$ \n`;
+
+    // 5. إضافة ملاحظة إذا كان الدفع Wish
+    if (paymentMethod.includes("Wish")) {
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._`;
+    }
+
+    // 6. فتح الواتساب بالرسالة المنسقة
+    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+};
         window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
         window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
         window.onload = initApp;
@@ -520,6 +579,54 @@ window.getLocation = () => {
     const mapUrl = "https://www.google.com/maps?q=33.8886,35.4955"; // مثال لموقع
     window.open(mapUrl, '_blank');
 };
+
+
+
+
+// كود التفاعل لإظهار تفاصيل Wish
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const wishDetails = document.getElementById('wishDetails');
+        if(e.target.id === 'wishOption') {
+            wishDetails.classList.remove('hidden');
+        } else {
+            wishDetails.classList.add('hidden');
+        }
+    });
+});
+
+// دالة إرسال الطلب المعدلة
+window.sendOrder = () => {
+    // 1. جلب طريقة الدفع المختارة
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    
+    // 2. بناء الرسالة
+    let message = `مرحبا مؤسسة الجود (JOUD GROUP) \n`;
+    message += `طلب جديد بانتظار التأكيد \n`;
+    message += `--------------------------\n`;
+    message += `طريقة الدفع: *${paymentMethod}* \n`; // هون بتطلع "نقداً عند الاستلام" أو "تحويل عبر Wish"
+    message += `--------------------------\n\n`;
+    message += `الأصناف المطلوبة:\n`;
+    
+    // 3. إضافة البضائع من السلة
+    cart.forEach(item => {
+        message += `• ${item.name} | العدد: ${item.qty} \n`;
+    });
+    
+    message += `\nالمجموع النهائي: ${document.getElementById('totalPrice').innerText}$ \n`;
+    
+    if(paymentMethod.includes("Wish")) {
+        message += `\nسأقوم بإرسال صورة إيصال التحويل فوراً.`;
+    }
+
+    // 4. فتح الواتساب
+    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+};
+
+
+
+
 </script>
 
 </body> 

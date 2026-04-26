@@ -764,9 +764,32 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
+
+
+
+
+
 </script>
 
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {};
 
+// هيدا الجزء هو اللي بيتحكم بمكان الأيقونة
+Tawk_API.customStyle = {
+    visibility: {
+        desktop: {
+            position: 'bottom-right',
+            xOffset: 15,
+            yOffset: 100 // رفعناها لـ 100 لحتى تبعد عن الشريط السفلي
+        },
+        mobile: {
+            position: 'bottom-right',
+            xOffset: 10,
+            yOffset: 110 // على التلفون رفعناها أكتر لتكشف الكلمات تماماً
+        }
+    }
+};
+</script>
 
 
 </body> 

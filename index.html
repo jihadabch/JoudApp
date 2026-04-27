@@ -156,6 +156,27 @@
             50% { transform: scale(1.1); }
         }
 
+
+
+/* هول الألوان بس يشتغل الدارك مود */
+body.dark-mode { background-color: #0f172a !important; color: white !important; }
+.dark-mode header { background: #000000 !important; }
+.dark-mode .bg-white { background-color: #1e293b !important; color: white !important; }
+.dark-mode .text-green-900, .dark-mode .text-green-800 { color: #4ade80 !important; }
+.dark-mode .product-card, .dark-mode .box-3d, .dark-mode nav { background-color: #1e293b !important; border-color: #334155 !important; }
+.dark-mode input { background-color: #0f172a !important; color: white !important; border: 1px solid #334155 !important; }
+
+
+/* ستايل الكبسة */
+#modeSwitch { background-color: #cbd5e1; border: 1px solid #94a3b8; }
+.dark-mode #modeSwitch { background-color: #166534; border-color: #4ade80; }
+.dark-mode #switchCircle { transform: translateX(-28px); } /* بيتحرك لليسار لأن الصفحة RTL */
+
+/* توضيح نصوص الأقسام في الدارك مود */
+.dark-mode #catsMenu div { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
+.dark-mode .nav-item { color: #94a3b8; }
+.dark-mode .nav-item.active { color: #4ade80 !important; }
+
     </style>
     
 </head>
@@ -198,6 +219,13 @@
     </div>
 <h1 class="text-3xl font-black text-green-900 italic relative z-10">JOUD GROUP</h1>
     <p class="text-[10px] font-black text-green-700 italic relative z-10">مؤسسة العبوشة لتجارة البلاستيك وتكرير المياه</p>
+    <div class="flex justify-center mt-3 relative z-10">
+    <div onclick="toggleDarkMode()" class="w-14 h-7 bg-gray-300 dark-bg-green rounded-full p-1 cursor-pointer transition-all duration-300 relative" id="modeSwitch">
+        <div id="switchCircle" class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center text-[10px]">
+            🌙
+        </div>
+    </div>
+</div>
 </header>
 
     <main id="homePage" class="page active-page px-4 -mt-10">
@@ -938,7 +966,30 @@ window.sendOrder = () => {
 };
 
 
+window.toggleDarkMode = () => {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('joudDarkMode', isDark ? 'enabled' : 'disabled');
+    updateDarkModeBtn();
+};
 
+function updateDarkModeBtn() {
+    const isDark = document.body.classList.contains('dark-mode');
+    const circle = document.getElementById('switchCircle');
+    if (circle) {
+        circle.innerText = isDark ? '☀️' : '🌙';
+    }
+}
+
+
+// هيدا الكود بيشتغل أول ما تفتح الصفحة
+(function checkDarkMode() {
+    const savedMode = localStorage.getItem('joudDarkMode');
+    if (savedMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+    // تحديث شكل الزر بعد ما تفتح الصفحة بشوية لضمان وجود العنصر
+    setTimeout(updateDarkModeBtn, 100);
+})();
 
 </script>
 

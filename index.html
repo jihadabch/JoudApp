@@ -21,7 +21,10 @@
         touch-action: manipulation;
     }
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent;* {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    } }
         .page { display: none; min-height: 100vh; padding-bottom: 120px; }
         .active-page { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -124,7 +127,10 @@
     
 </head>
 <body>
-
+* {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
     <div id="welcomeModal">
         <div class="bg-white w-[85%] p-6 rounded-[2.5rem] text-center shadow-2xl">
             <img src="https://img.icons8.com/color/96/000000/j.png" class="mx-auto mb-4">

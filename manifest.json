@@ -3,7 +3,7 @@
   "short_name": "Joud Group",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#f0fdf4",
   "theme_color": "#d5e8d4",
   "description": "تطبيق إدارة منتجات مؤسسة جود",
   "icons": [

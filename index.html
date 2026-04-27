@@ -51,6 +51,27 @@
         
         .price-tag { font-size: 13px; font-weight: 900; color: #15803d; }
         .add-btn { background-color: #166534; color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; }
+        .toast-msg {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(22, 101, 52, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 5000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { bottom: 80px; opacity: 0; }
+    to { bottom: 100px; opacity: 1; }
+}
     </style>
     
 </head>
@@ -604,7 +625,18 @@ window.editProduct = (id) => {
             </div>`).join(''); 
         };
         
-        window.addToCart = (n, p) => { let item = cart.find(x => x.name === n); if(item) { item.qty++; } else { cart.push({name: n, price: p, qty: 1}); } updateBadge(); };
+        window.addToCart = (n, p) => { 
+    let item = cart.find(x => x.name === n); 
+    if(item) { item.qty++; } 
+    else { cart.push({name: n, price: p, qty: 1}); } 
+    updateBadge(); 
+
+    // إظهار الرسالة الجمالية
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000); 
+};
+        
         window.changeQty = (idx, d) => { cart[idx].qty += d; if(cart[idx].qty <= 0) cart.splice(idx, 1); updateBadge(); window.renderCart(); };
         function updateBadge() { const b=document.getElementById('cartBadge'); b.innerText=cart.reduce((a,b)=>a+b.qty,0); b.style.opacity=cart.length>0?"1":"0"; }
         
@@ -838,6 +870,6 @@ Tawk_API.customStyle = {
 };
 </script>
 
-
+<div id="toast" class="toast-msg">تمت الإضافة للسلة 🛒</div>
 </body> 
 </html>

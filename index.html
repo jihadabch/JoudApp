@@ -105,6 +105,18 @@
     </main>
 
     <main id="adminPage" class="page px-6 pt-10 bg-white">
+        <div class="bg-red-50 p-4 rounded-[2rem] border-2 border-red-200 mb-6 text-right" dir="rtl">
+    <p class="font-black text-sm mb-3 text-red-700">⚡ تحديث جماعي للأسعار (كل الأصناف)</p>
+    <div class="flex items-center gap-2 mb-3">
+        <input type="number" id="pricePercent" placeholder="النسبة %" class="w-1/2 p-2 border rounded-xl text-center font-bold">
+        <span class="font-bold text-xs">%</span>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+        <button onclick="massPriceUpdate('increase')" class="bg-green-600 text-white py-2 rounded-lg font-black text-xs">➕ زيادة الأسعار</button>
+        <button onclick="massPriceUpdate('decrease')" class="bg-red-600 text-white py-2 rounded-lg font-black text-xs">➖ إنقاص الأسعار</button>
+    </div>
+    <p class="text-[9px] text-gray-500 mt-2 font-bold">* سيتم تطبيق النسبة على جميع المنتجات المضافة في النظام.</p>
+</div>
         <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
         <div class="space-y-6 pb-40 text-right">
             <div class="bg-blue-50 p-5 rounded-[2rem] border-2 border-blue-100">
@@ -279,6 +291,37 @@
     </nav>
 
     <script type="module">
+        window.massPriceUpdate = (type) => {
+    const percent = parseFloat(document.getElementById('pricePercent').value);
+    
+    if (!percent || percent <= 0) {
+        return alert("يرجى إدخال نسبة مئوية صحيحة");
+    }
+
+    if (!confirm(`هل أنت متأكد من ${type === 'increase' ? 'زيادة' : 'إنقاص'} جميع الأسعار بنسبة ${percent}%؟`)) {
+        return;
+    }
+
+    // نمر على كل المنتجات المخزنة في المصفوفة allProds
+    allProds.forEach(product => {
+        let currentPrice = parseFloat(product.price);
+        if (isNaN(currentPrice)) return;
+
+        let newPrice;
+        if (type === 'increase') {
+            newPrice = currentPrice + (currentPrice * (percent / 100));
+        } else {
+            newPrice = currentPrice - (currentPrice * (percent / 100));
+        }
+
+        // تحديث السعر في قاعدة البيانات (Firebase)
+        // نقوم بتقريب السعر لمرتبتين عشريتين فقط
+        set(ref(db, 'products/' + product.id + '/price'), parseFloat(newPrice.toFixed(2)));
+    });
+
+    alert("تم تحديث جميع الأسعار بنجاح! ✅");
+    document.getElementById('pricePercent').value = ""; // تصفير الخانة
+};
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 

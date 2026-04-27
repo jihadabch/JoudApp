@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+<meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JOUD GROUP | مؤسسة جود</title>
 
@@ -18,13 +20,19 @@
   <style>
     * {
         -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none; /* يمنع ظهور القائمة عند الضغط المطول */
+        -webkit-user-select: none;   /* يمنع تحديد النص الذي يفعّل بحث جوجل */
+        user-select: none;
         touch-action: manipulation;
     }
+
+    /* السماح بتحديد النص فقط داخل خانات البحث أو الإدخال إذا وجدت */
+    input, textarea {
+        -webkit-user-select: text;
+        user-select: text;
+    }
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent;* {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-    } }
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .page { display: none; min-height: 100vh; padding-bottom: 120px; }
         .active-page { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -127,10 +135,7 @@
     
 </head>
 <body>
-* {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-    }
+
     <div id="welcomeModal">
         <div class="bg-white w-[85%] p-6 rounded-[2.5rem] text-center shadow-2xl">
             <img src="https://img.icons8.com/color/96/000000/j.png" class="mx-auto mb-4">

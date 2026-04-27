@@ -51,8 +51,60 @@
         .box-3d { min-width: 100px; height: 100px; background: white; border-radius: 5px; flex-shrink: 0; border: 2px solid rgb(98, 98, 223);box-shadow: #000; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .box-3d img { width: 75%; height: 75%; object-fit: contain; }
 
-        .nav-item { cursor: pointer; display: flex; flex-direction: column; align-items: center; color: #94a3b8; flex: 1; position: relative; }
-        .nav-item.active { color: #82b0ec; font-weight: 900; }
+       /* تصميم شريط التنقل الزجاجي */
+nav { 
+    position: fixed !important; 
+    bottom: 20px !important; 
+    left: 10px !important; 
+    right: 10px !important; 
+    height: 75px !important; 
+    background: transparent !important; /* شلنا الخلفية الموحدة */
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: space-around !important; 
+    z-index: 5000 !important; 
+    border: none !important; 
+    box-shadow: none !important;
+}
+
+/* تصميم كل حبة "زجاج" لحالها */
+.nav-item { 
+    cursor: pointer; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    color: #475569; 
+    background: rgba(255, 255, 255, 0.4) !important; /* زجاج شفاف */
+    backdrop-filter: blur(12px) !important; /* تأثير التغبيش */
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* حفة الزجاج */
+    border-radius: 20px !important; 
+    width: 22% !important; /* ليتوزعوا بالتساوي */
+    height: 65px !important; 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* لما تكون الكبسة فعالة (اللون الأخضر) */
+.nav-item.active { 
+    background: rgba(22, 101, 52, 0.2) !important; 
+    border-color: #166534 !important; 
+    color: #166534 !important; 
+    transform: translateY(-8px) !important; /* بترتفع شوي لفوق */
+}
+
+/* تعديل للوضع الداكن (Dark Mode) */
+.dark-mode .nav-item { 
+    background: rgba(30, 41, 59, 0.5) !important; 
+    border-color: rgba(255, 255, 255, 0.1) !important; 
+    color: #cbd5e1 !important;
+}
+.dark-mode .nav-item.active { 
+    background: rgba(74, 222, 128, 0.1) !important; 
+    border-color: #4ade80 !important; 
+    color: #4ade80 !important; 
+}
         #cartBadge { position: absolute; top: -5px; right: 15%; background: #ef4444; color: white; font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; border: 2px solid white; }
         
         /* التعديل هنا لضمان ظهور الرسالة بشكل صحيح */
@@ -421,15 +473,25 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
         </div>
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 h-16 rounded-[2.2rem] shadow-2xl flex items-center justify-around z-[1000] border bg-white/70 backdrop-blur-md">
-        <div onclick="swPage('home', this)" class="nav-item active">
-            <img src="https://img.icons8.com/color/24/000000/j.png" class="w-6 h-6">
-            <span class="text-[9px] font-bold">الرئيسية</span>
-        </div>
-        <div onclick="swPage('cats', this)" class="nav-item"><span>📂</span><span class="text-[9px] font-bold">الأقسام</span></div>
-        <div onclick="swPage('cart', this)" class="nav-item relative"><div id="cartBadge">0</div><span>🛒</span><span class="text-[9px] font-bold">السلة</span></div>
-        <div onclick="swPage('contact', this)" class="nav-item"><span>📞</span><span class="text-[9px] font-bold">تواصل</span></div>
-    </nav>
+ <nav>
+    <div onclick="swPage('home', this)" class="nav-item active">
+        <img src="https://img.icons8.com/color/24/000000/j.png" class="w-6 h-6">
+        <span class="text-[9px] font-bold mt-1">الرئيسية</span>
+    </div>
+    <div onclick="swPage('cats', this)" class="nav-item">
+        <span class="text-xl">📂</span>
+        <span class="text-[9px] font-bold mt-1">الأقسام</span>
+    </div>
+    <div onclick="swPage('cart', this)" class="nav-item relative">
+        <div id="cartBadge">0</div>
+        <span class="text-xl">🛒</span>
+        <span class="text-[9px] font-bold mt-1">السلة</span>
+    </div>
+    <div onclick="swPage('contact', this)" class="nav-item">
+        <span class="text-xl">📞</span>
+        <span class="text-[9px] font-bold mt-1">تواصل</span>
+    </div>
+</nav>
 
     <script type="module">
         window.massPriceUpdate = (type) => {

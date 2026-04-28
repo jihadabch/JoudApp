@@ -296,7 +296,13 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
         <h2 class="w-full text-right px-2 mt-8 mb-3 font-black text-green-900 text-sm italic">🛍️ تسوق من منتجاتنا</h2>
         <div id="homeProductGrid" class="grid grid-cols-2 gap-4"></div>
     </main>
-
+<main id="wishlistPage" class="page px-6 pt-10">
+    <h2 class="text-2xl font-black mb-6 text-center text-red-600 italic underline">المفضلة ❤️</h2>
+    <div id="wishlistItemsList" class="grid grid-cols-2 gap-4 text-right"></div>
+    <div id="wishlistEmpty" class="text-center py-20 hidden">
+        <p class="text-gray-400 font-bold">قائمة المفضلة فارغة حالياً</p>
+    </div>
+</main>
     <main id="adminPage" class="page px-6 pt-10 bg-white">
         <div class="bg-red-50 p-4 rounded-[2rem] border-2 border-red-200 mb-6 text-right" dir="rtl">
     <p class="font-black text-sm mb-3 text-red-700">⚡ تحديث جماعي للأسعار (كل الأصناف)</p>
@@ -482,6 +488,10 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
         <span class="text-xl">📂</span>
         <span class="text-[9px] font-bold mt-1">الأقسام</span>
     </div>
+     <div onclick="swPage('wishlist', this)" class="nav-item">
+        <span class="text-xl">❤️</span>
+        <span class="text-[9px] font-bold mt-1">المفضلة</span>
+    </div>
     <div onclick="swPage('cart', this)" class="nav-item relative">
         <div id="cartBadge">0</div>
         <span class="text-xl">🛒</span>
@@ -494,6 +504,69 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 </nav>
 
     <script type="module">
+
+
+// مصفوفة لتخزين المفضلة
+let wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
+
+// دالة إضافة/حذف من المفضلة
+window.toggleWishlist = (name, price, img) => {
+    const index = wishlist.findIndex(x => x.name === name);
+    if (index > -1) {
+        wishlist.splice(index, 1); // إزالة إذا كان موجوداً
+    } else {
+        wishlist.push({name, price, img}); // إضافة
+    }
+    localStorage.setItem('joudWishlist', JSON.stringify(wishlist));
+    
+    // تحديث الواجهات فوراً
+    initApp(); 
+    if (currentCat) filterByCat(currentCat);
+    renderWishlist();
+    
+    // توست بسيط للإشعار
+    const t = document.getElementById('toast');
+    t.innerText = index > -1 ? "تمت الإزالة من المفضلة" : "تمت الإضافة للمفضلة ❤️";
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000);
+};
+
+// دالة عرض صفحة المفضلة
+window.renderWishlist = () => {
+    const list = document.getElementById('wishlistItemsList');
+    const empty = document.getElementById('wishlistEmpty');
+    
+    if (wishlist.length === 0) {
+        list.innerHTML = "";
+        empty.classList.remove('hidden');
+        return;
+    }
+    
+    empty.classList.add('hidden');
+    list.innerHTML = wishlist.map(p => `
+        <div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border relative">
+            <button onclick="toggleWishlist('${p.name}', ${p.price}, '${p.img}')" class="absolute top-2 right-2 text-red-500 text-lg">❤️</button>
+            <img src="${p.img}" class="h-20 object-contain">
+            <p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p>
+            <div class="flex justify-between items-center w-full px-1 mt-1">
+                <span class="price-tag">${p.price}$</span>
+                <button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف للسلة</button>
+            </div>
+        </div>
+    `).join('');
+};
+
+// تعديل دالة التنقل لتشمل رندر المفضلة
+const originalSwPage = window.swPage;
+window.swPage = (id, el) => {
+    originalSwPage(id, el);
+    if(id === 'wishlist') renderWishlist();
+};
+
+
+
+
+
         window.massPriceUpdate = (type) => {
     const percent = parseFloat(document.getElementById('pricePercent').value);
     
@@ -613,8 +686,8 @@ window.updateUI = () => {
         .catch((e) => alert("خطأ في الحفظ: " + e.message));
 };
 
-     function initApp() {
-    // 1. مراقبة الأقسام الرئيسية (سلايدر ومربعات)
+   function initApp() {
+    // مراقبة الأقسام الرئيسية (سلايدر ومربعات)
     onValue(ref(db, 'settings/layout'), (snap) => {
         const d = snap.val();
         if (!d) return;
@@ -625,11 +698,15 @@ window.updateUI = () => {
                 const imgUrl = u.image || u;
                 const price = u.offerPrice || 0;
                 const text = u.caption || "";
+                const isFav = wishlist.some(x => x.name === text); // فحص المفضلة
                 return `
                 <div class="card relative flex-shrink-0" style="width: 220px; height: 260px; background: white; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-left:10px;">
                     <div style="width: 100%; height: 150px; position: relative;">
                         <img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: contain; padding: 5px;" onclick="openJoudImg('${imgUrl}')">
                         ${price > 0 ? `<div style="position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 8px; font-weight: 900; font-size: 12px; border: 1px solid white; z-index: 10;">${price}$</div>` : ''}
+                        <button onclick="toggleWishlist('${text}', ${price}, '${imgUrl}')" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: white; border-radius: 50%; width: 30px; height: 30px; border: 1px solid #ddd; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                            ${isFav ? '❤️' : '🤍'}
+                        </button>
                     </div>
                     <div style="padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; background: #f8fafc;">
                         <p style="font-size: 11px; font-weight: 800; color: #1e293b; text-align: center; margin: 0; height: 30px; overflow: hidden;">${text}</p>
@@ -637,23 +714,11 @@ window.updateUI = () => {
                     </div>
                 </div>`;
             }).join('');
-
-            // إعادة البيانات لخانة الإدارة للسلايدر
-            d.cards.forEach((c, index) => {
-                let i = index + 1;
-                if (document.getElementById(`c${i}_link`)) document.getElementById(`c${i}_link`).value = c.image || c;
-                if (document.getElementById(`c${i}_text`)) document.getElementById(`c${i}_text`).value = c.caption || "";
-                if (document.getElementById(`c${i}_price`)) document.getElementById(`c${i}_price`).value = c.offerPrice || "";
-            });
         }
 
-        // --- عرض السلايدر الثاني (Slides) ---
+        // --- عرض السلايدر الثاني (الصور العريضة) ---
         if (d.slides) {
             document.getElementById('mainSlider').innerHTML = d.slides.map(u => `<img src="${u}" class="slide">`).join('');
-            d.slides.forEach((u, index) => {
-                let i = index + 1;
-                if (document.getElementById('s' + i)) document.getElementById('s' + i).value = u || "";
-            });
         }
 
         // --- عرض المربعات (Boxes) ---
@@ -662,9 +727,13 @@ window.updateUI = () => {
                 const imgUrl = u.image || u;
                 const desc = u.description || "";
                 const price = u.price || 0;
+                const isFav = wishlist.some(x => x.name === desc); // فحص المفضلة
                 return `
-                <div style="min-width: 150px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-left: 10px;">
-                    <div style="width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; position: relative;">
+                <div class="relative" style="min-width: 150px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-left: 10px;">
+                    <button onclick="toggleWishlist('${desc}', ${price}, '${imgUrl}')" style="position: absolute; top: 5px; right: 5px; z-index: 10;">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
+                    <div style="width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
                         <img src="${imgUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onclick="openJoudImg('${imgUrl}')">
                     </div>
                     <p style="font-size: 11px; font-weight: 800; color: #334155; text-align: center; margin-bottom: 6px;">${desc}</p>
@@ -674,59 +743,15 @@ window.updateUI = () => {
                     </div>
                 </div>`;
             }).join('');
-
-            // إعادة البيانات لخانة الإدارة للمربعات
-            d.boxes.forEach((b, index) => {
-                let i = index + 1;
-                if (document.getElementById(`b${i}_link`)) document.getElementById(`b${i}_link`).value = b.image || b;
-                if (document.getElementById(`b${i}_desc`)) document.getElementById(`b${i}_desc`).value = b.description || "";
-                if (document.getElementById(`b${i}_price`)) document.getElementById(`b${i}_price`).value = b.price || "";
-            });
         }
     });
 
-    // 2. مراقبة المنتجات (التي كنت تدخلها قديماً وتظهر في الأسفل)
-// 2. مراقبة الأصناف (المنتجات) وعرضها في الإدارة والحذف
-            onValue(ref(db, 'products'), (snap) => {
-                const d = snap.val();
-                // تحويل البيانات لمصفوفة
-                allProds = d ? Object.keys(d).map(k => ({id:k, ...d[k]})) : [];
-                
-                // أولاً: عرض المنتجات في الصفحة الرئيسية (للزباين)
-                if (typeof window.renderProducts === 'function') {
-                    window.renderProducts(allProds);
-                }
-
-                // ثانياً: عرض المنتجات في صفحة الإدارة (عشان التعديل والحذف)
-                const adminList = document.getElementById('adminProductList');
-                if (adminList) {
-                    adminList.innerHTML = allProds.map(p => `
-                        <div class="flex items-center justify-between bg-white p-3 rounded-lg border mb-2 shadow-sm">
-                            <div class="flex items-center gap-3">
-                                <img src="${p.image || p.img}" class="w-10 h-10 object-contain rounded">
-                                <div>
-                                    <p class="font-bold text-xs">${p.name || p.title}</p>
-                                    <p class="text-red-500 text-xs">${p.price}$</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editProduct('${p.id}')" class="bg-blue-500 text-white p-2 rounded text-xs">📝</button>
-                                <button onclick="deleteProduct('${p.id}')" class="bg-red-500 text-white p-2 rounded text-xs">🗑️</button>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            });
-
-            // تحريك السلايدر تلقائياً
-            if (typeof moveSlide === 'function') {
-                setInterval(() => moveSlide(1), 5000);
-            }
-
-    // تشغيل السلايدر تلقائياً
-    if (typeof moveSlide === 'function') {
-        setInterval(() => moveSlide(1), 5000);
-    }
+    // مراقبة الأصناف العادية (التي تظهر في الأسفل)
+    onValue(ref(db, 'products'), (snap) => {
+        const d = snap.val();
+        allProds = d ? Object.keys(d).map(k => ({id:k, ...d[k]})) : [];
+        window.renderProducts(allProds);
+    });
 }
 window.onscroll = function() {
     const btn = document.getElementById('backToTop');
@@ -797,18 +822,23 @@ window.editProduct = (id) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 };
-
-        window.renderProducts = (d) => { 
-            document.getElementById('homeProductGrid').innerHTML=d.slice().reverse().map(p=>`
-           <div class="product-card flex flex-col items-center bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-white/50 shadow-sm transition-transform active:scale-95">
-                <img src="${p.img}" class="h-24 w-full object-contain mb-1">
-                <h3 class="font-black text-[10px] text-center h-8 overflow-hidden mb-1">${p.name}</h3>
-                <div class="flex justify-between items-center w-full px-1">
-                    <span class="price-tag">${p.price}$</span>
-                    <button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button>
-                </div>
-            </div>`).join(''); 
-        };
+window.renderProducts = (d) => { 
+    document.getElementById('homeProductGrid').innerHTML = d.slice().reverse().map(p => {
+        const isFav = wishlist.some(x => x.name === (p.name || p.title));
+        return `
+        <div class="product-card flex flex-col items-center bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-white/50 shadow-sm relative">
+            <button onclick="toggleWishlist('${p.name}', ${p.price}, '${p.img}')" class="absolute top-2 right-2 z-10 text-lg">
+                ${isFav ? '❤️' : '🤍'}
+            </button>
+            <img src="${p.img}" class="h-24 w-full object-contain mb-1">
+            <h3 class="font-black text-[10px] text-center h-8 overflow-hidden mb-1">${p.name}</h3>
+            <div class="flex justify-between items-center w-full px-1">
+                <span class="price-tag">${p.price}$</span>
+                <button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button>
+            </div>
+        </div>`;
+    }).join(''); 
+};
         
         window.addToCart = (n, p) => { 
     let item = cart.find(x => x.name === n); 

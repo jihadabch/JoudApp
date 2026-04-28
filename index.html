@@ -932,7 +932,7 @@ window.renderCart = () => {
     window.open(whatsappUrl, '_blank');
 };
         window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
-        window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
+        window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length;w.style.transform=`translateX(-${curS*100}%)`; }
         window.onload = initApp;
     </script>
 

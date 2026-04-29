@@ -229,6 +229,39 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 .dark-mode .nav-item { color: #94a3b8; }
 .dark-mode .nav-item.active { color: #4ade80 !important; }
 
+
+/* حل مشكلة اختفاء النصوص في الوضع الليلي */
+.dark-mode .product-card, 
+.dark-mode .bg-white, 
+.dark-mode .card,
+.dark-mode #cartItemsList > div {
+    background-color: #1e293b !important; /* لون خلفية غامق */
+    color: #ffffff !important;           /* لون نص أبيض */
+    border-color: #334155 !important;    /* لون حواف متناسق */
+}
+
+/* تعديل نصوص السلة والمنتجات بشكل خاص */
+.dark-mode .product-card h3, 
+.dark-mode .product-card p,
+.dark-mode #cartItemsList div,
+.dark-mode #cartItemsList span,
+.dark-mode .text-gray-800 {
+    color: #f1f5f9 !important; /* لون نص فاتح جداً قريب للأبيض */
+}
+
+/* تمييز سعر المنتج في الوضع الليلي */
+.dark-mode .price-tag {
+    color: #4ade80 !important; /* لون أخضر فاتح للسعر ليبرز */
+}
+
+/* تعديل خلفية خانات الإدخال في لوحة الإدارة */
+.dark-mode input, .dark-mode select, .dark-mode textarea {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border: 1px solid #475569 !important;
+}
+
+
     </style>
     
 </head>

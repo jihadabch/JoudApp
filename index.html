@@ -541,6 +541,12 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 
 // مصفوفة لتخزين المفضلة
 let wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
+// هيدا السطر بيخلي التطبيق يحدث شكل القلوب والبيانات أول ما تفتح الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
+    if(typeof renderWishlist === 'function') renderWishlist();
+    if(typeof updateBadge === 'function') updateBadge();
+});
 
 // دالة إضافة/حذف من المفضلة
 window.toggleWishlist = (name, price, img) => {

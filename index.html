@@ -373,50 +373,94 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
             🌙
         </div>
     </div>
-    <div id="language-panel" style="text-align: center; background: #f8f9fa; padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin: 10px;">
-    <p style="margin-bottom: 10px; font-weight: bold;">إعدادات اللغة - JOUD APP</p>
     
-    <div style="display: flex; justify-content: center; gap: 10px;">
-        <button onclick="translateLocal()" style="background: white; border: 1px solid #007bff; color: #007bff; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            Translate to English
-        </button>
-
-        <button onclick="window.location.reload()" style="background: #28a745; border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            العربية (الأصل)
-        </button>
-    </div>
 </div>
+<div class="lang-container">
+    <div class="lang-buttons">
+        <button onclick="changeLanguage('en')" class="btn-en">English</button>
+        <button onclick="window.location.reload()" class="btn-ar">العربية</button>
+    </div>
+    <div id="google_translate_element"></div>
+</div>
+
+<style>
+    /* تصغير الحاوية والأزرار */
+    .lang-container {
+        text-align: center;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        margin: 10px auto;
+        max-width: 300px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .lang-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .lang-buttons button {
+        padding: 6px 15px;
+        font-size: 13px; /* تصغير الخط */
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        border: 1px solid #ddd;
+    }
+
+    .btn-en { background: #fff; color: #007bff; border-color: #007bff !important; }
+    .btn-en:hover { background: #007bff; color: #fff; }
+
+    .btn-ar { background: #28a745; color: white; border: none !important; }
+    .btn-ar:hover { background: #218838; }
+
+    /* --- كود سحري لإخفاء إزعاج جوجل --- */
+    
+    /* إخفاء الشريط العلوي */
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+
+    /* إخفاء الرسالة المنبثقة (Tooltip) التي تظهر عند التأشير */
+    .goog-te-balloon-frame, #goog-gt-tt, .goog-te-balloon-direct-wrapper { 
+        display: none !important; 
+    }
+    .goog-text-highlight { 
+        background: none !important; 
+        box-shadow: none !important; 
+    }
+
+    /* إخفاء شعار جوجل وكلمة "Powered by" */
+    .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+    .goog-te-gadget .goog-te-combo { color: #333 !important; font-size: 12px !important; display: none; }
+    #google_translate_element { height: 0; overflow: hidden; }
+</style>
 
 <script type="text/javascript">
-function translateLocal() {
-    // هذه الطريقة تقوم بفتح المترجم فوق الصفحة الحالية حتى لو كان الملف محلياً
-    var currentUrl = window.location.href;
-    // إذا كنت تستخدم Chrome، سيقوم السكربت التالي بمحاولة تشغيل المترجم يدوياً
-    if (typeof google === 'undefined' || typeof google.translate === 'undefined') {
-        var script = document.createElement('script');
-        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-        document.body.appendChild(script);
-        
-        // إظهار قائمة اختيار اللغة يدوياً كحل أخير إذا فشل الأوتوماتيك
-        setTimeout(function(){
-             var el = document.getElementById('google_translate_element');
-             el.style.display = 'block';
-             alert("اضغط على قائمة اللغة التي ظهرت بالأسفل واختر English");
-        }, 2000);
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'ar',
+            includedLanguages: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
     }
-}
 
-function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-        pageLanguage: 'ar',
-        includedLanguages: 'en',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-}
+    function changeLanguage(lang) {
+        var combo = document.querySelector(".goog-te-combo");
+        if (combo) {
+            combo.value = lang;
+            combo.dispatchEvent(new Event('change'));
+        } else {
+            // تحميل المكتبة إذا لم تكن محملة
+            var script = document.createElement('script');
+            script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(script);
+        }
+    }
 </script>
-
-<div id="google_translate_element" style="display:none; text-align:center; padding:10px;"></div>
-</div>
 </header>
 
     <main id="homePage" class="page active-page px-4 -mt-10">

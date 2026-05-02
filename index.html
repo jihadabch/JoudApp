@@ -324,7 +324,17 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     border: none;
 }
 
+#autoSlider {
+    display: flex;
+    flex-direction: row; /* التأكد أن الصور بجانب بعضها */
+    will-change: transform; /* يخبر المتصفح أن يجهز كرت الشاشة للحركة */
+    touch-action: pan-y; /* يمنع السحب الأفقي من التأثير على سكرول الصفحة */
+}
 
+#autoSlider img {
+    user-select: none; /* يمنع ظهور قائمة "حفظ الصورة" عند الضغط المطول */
+    -webkit-user-drag: none; /* يمنع سحب الصورة كملف */
+}
     </style>
     
 </head>

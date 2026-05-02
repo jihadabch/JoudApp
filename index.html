@@ -46,7 +46,10 @@
         .slider-container { width: 100%; height: 180px; overflow: hidden; border-radius: 25px; background: #fff; border: 1px solid #e2e8f0; position: relative; }
         .slider-wrapper { display: flex; height: 100%; transition: transform 0.5s ease; width: 100%; }
         .slide { min-width: 100%; width: 100%; height: 100%; object-fit: contain; background: #f8fafc; }
-    
+    .slider-container {
+    overflow: hidden;
+    touch-action: pan-y; /* يسمح بالسكول العمودي ويمنع تداخل اللمس الأفقي مع المتصفح */
+}
         .box-3d-container { display: flex; gap: 12px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
         .box-3d { min-width: 100px; height: 100px; background: white; border-radius: 5px; flex-shrink: 0; border: 2px solid rgb(98, 98, 223);box-shadow: #000; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .box-3d img { width: 75%; height: 75%; object-fit: contain; }
@@ -470,6 +473,13 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 <div class="special-expand-container" id="topExpandableSection">
     </div>
         <br><br>
+        <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">📸 معرض الصور المتحرك</h2>
+<div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
+    <div class="slider-container">
+        <div id="autoSlider" class="slider-wrapper"></div>
+    </div>
+</div>
+        <br>
         <h2 class="text-right px-2 mt-4 mb-1 font-black text-green-800 text-xs italic opacity-80">🔥 أقوى العروض</h2>
         <div class="slider"><div class="slides" id="slides"></div></div>
         <h2 class="text-right px-2 mt-6 mb-2 font-black text-green-900 text-sm italic">🌟 مياه الجود 💧 الجودة التي تثق بها</h2>
@@ -506,6 +516,16 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 </div>
         <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
         <div class="space-y-6 pb-40 text-right">
+            <div class="bg-yellow-50 p-5 rounded-[2rem] border-2 border-yellow-200 mb-6 text-right">
+    <p class="font-black text-sm mb-3 text-yellow-700">🔄 صور السلايدر التلقائي الجديد (5 صور)</p>
+    <div class="grid grid-cols-1 gap-2">
+        <input id="as1" placeholder="رابط الصورة 1" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as2" placeholder="رابط الصورة 2" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as3" placeholder="رابط الصورة 3" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as4" placeholder="رابط الصورة 4" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as5" placeholder="رابط الصورة 5" class="p-2 text-xs border rounded-lg bg-white">
+    </div>
+</div>
             <div class="bg-blue-50 p-5 rounded-[2rem] border-2 border-blue-100">
          <div class="bg-purple-50 p-5 rounded-[2rem] border-2 border-purple-200 mb-6 text-right">
     <p class="font-black text-sm mb-3 text-purple-700">✨ قسم العروض المتمددة (4 عروض)</p>
@@ -893,13 +913,26 @@ window.updateUI = () => {
         const bPrice = document.getElementById(`b${i}_price`).value;
         if(bLink) boxes.push({ image: bLink, description: bDesc, price: bPrice });
     }
+
+    // 5. الإضافة الجديدة: جمع روابط السلايدر التلقائي (الـ 5 روابط الجديدة)
+    let autoSlides = [];
+    for(let i=1; i<=5; i++) {
+        const asInput = document.getElementById(`as${i}`);
+        if(asInput && asInput.value) autoSlides.push(asInput.value);
+    }
     
-    // إرسال كل الداتا لـ Firebase بضربة وحدة
-    set(ref(db, 'settings/layout'), { expandable, cards, slides, boxes })
-        .then(() => {
-            alert("تم الحفظ بنجاح لجميع الأقسام! ✅");
-        })
-        .catch((e) => alert("خطأ في الحفظ: " + e.message));
+    // إرسال كل الداتا لـ Firebase (أضفنا autoSlides هنا)
+    set(ref(db, 'settings/layout'), { 
+        expandable, 
+        cards, 
+        slides, 
+        boxes,
+        autoSlides // أضفنا هذا السطر لكي لا تضيع الروابط عند الحفظ
+    })
+    .then(() => {
+        alert("تم الحفظ بنجاح لجميع الأقسام بما فيها المعرض الجديد! ✅");
+    })
+    .catch((e) => alert("خطأ في الحفظ: " + e.message));
 };
 
 function initApp() {
@@ -919,7 +952,6 @@ function initApp() {
                 if(document.getElementById(`ex${idx}_price`)) document.getElementById(`ex${idx}_price`).value = u.price || "";
             });
 
-            // رسم القسم في الصفحة الرئيسية
             const container = document.getElementById('topExpandableSection');
             if(container) {
                 container.innerHTML = d.expandable.map((u, i) => {
@@ -1010,6 +1042,22 @@ function initApp() {
                     </div>
                 </div>`;
             }).join('');
+        }
+
+        // --- الإضافة الجديدة: معرض الصور المتحرك ---
+        if (d.autoSlides) {
+            // 1. تعبئة خانات الإدارة (as1, as2...)
+            d.autoSlides.forEach((url, i) => {
+                const inputEl = document.getElementById(`as${i+1}`);
+                if(inputEl) inputEl.value = url || "";
+            });
+            // 2. عرض الصور في السلايدر الجديد
+            const autoSlider = document.getElementById('autoSlider');
+            if(autoSlider) {
+                autoSlider.innerHTML = d.autoSlides.map(url => `<img src="${url}" class="slide" style="min-width:100%; width:100%; object-fit:contain;">`).join('');
+                // تشغيل التايمر إذا كان موجوداً
+                if(window.startAutoSlider) window.startAutoSlider();
+            }
         }
     });
 
@@ -1409,7 +1457,63 @@ s0.parentNode.insertBefore(s1,s0);
 
 
 
+let autoCurS = 0;
+let autoInterval = null;
 
+window.startAutoSlider = () => {
+    if (autoInterval) clearInterval(autoInterval);
+    autoInterval = setInterval(() => {
+        const slider = document.getElementById('autoSlider');
+        if (!slider) return;
+        const slidesCount = slider.children.length;
+        if (slidesCount > 1) {
+            autoCurS = (autoCurS + 1) % slidesCount;
+            slider.style.transition = "transform 0.8s ease-in-out";
+            slider.style.transform = `translateX(${autoCurS * 100}%)`;
+        }
+    }, 5000); 
+    // متغيرات لتخزين إحداثيات اللمس
+let touchStartX = 0;
+let touchEndX = 0;
+
+const sliderContainer = document.querySelector('.slider-container');
+
+if (sliderContainer) {
+    // عند بداية اللمس
+    sliderContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        // إيقاف المؤقت التلقائي مؤقتاً عند لمس الشاشة
+        if (autoInterval) clearInterval(autoInterval);
+    });
+
+    // عند انتهاء اللمس
+    sliderContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleGesture();
+        // إعادة تشغيل المؤقت التلقائي بعد انتهاء اللمس
+        window.startAutoSlider();
+    });
+}
+
+function handleGesture() {
+    const slider = document.getElementById('autoSlider');
+    if (!slider) return;
+    const slidesCount = slider.children.length;
+
+    // إذا سحب لليسار (الصورة التالية)
+    if (touchStartX - touchEndX > 50) {
+        autoCurS = (autoCurS + 1) % slidesCount;
+    }
+    // إذا سحب لليمين (الصورة السابقة)
+    if (touchEndX - touchStartX > 50) {
+        autoCurS = (autoCurS - 1 + slidesCount) % slidesCount;
+    }
+
+    // تطبيق الحركة
+    slider.style.transition = "transform 0.5s ease-out";
+    slider.style.transform = `translateX(${autoCurS * 100}%)`;
+}
+};
 
 </script>
 

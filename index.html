@@ -1469,47 +1469,7 @@ window.startAutoSlider = () => {
             slider.style.transform = `translateX(${autoCurS * 100}%)`;
         }
     }, 5000); 
-    // متغيرات لتخزين إحداثيات اللمس
-let touchStartX = 0;
-let touchEndX = 0;
-
-const sliderContainer = document.querySelector('.slider-container');
-
-if (sliderContainer) {
-    // عند بداية اللمس
-    sliderContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        // إيقاف المؤقت التلقائي مؤقتاً عند لمس الشاشة
-        if (autoInterval) clearInterval(autoInterval);
-    });
-
-    // عند انتهاء اللمس
-    sliderContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleGesture();
-        // إعادة تشغيل المؤقت التلقائي بعد انتهاء اللمس
-        window.startAutoSlider();
-    });
-}
-
-function handleGesture() {
-    const slider = document.getElementById('autoSlider');
-    if (!slider) return;
-    const slidesCount = slider.children.length;
-
-    // إذا سحب لليسار (الصورة التالية)
-    if (touchStartX - touchEndX > 50) {
-        autoCurS = (autoCurS + 1) % slidesCount;
-    }
-    // إذا سحب لليمين (الصورة السابقة)
-    if (touchEndX - touchStartX > 50) {
-        autoCurS = (autoCurS - 1 + slidesCount) % slidesCount;
-    }
-
-    // تطبيق الحركة
-    slider.style.transition = "transform 0.5s ease-out";
-    slider.style.transform = `translateX(${autoCurS * 100}%)`;
-}
+    
 };
 
 </script>

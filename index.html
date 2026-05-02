@@ -324,17 +324,7 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     border: none;
 }
 
-#autoSlider {
-    display: flex;
-    flex-direction: row; /* التأكد أن الصور بجانب بعضها */
-    will-change: transform; /* يخبر المتصفح أن يجهز كرت الشاشة للحركة */
-    touch-action: pan-y; /* يمنع السحب الأفقي من التأثير على سكرول الصفحة */
-}
 
-#autoSlider img {
-    user-select: none; /* يمنع ظهور قائمة "حفظ الصورة" عند الضغط المطول */
-    -webkit-user-drag: none; /* يمنع سحب الصورة كملف */
-}
     </style>
     
 </head>
@@ -1479,56 +1469,7 @@ window.startAutoSlider = () => {
             slider.style.transform = `translateX(${autoCurS * 100}%)`;
         }
     }, 5000); 
-    let touchStartX = 0;
-let isDragging = false;
-
-const sliderContainer = document.querySelector('.slider-container');
-
-if (sliderContainer) {
-    // 1. بداية اللمس
-    sliderContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        isDragging = true;
-        // إيقاف التايمر فوراً عند اللمس لمنع التصادم
-        if (autoInterval) clearInterval(autoInterval);
-    }, { passive: true });
-
-    // 2. أثناء التحريك (لمنع تعليق الصفحة)
-    sliderContainer.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        // منع المتصفح من عمل سكرول عمودي أثناء تحريك الصور أفقياً
-        // e.preventDefault(); // مفيد جداً لمنع التعليق
-    }, { passive: false });
-
-    // 3. نهاية اللمس
-    sliderContainer.addEventListener('touchend', (e) => {
-        if (!isDragging) return;
-        let touchEndX = e.changedTouches[0].clientX;
-        let diff = touchStartX - touchEndX;
-
-        const slider = document.getElementById('autoSlider');
-        const slidesCount = slider.children.length;
-
-        // إذا كانت السحبة أقوى من 50 بكسل، حرّك السلايدر
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                // سحب لليسار -> الصورة التالية
-                autoCurS = (autoCurS + 1) % slidesCount;
-            } else {
-                // سحب لليمين -> الصورة السابقة
-                autoCurS = (autoCurS - 1 + slidesCount) % slidesCount;
-            }
-        }
-
-        // تطبيق الحركة مع انتقال ناعم
-        slider.style.transition = "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        slider.style.transform = `translateX(${autoCurS * 100}%)`;
-
-        isDragging = false;
-        // إعادة تشغيل التايمر التلقائي بعد ثانية من التوقف
-        setTimeout(() => window.startAutoSlider(), 1000);
-    });
-}
+    
 };
 
 </script>

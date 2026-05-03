@@ -1519,6 +1519,20 @@ window.addEventListener('load', function() {
             }, 1500);
         }
     }
+
+
+    // وظيفة التحريك التلقائي لسلايدر مياه الجود
+function startMainSliderAuto() {
+    setInterval(() => {
+        // إذا كان الزبون فاتح صفحة غير الرئيسية، ما يتحرك ليوفر طاقة
+        if (document.getElementById('homePage').classList.contains('active-page')) {
+            window.moveSlide(1); // هيدي الوظيفة موجودة أصلاً بملفك
+        }
+    }, 4000); // 4000 يعني كل 4 ثواني بغير صورة
+}
+
+// تشغيل الوظيفة أول ما تفتح الصفحة
+window.addEventListener('load', startMainSliderAuto);
 </script>
 </body> 
 </html>

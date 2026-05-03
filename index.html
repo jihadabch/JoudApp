@@ -377,10 +377,10 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 </div>
 <div class="lang-container">
     <div class="lang-buttons">
-        <button onclick="changeLanguage('en')" class="btn-en">English</button>
+        <button onclick="changeToEnglish()" class="btn-en">English</button>
         <button onclick="window.location.reload()" class="btn-ar">العربية</button>
     </div>
-    <div id="google_translate_element"></div>
+    <div id="google_translate_element" style="position:absolute; visibility:hidden;"></div>
 </div>
 
 <style>
@@ -438,29 +438,7 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     #google_translate_element { height: 0; overflow: hidden; }
 </style>
 
-<script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'ar',
-            includedLanguages: 'en',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-        }, 'google_translate_element');
-    }
 
-    function changeLanguage(lang) {
-        var combo = document.querySelector(".goog-te-combo");
-        if (combo) {
-            combo.value = lang;
-            combo.dispatchEvent(new Event('change'));
-        } else {
-            // تحميل المكتبة إذا لم تكن محملة
-            var script = document.createElement('script');
-            script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-            document.body.appendChild(script);
-        }
-    }
-</script>
 </header>
 
     <main id="homePage" class="page active-page px-4 -mt-10">
@@ -1509,6 +1487,38 @@ window.addEventListener('load', function() {
 
 <div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</div>
 
+<script type="text/javascript">
+    // 1. وظيفة التعريف الأساسية
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'ar',
+            includedLanguages: 'en',
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
 
+    // 2. وظيفة التحويل للانجليزي
+    function changeToEnglish() {
+        var combo = document.querySelector(".goog-te-combo");
+        if (combo) {
+            combo.value = 'en';
+            combo.dispatchEvent(new Event('change'));
+        } else {
+            // إذا السكريبت مش محمل، بنحمله وبننفذه
+            var s = document.createElement('script');
+            s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(s);
+            
+            // ننتظر ثانية ليتحمل ونكبس الزر تلقائياً
+            setTimeout(function() {
+                var newCombo = document.querySelector(".goog-te-combo");
+                if (newCombo) {
+                    newCombo.value = 'en';
+                    newCombo.dispatchEvent(new Event('change'));
+                }
+            }, 1500);
+        }
+    }
+</script>
 </body> 
 </html>

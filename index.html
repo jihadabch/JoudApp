@@ -821,7 +821,7 @@ window.swPage = (id, el) => {
         const db = getDatabase(app);
         let allProds = [], cart = [], curS = 0, deferredPrompt, currentCat = "";
 
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+        
         
         // --- تعديل منطق التثبيت ليدعم الأيفون والأندرويد ---
         window.addEventListener('beforeinstallprompt', (e) => { 
@@ -1533,6 +1533,85 @@ function startMainSliderAuto() {
 
 // تشغيل الوظيفة أول ما تفتح الصفحة
 window.addEventListener('load', startMainSliderAuto);
+
+
+
+
+
+
+
+
+</script>
+
+<script>
+// --- استبدل كل شيء من سطر 1515 حتى نهاية الملف بهذا الكود ---
+
+// تعريف الإعدادات
+const firebaseV8Config = {
+    apiKey: "AIzaSyDUOiMyesZVf67UaPOZGTRudpsMaQ07CKI",
+  authDomain: "joudapp-5687c.firebaseapp.com",
+  databaseURL: "https://joudapp-5687c-default-rtdb.firebaseio.com",
+  projectId: "joudapp-5687c",
+  storageBucket: "joudapp-5687c.firebasestorage.app",
+  messagingSenderId: "811463495565",
+  appId: "1:811463495565:web:70fb8c8f722d777586b7c4",
+  measurementId: "G-06EK1YCBKQ"
+};
+
+// تحميل مكتبات Firebase بشكل ديناميكي لضمان عدم التعارض
+function loadFirebaseScripts() {
+    const scripts = [
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js'
+    ];
+
+    let loadedCount = 0;
+    scripts.forEach(src => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+            loadedCount++;
+            if (loadedCount === scripts.length) {
+                initJoudMessaging();
+            }
+        };
+        document.head.appendChild(script);
+    });
+}
+
+function initJoudMessaging() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseV8Config);
+    }
+    
+    const messaging = firebase.messaging();
+
+    navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then((registration) => {
+            console.log('✅ Service Worker Registered');
+            return messaging.getToken({
+                serviceWorkerRegistration: registration,
+                vapidKey: 'BKrmCCifghl_6O4OPWTTeae8MpyxSupRQWCEclZFR4BMM8AoNfHzD62lO2dVohcdOA5_LJ0u_sZn_0gpyHYDhqM'
+            });
+        })
+        .then((token) => {
+            if (token) {
+                console.log("🚀 جود جروب - التوكن جاهز:", token);
+            } else {
+                console.warn('⚠️ اطلب من المستخدم تفعيل الإشعارات');
+            }
+        })
+        .catch((err) => {
+            console.error('❌ خطأ في الفايربيس:', err);
+        });
+}
+
+// تشغيل العملية
+loadFirebaseScripts();
+
 </script>
 </body> 
 </html>
+
+
+

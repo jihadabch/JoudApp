@@ -4,7 +4,7 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f0fdf4",
- "theme_color": "rgba(136, 172, 134, 0.911)",
+ "theme_color": "#d5e8d4",
   "description": "تطبيق إدارة منتجات مؤسسة جود",
   "icons": [
     {

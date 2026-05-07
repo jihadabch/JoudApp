@@ -324,7 +324,19 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     border: none;
 }
 
-
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; /* بكون مخفي بالأساس */
+    margin-top: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
     </style>
     
 </head>
@@ -477,6 +489,24 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </div>
 </main>
     <main id="adminPage" class="page px-6 pt-10 bg-white">
+        <div id="adminSection" style="margin-top: 50px; padding: 20px; background: #f9f9f9; border-radius: 10px;">
+    <h3>📊 إدارة نقاط الزبائن (JOUD GROUP)</h3>
+    <button onclick="loadAdminLoyalty()" style="padding: 10px 20px; background: #3498db; color: white; border: none; cursor: pointer;">
+        تحديث القائمة الآن
+    </button>
+    
+    <table style="width: 100%; margin-top: 20px; border-collapse: collapse; text-align: center;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 10px;">رقم الهاتف</th>
+                <th style="padding: 10px;">إجمالي النقاط</th>
+            </tr>
+        </thead>
+        <tbody id="adminLoyaltyBody">
+    </tbody>
+            </tbody>
+    </table>
+</div>
         <div class="bg-red-50 p-4 rounded-[2rem] border-2 border-red-200 mb-6 text-right" dir="rtl">
     <p class="font-black text-sm mb-3 text-red-700">⚡ تحديث جماعي للأسعار (كل الأصناف)</p>
     <div class="flex items-center gap-2 mb-3">
@@ -506,6 +536,7 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     <p class="font-black text-sm mb-3 text-purple-700">✨ قسم العروض المتمددة (4 عروض)</p>
     <div id="adminExpandContainer" class="space-y-4">
         <script>
+            import { getDatabase, ref, set, push, onValue, remove, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
             for(let i=1; i<=4; i++) {
                 document.write(`
                     <div class="bg-white p-2 rounded-xl border">
@@ -614,6 +645,10 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </main>
 
     <main id="cartPage" class="page px-6 pt-10">
+        <div class="flex justify-between items-center mt-2 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+    <span class="text-sm font-bold text-yellow-700">نقاط المكافأة لهذا الطلب:</span>
+    <span id="earned-points" class="text-lg font-black text-yellow-800">0</span>
+</div>
         <h2 class="text-2xl font-black mb-6 text-center text-green-900 italic underline">سلتك 🛒</h2>
         <div id="cartItemsList" class="space-y-4 mb-10 text-right"></div>
         <div id="cartTotal" class="bg-white p-6 rounded-[2.5rem] text-center font-black shadow-xl border-2 border-green-100 hidden">
@@ -657,6 +692,26 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 
     <main id="contactPage" class="page px-6 pt-10 text-right">
         <div class="px-4 py-2 text-center">
+            <div class="bg-white p-5 rounded-[2rem] border-2 border-yellow-400 mb-6 text-right shadow-md">
+    <p class="font-black text-sm mb-3 text-yellow-700"> 🏆 رصيد النقات (كل 1$ = 1 نقطة و كل 100 نقطة بتعطيك خصم بقيمة 3$ على طلبيتك القادمة) </p>
+    <div id="loyaltyCheckSection">
+        <p class="text-[10px] text-gray-500 mb-2">أدخل رقم هاتفك لمعرفة رصيد نقاطك الحالي:</p>
+        <div class="flex gap-2">
+            <input type="number" id="checkPhoneInput" placeholder="76XXXXXX" class="w-2/3 p-2 border rounded-xl text-center font-bold text-sm">
+            <button onclick="checkMyPoints()" class="w-1/3 bg-yellow-500 text-white py-2 rounded-xl font-black text-[10px]">عرض الرصيد</button>
+        </div>
+    </div>
+    <div id="myPointsResult" class="hidden text-center py-2">
+        <p class="text-xs font-bold text-gray-600">رصيدك الحالي هو:</p>
+        <p class="text-2xl font-black text-green-700"><span id="userPointsDisplay">0</span> نقطة</p>
+        <button onclick="document.getElementById('loyaltyCheckSection').classList.remove('hidden'); document.getElementById('myPointsResult').classList.add('hidden');" class="text-[15px] text-blue-500 underline mt-2">فحص رقم آخر</button>
+        <br>
+            <a id="whatsappExchangeBtn" href="#" class="btn-whatsapp" target="_blank">
+    استبدل نقاطي عبر واتساب
+</a>
+    </div>
+
+</div>
     <p class="text-sm font-bold text-gray-700 leading-relaxed">
         مؤسسة العبوشة توفّر مجموعة متنوعة من المنتجات البلاستيكية وورق الساندويش لتلبية حاجاتكم بجودة وأسعار منافسة. 
         <br>
@@ -699,13 +754,78 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </div>
     <div onclick="swPage('contact', this)" class="nav-item">
         <span class="text-xl">📞</span>
-        <span class="text-[9px] font-bold mt-1">تواصل</span>
+        <span class="text-[9px] font-bold mt-1">التواصل و النقات</span>
     </div>
 </nav>
 
     <script type="module">
+        window.editUserPoints = async (phone, currentPoints) => {
+    const amount = prompt(`الرصيد الحالي لـ ${phone} هو ${currentPoints}\nأدخل عدد النقاط المراد خصمها (مثلاً 100):`);
+    
+    if (amount === null || amount === "") return;
+    
+    const pointsToRemove = parseInt(amount);
+    if (isNaN(pointsToRemove)) return alert("يرجى إدخال رقم صحيح");
 
+    if (pointsToRemove > currentPoints) {
+        if (!confirm("النقاط المراد خصمها أكبر من رصيد الزبون، هل تريد التصفير؟")) return;
+    }
 
+    const newPoints = Math.max(0, currentPoints - pointsToRemove);
+
+    try {
+        const { getDatabase, ref, set } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
+        const db = getDatabase();
+        await set(ref(db, 'loyalty/' + phone), newPoints);
+        alert("تم تحديث النقاط بنجاح! ✅ الرصيد الجديد: " + newPoints);
+        loadAdminLoyalty(); // تحديث الجدول فوراً
+    } catch (error) {
+        alert("خطأ في التحديث: " + error.message);
+    }
+};
+
+window.checkMyPoints = async () => {
+    // هيدا الكود بيشتغل لما تطلع النتيجة للزبون
+const whatsappBtn = document.getElementById('whatsappExchangeBtn');
+const points = 60; // هون بكون متغير النقاط اللي عندك بالكود
+
+if (points > 0) {
+    const phoneNumber = "961xxxxxxx"; // حط رقمك هون مع رمز الدولة
+    const message = `مرحبا، معي ${points} نقطة وبدي استبدلن.`;
+    
+    whatsappBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    whatsappBtn.style.display = "inline-block"; // منخليه يظهر بس لما يكون في نقاط
+}
+    const phone = document.getElementById('checkPhoneInput').value;
+    const resultDiv = document.getElementById('myPointsResult');
+    const inputDiv = document.getElementById('loyaltyCheckSection');
+    const display = document.getElementById('userPointsDisplay');
+
+    if (!phone) return alert("يرجى إدخال رقم الهاتف أولاً");
+
+    try {
+        // استيراد الدوال اللازمة من Firebase (تأكد أنها معرفة مسبقاً في الـ script module)
+        const { getDatabase, ref, get } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
+        const db = getDatabase();
+        
+        const userRef = ref(db, 'loyalty/' + phone);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            display.innerText = snapshot.val();
+        } else {
+            display.innerText = "0";
+            alert("هذا الرقم غير مسجل في نظام النقاط بعد. ابدأ الطلب لتجميع النقاط!");
+        }
+
+        inputDiv.classList.add('hidden');
+        resultDiv.classList.remove('hidden');
+
+    } catch (error) {
+        console.error("Error fetching points:", error);
+        alert("حدث خطأ أثناء جلب البيانات.");
+    }
+};
 // مصفوفة لتخزين المفضلة
 let wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
 // هيدا السطر بيخلي التطبيق يحدث شكل القلوب والبيانات أول ما تفتح الصفحة
@@ -805,7 +925,7 @@ window.swPage = (id, el) => {
     document.getElementById('pricePercent').value = ""; // تصفير الخانة
 };
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, remove, get} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-WfO-E0Z6_z-pYm8V6S-Hq7K-L0P1M",
@@ -911,6 +1031,11 @@ window.updateUI = () => {
 };
 
 function initApp() {
+    // تعبئة رقم الهاتف تلقائياً إذا كان موجوداً سابقاً
+const savedPhone = localStorage.getItem('userPhone');
+if (savedPhone && document.getElementById('checkPhoneInput')) {
+    document.getElementById('checkPhoneInput').value = savedPhone;
+}
     // 1. مراقبة الأقسام الرئيسية وتعبئة البيانات
     onValue(ref(db, 'settings/layout'), (snap) => {
         const d = snap.val();
@@ -1148,7 +1273,23 @@ window.renderProducts = (d) => {
 };
         
         window.changeQty = (idx, d) => { cart[idx].qty += d; if(cart[idx].qty <= 0) cart.splice(idx, 1); updateBadge(); window.renderCart(); };
-        function updateBadge() { const b=document.getElementById('cartBadge'); b.innerText=cart.reduce((a,b)=>a+b.qty,0); b.style.opacity=cart.length>0?"1":"0"; }
+       function updateBadge() { 
+    const b = document.getElementById('cartBadge'); 
+    const badgeCount = cart.reduce((a, b) => a + b.qty, 0);
+    b.innerText = badgeCount; 
+    b.style.opacity = cart.length > 0 ? "1" : "0"; 
+
+    // --- إضافة تحديث عداد النقاط بالسلة ---
+    const earnedPointsSpan = document.getElementById('earned-points');
+    if (earnedPointsSpan) {
+        // حساب المجموع الكلي حالياً في السلة
+        const currentTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        // حسب معادلتك: كل 1 دولار (أو وحدة سعر) بتعطي نقطة (أو فيك تعدلها)
+        // لنفترض كل 1$ بيعطي نقطة وحدة:
+        const points = Math.floor(currentTotal); 
+        earnedPointsSpan.innerText = points;
+    }
+}
         
 window.renderCart = () => {
     const l = document.getElementById('cartItemsList');
@@ -1241,40 +1382,98 @@ window.renderCart = () => {
         function renderCatItems(items) { document.getElementById('catProductGrid').innerHTML = items.map(p => `<div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border"><img src="${p.img}" class="h-20 object-contain"><p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p><div class="flex justify-between items-center w-full px-1 mt-1"><span class="price-tag">${p.price}$</span><button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button></div></div>`).join(''); }
 
         window.showCatsMenu = () => { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); };
-       window.sendOrder = () => {
-    // 1. جلب الخيار اللي نقّاه الزبون (نقداً أو Wish)
-    const paymentElement = document.querySelector('input[name="payment"]:checked');
-    const paymentMethod = paymentElement ? paymentElement.value : "غير محدد";
+window.sendOrder = async () => {
+    // 1. حساب المجموع والتأكد من السلة
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (total <= 0) return alert("السلة فارغة!");
 
-    // 2. بداية الرسالة مع توضيح طريقة الدفع فوراً
-    let message = `*مرحبا Joud Group  اود طلب التالي* \n`;
-    message += `--------------------------\n`;
-    message += `💰 *طريقة الدفع:* ${paymentMethod} \n`; 
-    message += `--------------------------\n\n`;
-    
-    message += `*الأصناف المطلوبة:*\n`;
-
-    // 3. إضافة البضائع من السلة (تأكد أن اسم المتغير 'cart' صحيح عندك)
-    cart.forEach(item => {
-        message += `• ${item.name} | العدد: ${item.qty} \n`;
-    });
-
-    // 4. المجموع النهائي
-    const total = document.getElementById('totalPrice').innerText;
-    message += `\n*المجموع النهائي:* ${total}$ \n`;
-
-    // 5. إضافة ملاحظة إذا كان الدفع Wish
-    if (paymentMethod.includes("Wish")) {
-        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._`;
+    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
+    let userPhone = localStorage.getItem('userPhone');
+    if (!userPhone) {
+        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
+        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
+        localStorage.setItem('userPhone', userPhone);
     }
 
-    // 6. فتح الواتساب بالرسالة المنسقة
-    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
+    // 3. جلب طريقة الدفع المختارة
+    const paymentElement = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
+
+    // 4. تحديث النقاط في Firebase (مسار loyalty)
+    try {
+        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
+        const snapshot = await get(userLoyaltyRef);
+        const currentPoints = snapshot.val() || 0;
+        const addedPoints = Math.floor(total);
+        await set(userLoyaltyRef, currentPoints + addedPoints);
+        console.log("Points updated successfully!");
+    } catch (dbError) {
+        console.error("Error updating points:", dbError);
+    }
+
+    // 5. بناء رسالة الواتساب المنسقة
+    let message = `*طلب جديد - JOUD GROUP*\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *الزبون:* ${userPhone}\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+    message += `*الأصناف المطلوبة:*\n`;
+
+    cart.forEach((item, index) => {
+        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
+    });
+
+    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
+    
+    if (paymentMethod.includes("Wish")) {
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+    }
+
+    // 6. فتح الواتساب
+    const myNumber = "96176526242";
+    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+
+    // 7. تنظيف السلة
+    cart = [];
+    updateBadge();
+    window.renderCart();
 };
         window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
         window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
         window.onload = initApp;
+
+
+// دالة لجلب جميع نقاط الزبائن وعرضها في جدول الإدارة
+
+window.loadAdminLoyalty = () => {
+    const adminTableBody = document.getElementById('adminLoyaltyBody');
+    const loyaltyRef = ref(db, 'loyalty');
+    adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4 text-blue-500">جاري التحميل...</td></tr>';
+
+    get(loyaltyRef).then((snapshot) => {
+        adminTableBody.innerHTML = ''; 
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            Object.keys(data).forEach((phone) => {
+                const points = data[phone];
+                const row = `
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="p-3 text-sm">${phone}</td>
+                        <td class="p-3 font-black text-green-600">${points}</td>
+                        <td class="p-3">
+                            <button onclick="editUserPoints('${phone}', ${points})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">خصم نقاط ✂️</button>
+                        </td>
+                    </tr>
+                `;
+                adminTableBody.innerHTML += row;
+            });
+        } else {
+            adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4">لا يوجد زبائن</td></tr>';
+        }
+    });
+};
+
     </script>
 
 <script>
@@ -1340,32 +1539,65 @@ document.querySelectorAll('input[name="payment"]').forEach(radio => {
 });
 
 // دالة إرسال الطلب المعدلة
-window.sendOrder = () => {
-    // 1. جلب طريقة الدفع المختارة
-    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-    
-    // 2. بناء الرسالة
-    let message = `مرحبا مؤسسة الجود (JOUD GROUP) \n`;
-    message += `طلب جديد بانتظار التأكيد \n`;
-    message += `--------------------------\n`;
-    message += `طريقة الدفع: *${paymentMethod}* \n`; // هون بتطلع "نقداً عند الاستلام" أو "تحويل عبر Wish"
-    message += `--------------------------\n\n`;
-    message += `الأصناف المطلوبة:\n`;
-    
-    // 3. إضافة البضائع من السلة
-    cart.forEach(item => {
-        message += `• ${item.name} | العدد: ${item.qty} \n`;
-    });
-    
-    message += `\nالمجموع النهائي: ${document.getElementById('totalPrice').innerText}$ \n`;
-    
-    if(paymentMethod.includes("Wish")) {
-        message += `\nسأقوم بإرسال صورة إيصال التحويل فوراً.`;
+window.sendOrder = async () => {
+    // 1. حساب المجموع والتأكد من السلة
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (total <= 0) return alert("السلة فارغة!");
+
+    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
+    let userPhone = localStorage.getItem('userPhone');
+    if (!userPhone) {
+        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
+        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
+        localStorage.setItem('userPhone', userPhone);
     }
 
-    // 4. فتح الواتساب
-    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
+    // 3. جلب طريقة الدفع المختارة
+    const paymentElement = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
+
+    // 4. تحديث النقاط في Firebase (تعديل الحسبة هنا)
+    try {
+        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
+        const snapshot = await get(userLoyaltyRef);
+        const currentPoints = snapshot.val() || 0;
+        
+        // --- التعديل هنا: كل 1 دولار يعادل نقطة واحدة ---
+        const addedPoints = Math.floor(total); 
+        
+        await set(userLoyaltyRef, currentPoints + addedPoints);
+        console.log("Points updated successfully!");
+    } catch (dbError) {
+        console.error("Error updating points:", dbError);
+    }
+
+    // 5. بناء رسالة الواتساب المنسقة (نفس كودك الأصلي تماماً)
+    let message = `*طلب جديد - JOUD GROUP*\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *الزبون:* ${userPhone}\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+    message += `*الأصناف المطلوبة:*\n`;
+
+    cart.forEach((item, index) => {
+        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
+    });
+
+    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
+    
+    if (paymentMethod.includes("Wish")) {
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+    }
+
+    // 6. فتح الواتساب
+    const myNumber = "96176526242";
+    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+
+    // 7. تنظيف السلة (نفس كودك الأصلي)
+    cart = [];
+    updateBadge();
+    window.renderCart();
 };
 
 
@@ -1537,7 +1769,22 @@ window.addEventListener('load', startMainSliderAuto);
 
 
 
+// دالة لحساب النقاط بناءً على المبلغ الإجمالي
+function calculatePoints(totalAmount) {
+    const pointsPerUnit = 10; // عدد النقاط
+    const priceUnit = 100000; // لكل 100 ألف ليرة
+    return Math.floor(totalAmount / priceUnit) * pointsPerUnit;
+}
 
+// تحديث دالة updateCartUI الأصلية الموجودة في ملفك
+function updateCartUI() {
+    // ... الكود القديم الموجود عندك ...
+    
+    // حساب النقاط وعرضها
+    const total = calculateTotal(); // تأكد من استخدام دالة حساب الإجمالي لديك
+    const points = calculatePoints(total);
+    document.getElementById('earned-points').innerText = points;
+}
 
 
 

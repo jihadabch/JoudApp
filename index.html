@@ -787,14 +787,17 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 window.checkMyPoints = async () => {
     // هيدا الكود بيشتغل لما تطلع النتيجة للزبون
 const whatsappBtn = document.getElementById('whatsappExchangeBtn');
-const points = 60; // هون بكون متغير النقاط اللي عندك بالكود
+const points = 64; // سيتم جلب هذا الرقم تلقائياً من نظامك
 
 if (points > 0) {
-    const phoneNumber = "961xxxxxxx"; // حط رقمك هون مع رمز الدولة
-    const message = `مرحبا، معي ${points} نقطة وبدي استبدلن.`;
+    // ملاحظة هامة: يجب أن يبدأ الرقم برمز الدولة بدون "00" أو "+" 
+    // مثال: إذا كان رقمك 76526242 في لبنان، نكتبه: 96176526242
+    const phoneNumber = "96176526242"; 
+    const message = `مرحبا "JOUD GROUP"، رصيد نقاطي هو ${points} نقطة وأرغب في استبدالها فوراً.`;
     
+    // استخدام الرابط العالمي الموثوق (https://wa.me/)
     whatsappBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    whatsappBtn.style.display = "inline-block"; // منخليه يظهر بس لما يكون في نقاط
+    whatsappBtn.style.display = "inline-block"; 
 }
     const phone = document.getElementById('checkPhoneInput').value;
     const resultDiv = document.getElementById('myPointsResult');

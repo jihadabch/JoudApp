@@ -455,6 +455,46 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 
     <main id="homePage" class="page active-page px-4 -mt-10">
         <br>
+
+<br>
+<div id="tutorial-section" class="grid grid-cols-3 gap-3 p-4 bg-gray-50">
+    </div>
+
+<style>
+    .card-3d {
+        perspective: 1000px;
+    }
+    .card-inner {
+        background: white;
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #f0f0f0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-inner:active {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .card-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 8px;
+        filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+    }
+    .card-text {
+        font-size: 11px;
+        font-weight: bold;
+        color: #374151;
+        line-height: 1.2;
+    }
+</style>
         <br>
         <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic"></h2>
 <div class="special-expand-container" id="topExpandableSection">
@@ -520,6 +560,7 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     <p class="text-[9px] text-gray-500 mt-2 font-bold">* سيتم تطبيق النسبة على جميع المنتجات المضافة في النظام.</p>
 </div>
         <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
+        
         <div class="space-y-6 pb-40 text-right">
             <div class="bg-yellow-50 p-5 rounded-[2rem] border-2 border-yellow-200 mb-6 text-right">
     <p class="font-black text-sm mb-3 text-yellow-700">🔄 صور السلايدر التلقائي الجديد (5 صور)</p>
@@ -1477,6 +1518,39 @@ window.loadAdminLoyalty = () => {
         }
     });
 };
+
+
+// هيدي المصفوفة فيك تخليها تاخد بياناتها من Firebase بمركز الإدارة
+const tutorialSteps = [
+    { 
+        title: "اختر أصنافك", 
+        img: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png" // فيك تحط رابط صورتك من مركز الإدارة
+    },
+    { 
+        title: " أدخل رقمك لمتابعة نقاطك", 
+        img: "https://cdn-icons-png.flaticon.com/512/3616/3616215.png" 
+    },
+    { 
+        title: "اطلب واتساب", 
+        img: "https://cdn-icons-png.flaticon.com/512/733/733585.png" 
+    }
+];
+
+function renderTutorial() {
+    const container = document.getElementById('tutorial-section');
+    container.innerHTML = tutorialSteps.map(step => `
+        <div class="card-3d">
+            <div class="card-inner">
+                <img src="${step.img}" class="card-img" alt="${step.title}">
+                <p class="card-text">${step.title}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// تشغيل الدالة عند تحميل الصفحة
+renderTutorial();
+
 
     </script>
 

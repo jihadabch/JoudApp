@@ -827,40 +827,34 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 };
 
 window.checkMyPoints = async () => {
-    // هيدا الكود بيشتغل لما تطلع النتيجة للزبون
-const whatsappBtn = document.getElementById('whatsappExchangeBtn');
-const points = 64; // سيتم جلب هذا الرقم تلقائياً من نظامك
-
-if (points > 0) {
-    // ملاحظة هامة: يجب أن يبدأ الرقم برمز الدولة بدون "00" أو "+" 
-    // مثال: إذا كان رقمك 76526242 في لبنان، نكتبه: 96176526242
-    const phoneNumber = "96176526242"; 
-    const message = `مرحبا "JOUD GROUP"، رصيد نقاطي هو ${points} نقطة وأرغب في استبدالها فوراً.`;
-    
-    // استخدام الرابط العالمي الموثوق (https://wa.me/)
-    whatsappBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    whatsappBtn.style.display = "inline-block"; 
-}
     const phone = document.getElementById('checkPhoneInput').value;
     const resultDiv = document.getElementById('myPointsResult');
     const inputDiv = document.getElementById('loyaltyCheckSection');
     const display = document.getElementById('userPointsDisplay');
+    const whatsappBtn = document.getElementById('whatsappExchangeBtn');
 
     if (!phone) return alert("يرجى إدخال رقم الهاتف أولاً");
 
     try {
-        // استيراد الدوال اللازمة من Firebase (تأكد أنها معرفة مسبقاً في الـ script module)
         const { getDatabase, ref, get } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
         const db = getDatabase();
-        
         const userRef = ref(db, 'loyalty/' + phone);
         const snapshot = await get(userRef);
 
         if (snapshot.exists()) {
-            display.innerText = snapshot.val();
+            const actualPoints = snapshot.val();
+            display.innerText = actualPoints;
+
+            // تحديث رابط الواتساب بالنقاط الحقيقية من الداتابيز
+            const myNumber = "96176526242";
+            const message = `مرحبا "JOUD GROUP"، رصيد نقاطي الحقيقي هو ${actualPoints} نقطة وأرغب في استبدالها.`;
+            whatsappBtn.href = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+            whatsappBtn.style.display = "inline-block";
+
         } else {
             display.innerText = "0";
-            alert("هذا الرقم غير مسجل في نظام النقاط بعد. ابدأ الطلب لتجميع النقاط!");
+            whatsappBtn.style.display = "none";
+            alert("هذا الرقم غير مسجل في نظام النقاط بعد.");
         }
 
         inputDiv.classList.add('hidden');

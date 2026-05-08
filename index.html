@@ -1518,23 +1518,26 @@ window.loadAdminLoyalty = () => {
 const tutorialSteps = [
     { 
         title: "اختر أصنافك", 
-        img: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png" // فيك تحط رابط صورتك من مركز الإدارة
+        img: "https://cdn.dribbble.com/userupload/8913721/file/original-27f29cc8cf3843454340ffa980be35f5.gif",
+        action: "swPage('cats')" // تفتح صفحة الأقسام
     },
     { 
-        title: " أدخل رقمك لمتابعة نقاطك", 
-        img: "https://cdn-icons-png.flaticon.com/512/3616/3616215.png" 
+        title: "أدخل رقمك لمتابعة نقاطك", 
+        img: "https://cdn.pixabay.com/animation/2023/11/29/03/39/03-39-03-19_512.gif",
+        action: "swPage('contact')" // تفتح صفحة التواصل والنقاط
     },
     { 
         title: "اطلب واتساب", 
-        img: "https://cdn-icons-png.flaticon.com/512/733/733585.png" 
+        img: "https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyZTIwNGw1N3R0c3ZlYnNwMnJ1N2JudmxobDN2OHZzdHRucTRxcjY3diZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/OrNkIcgmjBQeFM1vEs/giphy.gif", 
+        action: "window.open('https://wa.me/96176526242', '_blank')" // تفتح الواتساب مباشرة
     }
 ];
 
 function renderTutorial() {
     const container = document.getElementById('tutorial-section');
     container.innerHTML = tutorialSteps.map(step => `
-        <div class="card-3d">
-            <div class="card-inner">
+        <div class="card-3d" onclick="${step.action}" style="cursor: pointer;">
+            <div class="card-inner hover:bg-green-50 transition-colors duration-300">
                 <img src="${step.img}" class="card-img" alt="${step.title}">
                 <p class="card-text">${step.title}</p>
             </div>

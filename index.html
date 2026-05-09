@@ -2072,3 +2072,2078 @@ setInterval(() => {
 
 
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+<meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JOUD GROUP | مؤسسة جود</title>
+
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/000000/j.png">  
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JOUD GROUP">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/j.png">
+
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+  <style>
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none; /* يمنع ظهور القائمة عند الضغط المطول */
+        -webkit-user-select: none;   /* يمنع تحديد النص الذي يفعّل بحث جوجل */
+        user-select: none;
+        touch-action: manipulation;
+    }
+
+    /* السماح بتحديد النص فقط داخل خانات البحث أو الإدخال إذا وجدت */
+    input, textarea {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background-color: #e4e8ee; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .page { display: none; min-height: 100vh; padding-bottom: 120px; }
+        .active-page { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        header { background: linear-gradient(135deg, rgba(136, 172, 134, 0.911), rgba(255, 255, 255, 0.5));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom-left-radius: 250px; border-bottom-right-radius: 250px; padding: 40px 20px 60px; text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);}
+        
+        .slider-container { width: 100%; height: 180px; overflow: hidden; border-radius: 25px; background: #fff; border: 1px solid #e2e8f0; position: relative; }
+        .slider-wrapper { display: flex; height: 100%; transition: transform 0.5s ease; width: 100%; }
+        .slide { min-width: 100%; width: 100%; height: 100%; object-fit: contain; background: #f8fafc; }
+    
+        .box-3d-container { display: flex; gap: 12px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
+        .box-3d { min-width: 100px; height: 100px; background: white; border-radius: 5px; flex-shrink: 0; border: 2px solid rgb(98, 98, 223);box-shadow: #000; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .box-3d img { width: 75%; height: 75%; object-fit: contain; }
+
+       /* تصميم شريط التنقل الزجاجي */
+nav { 
+    position: fixed !important; 
+    bottom: 20px !important; 
+    left: 10px !important; 
+    right: 10px !important; 
+    height: 75px !important; 
+    background: transparent !important; /* شلنا الخلفية الموحدة */
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: space-around !important; 
+    z-index: 5000 !important; 
+    border: none !important; 
+    box-shadow: none !important;
+}
+
+/* تصميم كل حبة "زجاج" لحالها */
+.nav-item { 
+    cursor: pointer; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    color: #475569; 
+    background: rgba(255, 255, 255, 0.4) !important; /* زجاج شفاف */
+    backdrop-filter: blur(8px) !important; /* تأثير التغبيش */
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* حفة الزجاج */
+    border-radius: 30px !important; 
+    width: 37% !important; /* ليتوزعوا بالتساوي */
+    height: 65px !important; 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* لما تكون الكبسة فعالة (اللون الأخضر) */
+.nav-item.active { 
+    background: rgba(22, 101, 52, 0.2) !important; 
+    border-color: #166534 !important; 
+    color: #166534 !important; 
+    transform: translateY(-8px) !important; /* بترتفع شوي لفوق */
+}
+
+/* تعديل للوضع الداكن (Dark Mode) */
+.dark-mode .nav-item { 
+    background: rgba(30, 41, 59, 0.5) !important; 
+    border-color: rgba(255, 255, 255, 0.1) !important; 
+    color: #cbd5e1 !important;
+}
+.dark-mode .nav-item.active { 
+    background: rgba(74, 222, 128, 0.1) !important; 
+    border-color: #4ade80 !important; 
+    color: #4ade80 !important; 
+}
+        #cartBadge { position: absolute; top: -5px; right: 15%; background: #ef4444; color: white; font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; border: 2px solid white; }
+        
+        /* التعديل هنا لضمان ظهور الرسالة بشكل صحيح */
+        #welcomeModal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        
+        .slider { width: 100%; overflow: hidden; padding: 20px 0; }
+        .slides { display: flex; gap: 15px; transform: translateX(0px); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; touch-action: pan-y; }
+        
+        .card { flex: 0 0 auto; width: 250px; height: 180px; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: white; display: flex; align-items: center; justify-content: center; }
+        .card img { width: 100%; height: 100%; object-fit: contain; background: white; padding: 5px; }
+        
+        .price-tag { font-size: 13px; font-weight: 900; color: #15803d; }
+        .add-btn { background-color: #166534; color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; }
+        .toast-msg {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(22, 101, 52, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 5000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { bottom: 80px; opacity: 0; }
+    to { bottom: 100px; opacity: 1; }
+}
+
+.skeleton {
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 15px;
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+    to { background-position-x: -200%; }
+}
+
+/* تأثير الضغط على الأزرار */
+        button:active, .nav-item:active, .card:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+
+        /* تأثير اللمعان عند مرور اليد (اختياري للجمالية) */
+        .add-btn:active {
+            background-color: #14532d !important;
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
+        }
+
+
+#backToTop {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: rgba(22, 101, 52, 0.8);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* شاشة الترحيب */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .splash-logo {
+            width: 100px;
+            height: 100px;
+            background: #f0fdf4;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 50px; font-weight: 900; color: #166534;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: pulse-logo 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+
+
+/* هول الألوان بس يشتغل الدارك مود */
+body.dark-mode { background-color: #0f172a !important; color: white !important; }
+.dark-mode header { background: #000000 !important; }
+.dark-mode .bg-white { background-color: #1e293b !important; color: white !important; }
+.dark-mode .text-green-900, .dark-mode .text-green-800 { color: #4ade80 !important; }
+.dark-mode .product-card, .dark-mode .box-3d, .dark-mode nav { background-color: #1e293b !important; border-color: #334155 !important; }
+.dark-mode input { background-color: #0f172a !important; color: white !important; border: 1px solid #334155 !important; }
+
+
+/* ستايل الكبسة */
+#modeSwitch { background-color: #cbd5e1; border: 1px solid #94a3b8; }
+.dark-mode #modeSwitch { background-color: #166534; border-color: #4ade80; }
+.dark-mode #switchCircle { transform: translateX(-28px); } /* بيتحرك لليسار لأن الصفحة RTL */
+
+/* توضيح نصوص الأقسام في الدارك مود */
+.dark-mode #catsMenu div { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
+.dark-mode .nav-item { color: #94a3b8; }
+.dark-mode .nav-item.active { color: #4ade80 !important; }
+
+
+/* حل مشكلة اختفاء النصوص في الوضع الليلي */
+.dark-mode .product-card, 
+.dark-mode .bg-white, 
+.dark-mode .card,
+.dark-mode #cartItemsList > div {
+    background-color: #ffffff !important; /* لون خلفية غامق */
+    color: #000000 !important;           /* لون نص أبيض */
+    border-color: #334155 !important;    /* لون حواف متناسق */
+}
+
+/* تعديل نصوص السلة والمنتجات بشكل خاص */
+.dark-mode .product-card h3, 
+.dark-mode .product-card p,
+.dark-mode #cartItemsList div,
+.dark-mode #cartItemsList span,
+.dark-mode .text-gray-800 {
+    color: #000000 !important; /* لون نص فاتح جداً قريب للأبيض */
+}
+
+/* تمييز سعر المنتج في الوضع الليلي */
+.dark-mode .price-tag {
+    color: #4ade80 !important; /* لون أخضر فاتح للسعر ليبرز */
+}
+
+/* تعديل خلفية خانات الإدخال في لوحة الإدارة */
+.dark-mode input, .dark-mode select, .dark-mode textarea {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border: 1px solid #475569 !important;
+}
+
+/* تصميم قسم العروض المتمددة الجديد في الأعلى */
+.special-expand-container {
+    display: flex;
+    width: 100%;
+    height: 280px; /* طول القسم */
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.special-expand-card {
+    position: relative;
+    background-size: contain; /* هيدي أهم كلمة لحتى تصغر الصورة وتطلع كاملة */
+    background-position: center;
+    background-repeat: no-repeat; /* لضمان عدم تكرار الصورة */
+    background-color: #fff; /* خلفية بيضاء لتعبئة الفراغ إذا كانت الصورة أصغر من الكرت */
+    border-radius: 20px;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.special-expand-card.active {
+    flex: 5; /* التمدد عند النقر */
+}
+
+.special-expand-card .card-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.85); /* خلفية بيضاء شفافة لتناسب هويتك */
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 15px;
+    text-align: right;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.special-expand-card.active .card-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fav-heart-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+    border: none;
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; /* بكون مخفي بالأساس */
+    margin-top: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+       /* إضافة ستايل الكارد الجديد المستوحى من الفيديو */
+        .dynamic-slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
+            padding: 20px;
+            scrollbar-width: none;
+        }
+        .dynamic-slider-container::-webkit-scrollbar { display: none; }
+
+        .dynamic-card {
+            flex: 0 0 85%;
+            height: 400px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease;
+        }
+        .dynamic-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .dynamic-card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px;
+            color: white;
+            text-align: right;
+        }
+        .dynamic-card-title { font-size: 24px; font-weight: 900; margin-bottom: 5px; }
+        .dynamic-card-price { font-size: 18px; color: #4ade80; font-weight: bold; }
+        
+        /* تأثير عند التمرير */
+        .dynamic-card:active { transform: scale(0.98); }
+
+        /* (باقي الستايلات الخاصة بك تبقى كما هي) */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background-color: #e4e8ee; }
+        .page { display: none; min-height: 100vh; padding-bottom: 120px; }
+        .active-page { display: block; }
+
+
+.dynamic-slider-container {
+    scroll-behavior: smooth; /* تجعل الحركة ناعمة */
+}
+
+
+
+
+
+    </style>
+    
+</head>
+<body>
+<div id="splash-screen">
+    <div class="splash-logo">J</div>
+    <h1 class="mt-4 text-2xl font-black text-green-800">JOUD GROUP</h1>
+    <p class="text-gray-400 text-sm mt-2">جاري التحميل...</p>
+</div>
+    <div id="welcomeModal">
+        <div class="bg-white w-[85%] p-6 rounded-[2.5rem] text-center shadow-2xl">
+            <img src="https://img.icons8.com/color/96/000000/j.png" class="mx-auto mb-4">
+            <h2 class="text-2xl font-black text-green-800 mb-2 italic">تثبيت JOUD GROUP</h2>
+            
+            <div id="androidInfo">
+                <p class="text-gray-600 text-sm mb-6 font-bold">ثبت التطبيق الآن على هاتفك لسهولة الطلب والمتابعة</p>
+                <button id="installBtn" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black mb-3">تثبيت الآن</button>
+            </div>
+
+            <div id="iosInfo" style="display: none;">
+                <p class="text-gray-600 text-sm mb-4 font-bold">لتثبيت التطبيق على الأيفون:</p>
+                <div class="bg-gray-50 p-4 rounded-2xl border text-right text-xs mb-4">
+                    <p class="mb-2">1️⃣ اضغط على زر المشاركة 📤 أسفل الشاشة.</p>
+                    <p>2️⃣ اختر <b>"إضافة إلى الشاشة الرئيسية"</b> أو <b>"Add to Home Screen"</b>.</p>
+                </div>
+            </div>
+
+            <button onclick="closeModal()" class="text-gray-400 text-xs underline">استمرار في الموقع</button>
+        </div>
+    </div>
+
+<header onclick="handleSecretTap()" class="relative overflow-hidden">
+    <div style="position:absolute; top:-20px; right:-20px; font-size:150px; font-weight:900; color:rgba(22, 101, 52, 0.05); pointer-events:none; font-style:bold;">J</div>
+    
+    <div class="flex justify-center my-2 relative z-10">
+        
+        <div style="width:50px; height:50px; background:white; border:1px solid #ddd; border-radius:50%;border-style: outset; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+            <span style="font-size:36px; font-weight:inherit; color:#000; font-family:sans-serif; margin-top:-2px;">J</span>
+        </div>
+    </div>
+<h1 class="text-3xl font-black text-green-900 italic relative z-10">JOUD GROUP</h1>
+    <p class="text-[10px] font-black text-green-700 italic relative z-10">مؤسسة العبوشة لتجارة البلاستيك وتكرير المياه</p>
+    <div class="flex justify-center mt-3 relative z-10">
+    <div onclick="toggleDarkMode()" class="w-14 h-7 bg-gray-300 dark-bg-green rounded-full p-1 cursor-pointer transition-all duration-300 relative" id="modeSwitch">
+        <div id="switchCircle" class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center text-[10px]">
+            🌙
+        </div>
+    </div>
+    
+</div>
+<div class="lang-container">
+    <div class="lang-buttons">
+        <button onclick="changeToEnglish()" class="btn-en">English</button>
+        <button onclick="window.location.reload()" class="btn-ar">العربية</button>
+    </div>
+    <div id="google_translate_element" style="position:absolute; visibility:hidden;"></div>
+</div>
+
+<style>
+    /* تصغير الحاوية والأزرار */
+    .lang-container {
+        text-align: center;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0);
+        border-radius: 120px;
+        margin: 10px auto;
+        max-width: 300px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0);
+    }
+
+    .lang-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .lang-buttons button {
+        padding: 6px 15px;
+        font-size: 13px; /* تصغير الخط */
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        border: 1px solid #ddd;
+    }
+
+    .btn-en { background: #fff; color: #007bff; border-color: #007bff !important; }
+    .btn-en:hover { background: #007bff; color: #fff; }
+
+    .btn-ar { background: #28a745; color: white; border: none !important; }
+    .btn-ar:hover { background: #218838; }
+
+    /* --- كود سحري لإخفاء إزعاج جوجل --- */
+    
+    /* إخفاء الشريط العلوي */
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+
+    /* إخفاء الرسالة المنبثقة (Tooltip) التي تظهر عند التأشير */
+    .goog-te-balloon-frame, #goog-gt-tt, .goog-te-balloon-direct-wrapper { 
+        display: none !important; 
+    }
+    .goog-text-highlight { 
+        background: none !important; 
+        box-shadow: none !important; 
+    }
+
+    /* إخفاء شعار جوجل وكلمة "Powered by" */
+    .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+    .goog-te-gadget .goog-te-combo { color: #333 !important; font-size: 12px !important; display: none; }
+    #google_translate_element { height: 0; overflow: hidden; }
+</style>
+
+
+</header>
+
+    <main id="homePage" class="page active-page px-4 -mt-10">
+        <br>
+        <br>
+        <div id="tutorial-section" class="grid grid-cols-3 gap-3 p-4 bg-gray-50">
+    </div>
+    <br>
+    <div class="dynamic-slider-container" id="dynamicSlider">
+        </div>
+<br>
+
+
+<style>
+    .card-3d {
+        perspective: 1000px;
+    }
+    .card-inner {
+        background: white;
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #f0f0f0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-inner:active {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .card-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 8px;
+        filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+    }
+    .card-text {
+        font-size: 11px;
+        font-weight: bold;
+        color: #374151;
+        line-height: 1.2;
+    }
+</style>
+        
+
+        <br>
+        <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">🌟 مياه الجود 💧 الجودة التي تثق بها</h2>
+<div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
+    <div class="slider-container">
+        <div id="autoSlider" class="slider-wrapper"></div>
+    </div>
+</div>
+        
+        <h2 class="text-right px-2 mt-4 mb-1 font-black text-green-800 text-xs italic opacity-80">🔥 أقوى العروض</h2>
+        <div class="slider"><div class="slides" id="slides"></div></div>
+                <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">✨  بضائعك اليومية</h2>
+        <div class="box-3d-container" id="boxes3D"></div>
+       <div class="bg-white/60 backdrop-blur-md p-2 rounded-2xl shadow-sm border border-white/40 my-6 flex items-center px-4">
+            <input type="text" id="smartSearch" onkeyup="doSearch()" placeholder="🔍 ابحث عن صنف..." class="w-full p-2 outline-none text-sm font-bold bg-transparent text-right">
+        </div>
+        <div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
+            <div class="slider-container"><div id="mainSlider" class="slider-wrapper"></div></div>
+        </div>
+
+        <h2 class="w-full text-right px-2 mt-8 mb-3 font-black text-green-900 text-sm italic">🛍️ تسوق من منتجاتنا</h2>
+        <div id="homeProductGrid" class="grid grid-cols-2 gap-4"></div>
+    </main>
+<main id="wishlistPage" class="page px-6 pt-10">
+    <h2 class="text-2xl font-black mb-6 text-center text-red-600 italic underline">المفضلة ❤️</h2>
+    <div id="wishlistItemsList" class="grid grid-cols-2 gap-4 text-right"></div>
+    <div id="wishlistEmpty" class="text-center py-20 hidden">
+        <p class="text-gray-400 font-bold">قائمة المفضلة فارغة حالياً</p>
+    </div>
+</main>
+    <main id="adminPage" class="page px-6 pt-10 bg-white">
+            <div class="bg-purple-100 p-5 rounded-[2rem] border-2 border-purple-300 mb-6 text-right">
+        <p class="font-black text-sm mb-3 text-purple-800">🎬 إدارة قسم الكروت الديناميكية (3 كروت)</p>
+        <div id="adminDynamicContainer">
+            <script>
+                for(let i=1; i<=3; i++) {
+                    document.write(`
+                        <div class="bg-white p-3 rounded-xl border mb-3">
+                            <input type="text" id="dyn${i}_link" placeholder="رابط الصورة الحية ${i}" class="w-full p-2 border rounded mb-1 text-xs">
+                            <input type="text" id="dyn${i}_title" placeholder="العنوان العريض" class="w-full p-2 border rounded mb-1 text-xs">
+                            <input type="text" id="dyn${i}_price" placeholder="السعر أو الوصف" class="w-full p-2 border rounded text-xs">
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
+        <div id="adminSection" style="margin-top: 50px; padding: 20px; background: #f9f9f9; border-radius: 10px;">
+    <h3>📊 إدارة نقاط الزبائن (JOUD GROUP)</h3>
+    <button onclick="loadAdminLoyalty()" style="padding: 10px 20px; background: #3498db; color: white; border: none; cursor: pointer;">
+        تحديث القائمة الآن
+    </button>
+    
+    <table style="width: 100%; margin-top: 20px; border-collapse: collapse; text-align: center;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 10px;">رقم الهاتف</th>
+                <th style="padding: 10px;">إجمالي النقاط</th>
+            </tr>
+        </thead>
+        <tbody id="adminLoyaltyBody">
+    </tbody>
+            </tbody>
+    </table>
+</div>
+        <div class="bg-red-50 p-4 rounded-[2rem] border-2 border-red-200 mb-6 text-right" dir="rtl">
+    <p class="font-black text-sm mb-3 text-red-700">⚡ تحديث جماعي للأسعار (كل الأصناف)</p>
+    <div class="flex items-center gap-2 mb-3">
+        <input type="number" id="pricePercent" placeholder="النسبة %" class="w-1/2 p-2 border rounded-xl text-center font-bold">
+        <span class="font-bold text-xs">%</span>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+        <button onclick="massPriceUpdate('increase')" class="bg-green-600 text-white py-2 rounded-lg font-black text-xs">➕ زيادة الأسعار</button>
+        <button onclick="massPriceUpdate('decrease')" class="bg-red-600 text-white py-2 rounded-lg font-black text-xs">➖ إنقاص الأسعار</button>
+    </div>
+    <p class="text-[9px] text-gray-500 mt-2 font-bold">* سيتم تطبيق النسبة على جميع المنتجات المضافة في النظام.</p>
+</div>
+        <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
+        
+        <div class="space-y-6 pb-40 text-right">
+            <div class="bg-yellow-50 p-5 rounded-[2rem] border-2 border-yellow-200 mb-6 text-right">
+    <p class="font-black text-sm mb-3 text-yellow-700">🔄 صور السلايدر التلقائي الجديد (5 صور)</p>
+    <div class="grid grid-cols-1 gap-2">
+        <input id="as1" placeholder="رابط الصورة 1" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as2" placeholder="رابط الصورة 2" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as3" placeholder="رابط الصورة 3" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as4" placeholder="رابط الصورة 4" class="p-2 text-xs border rounded-lg bg-white">
+        <input id="as5" placeholder="رابط الصورة 5" class="p-2 text-xs border rounded-lg bg-white">
+    </div>
+</div>
+            <div class="bg-blue-50 p-5 rounded-[2rem] border-2 border-blue-100">
+      
+<p class="font-black text-sm mb-3 text-blue-700">🖼️ صور السلايدر العلوي (5 عروض مع السعر)</p>
+<div id="adminCardsContainer" class="space-y-3 mb-6">
+    <script>
+        for(let i=1; i<=5; i++) {
+            document.write(`
+                <div class="bg-gray-100 p-2 rounded-lg border mb-2">
+                    <input type="text" id="c${i}_link" placeholder="رابط صورة العرض ${i}" class="w-full p-2 border rounded mb-1 text-xs">
+                    <div class="flex gap-1">
+                        <input type="text" id="c${i}_text" placeholder="اسم العرض" class="w-2/3 p-2 border rounded text-xs bg-white text-right">
+                        <input type="text" id="c${i}_price" placeholder="السعر $" class="w-1/3 p-2 border rounded text-xs bg-white text-red-600 font-bold text-center">
+                    </div>
+                </div>
+            `);
+        }
+    </script>
+</div>
+                <hr class="my-4">
+                <p class="font-black text-sm mb-3">🖼️ صور السلايدر الثاني (5 خانات)</p>
+                <div class="grid grid-cols-1 gap-2">
+                    <input id="s1" placeholder="سلايدر 1" class="p-2 text-xs border rounded-lg"><input id="s2" placeholder="سلايدر 2" class="p-2 text-xs border rounded-lg">
+                    <input id="s3" placeholder="سلايدر 3" class="p-2 text-xs border rounded-lg"><input id="s4" placeholder="سلايدر 4" class="p-2 text-xs border rounded-lg">
+                    <input id="s5" placeholder="سلايدر 5" class="p-2 text-xs border rounded-lg">
+                </div>
+
+<p class="font-black text-sm mb-3 text-blue-700">📦 المربعات (البضائع اليومية - 10 خانات)</p>
+<div id="adminBoxesContainer" class="grid grid-cols-1 gap-3 mb-6 text-right">
+    <script>
+        for(let i=1; i<=10; i++) {
+            document.write(`
+                <div class="bg-white p-3 rounded-xl border-2 border-green-50 shadow-sm mb-2">
+                    <span class="text-xs font-bold text-green-700">📦 مربع ${i}</span>
+                    <input type="text" id="b${i}_link" placeholder="رابط صورة المنتج" class="w-full p-2 border rounded mb-1 text-xs">
+                    <div class="flex gap-1">
+                        <input type="text" id="b${i}_desc" placeholder="اسم الصنف" class="w-2/3 p-2 border rounded text-xs bg-gray-50">
+                        <input type="text" id="b${i}_price" placeholder="السعر $" class="w-1/3 p-2 border rounded text-xs bg-red-50 text-red-600 font-bold text-center">
+                    </div>
+                </div>
+            `);
+        }
+    </script>
+</div>
+                </div>
+                <button onclick="updateUI()" class="w-full bg-blue-600 text-white mt-4 py-4 rounded-xl font-black shadow-lg">حفظ الصور والواجهة</button>
+            </div>
+
+            <div class="bg-gray-50 p-5 rounded-[2rem] border-2">
+                <p class="font-black text-sm mb-3">➕ إضافة صنف جديد</p>
+                <input id="pName" placeholder="اسم المنتج" class="w-full p-3 mb-2 border rounded-xl text-right">
+                <input id="pPrice" placeholder="السعر" class="w-full p-3 mb-2 border rounded-xl text-right">
+                <input id="pImg" placeholder="رابط صورة المنتج" class="w-full p-3 mb-2 border rounded-xl text-right">
+               <select id="pCat" class="w-full p-3 mb-4 border rounded-xl text-right">
+    <option value="بلاستيك">بلاستيك</option>
+    <option value="ورق">ورق</option>
+    <option value="نايلون">نايلون</option>
+    <option value="كرتون">كرتون</option> <option value="المنيوم">ألمنيوم</option> <option value="أخرى">أخرى</option>
+</select>
+                <button type="button" onclick="saveProduct()" class="w-full bg-black text-white py-4 rounded-xl font-black italic">نشر المنتج</button>
+            </div>
+            <div id="adminProductList" class="space-y-2"></div>
+            <button onclick="swPage('home')" class="w-full text-gray-400 font-bold py-4">← خروج</button>
+        </div>
+    </main>
+
+    <main id="catsPage" class="page px-6 pt-10">
+        <p class="text-center text-gray-500 font-bold text-xs mb-6 italic opacity-75">✨ اختر الفئة التي تبحث عنها لبدء الطلب</p>
+        <div id="catsMenu">
+            <h2 class="text-xl font-black mb-8 text-center text-green-900 italic underline">الأقسام</h2>
+            <div class="grid grid-cols-2 gap-4 text-center">
+    <div onclick="filterByCat('بلاستيك')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🥤 بلاستيك</div>
+    <div onclick="filterByCat('ورق')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">📄 ورق</div>
+    <div onclick="filterByCat('نايلون')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🛍️ نايلون</div>
+    
+    <div onclick="filterByCat('كرتون')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">📦 كرتون</div>
+    <div onclick="filterByCat('المنيوم')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🍱 ألمنيوم</div>
+    
+    <div onclick="filterByCat('أخرى')" class="bg-white p-6 rounded-[2.2rem] border font-black shadow-sm">🔘 أخرى</div>
+</div>
+            <div class="flex flex-col items-center justify-center mt-16 mb-10 opacity-20 group">
+    <span class="text-8xl font-black text-green-900 italic select-none">J</span>
+    <p class="text-xs text-green-800 font-bold tracking-[0.3em] uppercase mt-2">Joud Group</p>
+</div>
+        </div>
+        <div id="catItemsSection" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="showCatsMenu()" class="text-red-500 font-bold">← رجوع</button>
+                <div class="bg-white p-1 rounded-full border flex items-center px-3 w-2/3 shadow-sm">
+                    <input type="text" id="catSearch" onkeyup="doCatSearch()" placeholder="ابحث في هذا القسم..." class="w-full text-xs p-1 outline-none text-right">
+                </div>
+            </div>
+            <div id="catProductGrid" class="grid grid-cols-2 gap-4"></div>
+        </div>
+    </main>
+
+    <main id="cartPage" class="page px-6 pt-10">
+        <div class="flex justify-between items-center mt-2 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+    <span class="text-sm font-bold text-yellow-700">نقاط المكافأة لهذا الطلب:</span>
+    <span id="earned-points" class="text-lg font-black text-yellow-800">0</span>
+</div>
+<br>
+        <h2 class="text-2xl font-black mb-6 text-center text-green-900 italic underline">سلتك 🛒</h2>
+        <div id="cartItemsList" class="space-y-4 mb-10 text-right"></div>
+        <div id="cartTotal" class="bg-white p-6 rounded-[2.5rem] text-center font-black shadow-xl border-2 border-green-100 hidden">
+            <p class="text-lg">المجموع: <span id="totalPrice" class="text-green-700">0</span>$</p>
+
+<div class="p-4 bg-gray-50 rounded-2xl mb-4 border border-gray-200 text-right" dir="rtl">
+    <p class="text-sm font-bold mb-3 text-gray-700">اختر طريقة الدفع:</p>
+    
+    <div class="flex gap-3">
+        <label class="flex-1 cursor-pointer">
+            <input type="radio" name="payment" value="نقداً عند الاستلام" checked class="hidden peer">
+            <div class="peer-checked:border-blue-600 peer-checked:bg-blue-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full">
+                <span class="block text-xl mb-1">💵</span>
+                <span class="text-[10px] font-bold block">نقداً عند الاستلام</span>
+            </div>
+        </label>
+
+    <label class="flex-1 cursor-pointer">
+    <input type="radio" name="payment" value="تحويل عبر Wish Money" class="hidden peer" id="wishOption">
+    <div class="peer-checked:border-orange-500 peer-checked:bg-orange-50 border-2 border-transparent bg-white p-3 rounded-xl text-center shadow-sm transition-all h-full flex flex-col items-center justify-center relative">
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1qM7bROOZhnWkWDt6nSjJfmaK8zYlVdxMsg&s" 
+             class="w-10 mb-1 pointer-events-none select-none" 
+             alt="Wish" 
+             style="pointer-events: none;">
+             
+        <span class="text-[10px] font-bold block pointer-events-none">Wish Money</span>
+    </div>
+</label>
+
+    <div id="wishDetails" class="hidden mt-4 p-3 bg-orange-500 text-white rounded-xl text-center shadow-lg">
+        <p class="text-[10px] font-bold">يرجى تحويل المبلغ إلى حسابنا:</p>
+        <p class="text-lg font-black tracking-widest">30618616-03</p>
+        <p class="text-[10px]">الاسم: Jihad Abbouche</p>
+    </div>
+</div>
+            
+            <button onclick="sendOrder()" class="w-full bg-green-700 text-white mt-4 py-4 rounded-2xl font-black animate-pulse">إرسال الطلب واتساب</button>
+        </div>
+    </main>
+
+    <main id="contactPage" class="page px-6 pt-10 text-right">
+        <div class="px-4 py-2 text-center">
+            <div class="bg-white p-5 rounded-[2rem] border-2 border-yellow-400 mb-6 text-right shadow-md">
+    <p class="font-black text-sm mb-3 text-yellow-700"> 🏆 رصيد النقات (كل 1$ = 1 نقطة و كل 100 نقطة بتعطيك خصم بقيمة 3$ على طلبيتك القادمة) </p>
+    <div id="loyaltyCheckSection">
+        <p class="text-[10px] text-gray-500 mb-2">أدخل رقم هاتفك لمعرفة رصيد نقاطك الحالي:</p>
+        <div class="flex gap-2">
+            <input type="number" id="checkPhoneInput" placeholder="76XXXXXX" class="w-2/3 p-2 border rounded-xl text-center font-bold text-sm">
+            <button onclick="checkMyPoints()" class="w-1/3 bg-yellow-500 text-white py-2 rounded-xl font-black text-[10px]">عرض الرصيد</button>
+        </div>
+    </div>
+    <div id="myPointsResult" class="hidden text-center py-2">
+        <p class="text-xs font-bold text-gray-600">رصيدك الحالي هو:</p>
+        <p class="text-2xl font-black text-green-700"><span id="userPointsDisplay">0</span> نقطة</p>
+        <button onclick="document.getElementById('loyaltyCheckSection').classList.remove('hidden'); document.getElementById('myPointsResult').classList.add('hidden');" class="text-[15px] text-blue-500 underline mt-2">فحص رقم آخر</button>
+        <br>
+            <a id="whatsappExchangeBtn" href="#" class="btn-whatsapp" target="_blank">
+    استبدل نقاطي عبر واتساب
+</a>
+    </div>
+
+</div>
+    <p class="text-sm font-bold text-gray-700 leading-relaxed">
+        مؤسسة العبوشة توفّر مجموعة متنوعة من المنتجات البلاستيكية وورق الساندويش لتلبية حاجاتكم بجودة وأسعار منافسة. 
+        <br>
+        نعمل على تكرير وبيع مياه نقية باستخدام تقنيات حديثة تضمن السلامة والنقاء.
+    </p>
+</div>
+        <h2 class="text-2xl font-black mb-8 text-center text-green-900 italic underline">تواصل معنا</h2>
+        <div class="space-y-4 font-black">
+            <a href="tel:+96176526242" class="flex justify-between bg-white p-5 rounded-2xl border shadow-sm"><span>إتصال</span><span>📞</span></a>
+            <a href="https://wa.me/96176526242" class="flex justify-between bg-white p-5 rounded-2xl border text-green-600 shadow-sm"><span>واتساب</span><span>💬</span></a>
+             <a href="mailto:jehadabouche118@gmail.com" class="flex justify-between bg-white p-5 rounded-2xl border text-green-600 shadow-sm"><span>البريد الالكتروني</span><span>✉️</span></a>
+         <center><button onclick="getLocation()"class="flex justify-between bg-white p-5 rounded-2xl border text-green-600 shadow-sm"><span> موقع المؤسسة</span><span>📍</span></button></center>    
+         <center style="translate: 17px;">   <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3292.105275421349!2d35.84091!3d34.39867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2slb!4v1776486769931!5m2!1sen!2slb" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></center>
+             <div class="flex flex-col items-center justify-center mt-10 mb-6 opacity-80">
+    <div class="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-green-800">
+        <span class="text-4xl font-black text-green-900 italic">J</span>
+    </div>
+    <p class="text-[10px] text-gray-400 mt-2 font-bold tracking-widest">JOUD GROUP</p>
+</div>
+        </div>
+    </main>
+
+ <nav>
+    <div onclick="swPage('home', this)" class="nav-item active">
+        <img src="https://img.icons8.com/color/24/000000/j.png" class="w-6 h-6">
+        <span class="text-[9px] font-bold mt-1">الرئيسية</span>
+    </div>
+    <div onclick="swPage('cats', this)" class="nav-item">
+        <span class="text-xl">📂</span>
+        <span class="text-[9px] font-bold mt-1">الأقسام</span>
+    </div>
+     <div onclick="swPage('wishlist', this)" class="nav-item">
+        <span class="text-xl">❤️</span>
+        <span class="text-[9px] font-bold mt-1">المفضلة</span>
+    </div>
+    <div onclick="swPage('cart', this)" class="nav-item relative">
+        <div id="cartBadge">0</div>
+        <span class="text-xl">🛒</span>
+        <span class="text-[9px] font-bold mt-1">السلة</span>
+    </div>
+    <div onclick="swPage('contact', this)" class="nav-item">
+        <span class="text-xl">📞</span>
+        <span class="text-[9px] font-bold mt-1">التواصل و النقات</span>
+    </div>
+</nav>
+
+    <script type="module">
+        
+        window.editUserPoints = async (phone, currentPoints) => {
+    const amount = prompt(`الرصيد الحالي لـ ${phone} هو ${currentPoints}\nأدخل عدد النقاط المراد خصمها (مثلاً 100):`);
+    
+    if (amount === null || amount === "") return;
+    
+    const pointsToRemove = parseInt(amount);
+    if (isNaN(pointsToRemove)) return alert("يرجى إدخال رقم صحيح");
+
+    if (pointsToRemove > currentPoints) {
+        if (!confirm("النقاط المراد خصمها أكبر من رصيد الزبون، هل تريد التصفير؟")) return;
+    }
+
+    const newPoints = Math.max(0, currentPoints - pointsToRemove);
+
+    try {
+        const { getDatabase, ref, set } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
+        const db = getDatabase();
+        await set(ref(db, 'loyalty/' + phone), newPoints);
+        alert("تم تحديث النقاط بنجاح! ✅ الرصيد الجديد: " + newPoints);
+        loadAdminLoyalty(); // تحديث الجدول فوراً
+    } catch (error) {
+        alert("خطأ في التحديث: " + error.message);
+    }
+};
+
+window.checkMyPoints = async () => {
+    const phone = document.getElementById('checkPhoneInput').value;
+    const resultDiv = document.getElementById('myPointsResult');
+    const inputDiv = document.getElementById('loyaltyCheckSection');
+    const display = document.getElementById('userPointsDisplay');
+    const whatsappBtn = document.getElementById('whatsappExchangeBtn');
+
+    if (!phone) return alert("يرجى إدخال رقم الهاتف أولاً");
+
+    try {
+        const { getDatabase, ref, get } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
+        const db = getDatabase();
+        const userRef = ref(db, 'loyalty/' + phone);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            const actualPoints = snapshot.val();
+            display.innerText = actualPoints;
+
+            // تحديث رابط الواتساب بالنقاط الحقيقية من الداتابيز
+            const myNumber = "96176526242";
+            const message = `مرحبا "JOUD GROUP"، رصيد نقاطي الحقيقي هو ${actualPoints} نقطة وأرغب في استبدالها.`;
+            whatsappBtn.href = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+            whatsappBtn.style.display = "inline-block";
+
+        } else {
+            display.innerText = "0";
+            whatsappBtn.style.display = "none";
+            alert("هذا الرقم غير مسجل في نظام النقاط بعد.");
+        }
+
+        inputDiv.classList.add('hidden');
+        resultDiv.classList.remove('hidden');
+
+    } catch (error) {
+        console.error("Error fetching points:", error);
+        alert("حدث خطأ أثناء جلب البيانات.");
+    }
+};
+// مصفوفة لتخزين المفضلة
+let wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
+// هيدا السطر بيخلي التطبيق يحدث شكل القلوب والبيانات أول ما تفتح الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
+    if(typeof renderWishlist === 'function') renderWishlist();
+    if(typeof updateBadge === 'function') updateBadge();
+});
+
+// دالة إضافة/حذف من المفضلة
+window.toggleWishlist = (name, price, img) => {
+    const index = wishlist.findIndex(x => x.name === name);
+    if (index > -1) {
+        wishlist.splice(index, 1); // إزالة إذا كان موجوداً
+    } else {
+        wishlist.push({name, price, img}); // إضافة
+    }
+    localStorage.setItem('joudWishlist', JSON.stringify(wishlist));
+    
+    // تحديث الواجهات فوراً
+    initApp(); 
+    if (currentCat) filterByCat(currentCat);
+    renderWishlist();
+    
+    // توست بسيط للإشعار
+    const t = document.getElementById('toast');
+    t.innerText = index > -1 ? "تمت الإزالة من المفضلة" : "تمت الإضافة للمفضلة ❤️";
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000);
+};
+
+// دالة عرض صفحة المفضلة
+window.renderWishlist = () => {
+    const list = document.getElementById('wishlistItemsList');
+    const empty = document.getElementById('wishlistEmpty');
+    
+    if (wishlist.length === 0) {
+        list.innerHTML = "";
+        empty.classList.remove('hidden');
+        return;
+    }
+    
+    empty.classList.add('hidden');
+    list.innerHTML = wishlist.map(p => `
+        <div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border relative">
+            <button onclick="toggleWishlist('${p.name}', ${p.price}, '${p.img}')" class="absolute top-2 right-2 text-red-500 text-lg">❤️</button>
+            <img src="${p.img}" class="h-20 object-contain">
+            <p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p>
+            <div class="flex justify-between items-center w-full px-1 mt-1">
+                <span class="price-tag">${p.price}$</span>
+                <button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف للسلة</button>
+            </div>
+        </div>
+    `).join('');
+};
+
+// تعديل دالة التنقل لتشمل رندر المفضلة
+const originalSwPage = window.swPage;
+window.swPage = (id, el) => {
+    originalSwPage(id, el);
+    if(id === 'wishlist') renderWishlist();
+};
+
+
+
+
+
+        window.massPriceUpdate = (type) => {
+    const percent = parseFloat(document.getElementById('pricePercent').value);
+    
+    if (!percent || percent <= 0) {
+        return alert("يرجى إدخال نسبة مئوية صحيحة");
+    }
+
+    if (!confirm(`هل أنت متأكد من ${type === 'increase' ? 'زيادة' : 'إنقاص'} جميع الأسعار بنسبة ${percent}%؟`)) {
+        return;
+    }
+
+    // نمر على كل المنتجات المخزنة في المصفوفة allProds
+    allProds.forEach(product => {
+        let currentPrice = parseFloat(product.price);
+        if (isNaN(currentPrice)) return;
+
+        let newPrice;
+        if (type === 'increase') {
+            newPrice = currentPrice + (currentPrice * (percent / 100));
+        } else {
+            newPrice = currentPrice - (currentPrice * (percent / 100));
+        }
+
+        // تحديث السعر في قاعدة البيانات (Firebase)
+        // نقوم بتقريب السعر لمرتبتين عشريتين فقط
+        set(ref(db, 'products/' + product.id + '/price'), parseFloat(newPrice.toFixed(2)));
+    });
+
+    alert("تم تحديث جميع الأسعار بنجاح! ✅");
+    document.getElementById('pricePercent').value = ""; // تصفير الخانة
+};
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, remove, get} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-WfO-E0Z6_z-pYm8V6S-Hq7K-L0P1M",
+            authDomain: "jihadapp-a839e.firebaseapp.com",
+            databaseURL: "https://jihadapp-a839e-default-rtdb.firebaseio.com",
+            projectId: "jihadapp-a839e",
+            storageBucket: "jihadapp-a839e.appspot.com",
+            messagingSenderId: "811463495565",
+            appId: "1:811463495565:web:70fb8c8f722d777586b7c4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        let allProds = [], cart = [], curS = 0, deferredPrompt, currentCat = "";
+
+        
+        
+        // --- تعديل منطق التثبيت ليدعم الأيفون والأندرويد ---
+        window.addEventListener('beforeinstallprompt', (e) => { 
+            e.preventDefault(); 
+            deferredPrompt = e; 
+            document.getElementById('welcomeModal').style.display = 'flex'; 
+            document.getElementById('androidInfo').style.display = 'block';
+            document.getElementById('iosInfo').style.display = 'none';
+        });
+
+        window.addEventListener('load', () => {
+            const isIos = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+            const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+
+            // إذا كان المستخدم داخل الأيفون والموقع غير مثبت بعد
+            if (isIos && !isInStandaloneMode) {
+                document.getElementById('welcomeModal').style.display = 'flex';
+                document.getElementById('androidInfo').style.display = 'none';
+                document.getElementById('iosInfo').style.display = 'block';
+            }
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => { 
+            if (deferredPrompt) { 
+                deferredPrompt.prompt(); 
+                deferredPrompt = null; 
+            } 
+            closeModal(); 
+        });
+
+        window.closeModal = () => document.getElementById('welcomeModal').style.display = 'none';
+
+window.updateUI = () => {
+    // 1. القسم الجديد (العروض المتمددة)
+    let expandable = [];
+    for(let i=1; i<=4; i++) {
+        const link = document.getElementById(`ex${i}_link`).value;
+        const text = document.getElementById(`ex${i}_text`).value;
+        const price = document.getElementById(`ex${i}_price`).value;
+        if(link) expandable.push({ image: link, caption: text, price: price });
+    }
+
+    // 2. السلايدر العلوي القديم (5 خانات)
+    let cards = [];
+    for(let i=1; i<=5; i++) {
+        const link = document.getElementById(`c${i}_link`).value;
+        const text = document.getElementById(`c${i}_text`).value;
+        const price = document.getElementById(`c${i}_price`).value;
+        if(link) cards.push({ image: link, caption: text, offerPrice: price });
+    }
+
+    // 3. السلايدر الثاني (5 روابط)
+    const slides = [];
+    for(let i=1; i<=5; i++) {
+        const sLink = document.getElementById(`s${i}`).value;
+        if(sLink) slides.push(sLink);
+    }
+    
+    // 4. المربعات (10 خانات)
+    const boxes = [];
+    for(let i=1; i<=10; i++) {
+        const bLink = document.getElementById(`b${i}_link`).value;
+        const bDesc = document.getElementById(`b${i}_desc`).value;
+        const bPrice = document.getElementById(`b${i}_price`).value;
+        if(bLink) boxes.push({ image: bLink, description: bDesc, price: bPrice });
+    }
+
+    // 5. الإضافة الجديدة: جمع روابط السلايدر التلقائي (الـ 5 روابط الجديدة)
+    let autoSlides = [];
+    for(let i=1; i<=5; i++) {
+        const asInput = document.getElementById(`as${i}`);
+        if(asInput && asInput.value) autoSlides.push(asInput.value);
+    }
+    
+    // إرسال كل الداتا لـ Firebase (أضفنا autoSlides هنا)
+    set(ref(db, 'settings/layout'), { 
+        expandable, 
+        cards, 
+        slides, 
+        boxes,
+        autoSlides // أضفنا هذا السطر لكي لا تضيع الروابط عند الحفظ
+    })
+    .then(() => {
+        alert("تم الحفظ بنجاح لجميع الأقسام بما فيها المعرض الجديد! ✅");
+    })
+    .catch((e) => alert("خطأ في الحفظ: " + e.message));
+};
+
+function initApp() {
+    // تعبئة رقم الهاتف تلقائياً إذا كان موجوداً سابقاً
+const savedPhone = localStorage.getItem('userPhone');
+if (savedPhone && document.getElementById('checkPhoneInput')) {
+    document.getElementById('checkPhoneInput').value = savedPhone;
+}
+    // 1. مراقبة الأقسام الرئيسية وتعبئة البيانات
+    onValue(ref(db, 'settings/layout'), (snap) => {
+        const d = snap.val();
+        if (!d) return;
+
+        // --- أولاً: تعبئة خانات لوحة الإدارة (لكي لا تختفي الروابط) ---
+        
+        // تعبئة العروض المتمددة (الجديدة)
+        if (d.expandable) {
+            d.expandable.forEach((u, i) => {
+                let idx = i + 1;
+                if(document.getElementById(`ex${idx}_link`)) document.getElementById(`ex${idx}_link`).value = u.image || "";
+                if(document.getElementById(`ex${idx}_text`)) document.getElementById(`ex${idx}_text`).value = u.caption || "";
+                if(document.getElementById(`ex${idx}_price`)) document.getElementById(`ex${idx}_price`).value = u.price || "";
+            });
+
+            const container = document.getElementById('topExpandableSection');
+            if(container) {
+                container.innerHTML = d.expandable.map((u, i) => {
+                    const isFav = wishlist.some(x => x.name === u.caption);
+                    return `
+                    <div class="special-expand-card ${i === 0 ? 'active' : ''}" 
+                         style="background-image: url('${u.image}')" 
+                         onclick="this.parentElement.querySelectorAll('.special-expand-card').forEach(c=>c.classList.remove('active')); this.classList.add('active')">
+                        <button onclick="event.stopPropagation(); toggleWishlist('${u.caption}', ${u.price}, '${u.image}')" class="fav-heart-btn">
+                            ${isFav ? '❤️' : '🤍'}
+                        </button>
+                        <div class="card-overlay">
+                            <h3 class="text-[11px] font-black text-gray-800">${u.caption}</h3>
+                            <p class="text-green-700 font-bold text-[13px]">${u.price}$</p>
+                            <button onclick="event.stopPropagation(); addToCart('${u.caption}', ${u.price})" class="w-full bg-green-700 text-white py-1 rounded-lg text-[10px] mt-1 font-bold">أضف للسلة</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        // تعبئة السلايدر العلوي (أقوى العروض)
+        if (d.cards) {
+            d.cards.forEach((u, i) => {
+                let idx = i + 1;
+                if(document.getElementById(`c${idx}_link`)) document.getElementById(`c${idx}_link`).value = u.image || "";
+                if(document.getElementById(`c${idx}_text`)) document.getElementById(`c${idx}_text`).value = u.caption || "";
+                if(document.getElementById(`c${idx}_price`)) document.getElementById(`c${idx}_price`).value = u.offerPrice || "";
+            });
+            
+            document.getElementById('slides').innerHTML = d.cards.map(u => {
+                const imgUrl = u.image || u;
+                const price = u.offerPrice || 0;
+                const text = u.caption || "";
+                const isFav = wishlist.some(x => x.name === text);
+                return `
+                <div class="card relative flex-shrink-0" style="width: 220px; height: 260px; background: white; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-left:10px;">
+                    <div style="width: 100%; height: 150px; position: relative;">
+                        <img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: contain; padding: 5px;">
+                        ${price > 0 ? `<div style="position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 8px; font-weight: 900; font-size: 12px; border: 1px solid white; z-index: 10;">${price}$</div>` : ''}
+                        <button onclick="toggleWishlist('${text}', ${price}, '${imgUrl}')" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: white; border-radius: 50%; width: 30px; height: 30px; border: 1px solid #ddd; display:flex; align-items:center; justify-content:center;">
+                            ${isFav ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <div style="padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; background: #f8fafc;">
+                        <p style="font-size: 11px; font-weight: 800; color: #1e293b; text-align: center; margin: 0;">${text}</p>
+                        <button onclick="addToCart('${text}', ${price})" style="width: 100%; background: #166534; color: white; border: none; border-radius: 10px; font-size: 10px; padding: 8px 0; font-weight: 800;">أضف للسلة 🛒</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // تعبئة السلايدر الثاني (مياه الجود)
+        if (d.slides) {
+            d.slides.forEach((u, i) => {
+                let idx = i + 1;
+                if(document.getElementById(`s${idx}`)) document.getElementById(`s${idx}`).value = u || "";
+            });
+            document.getElementById('mainSlider').innerHTML = d.slides.map(u => `<img src="${u}" class="slide">`).join('');
+        }
+
+        // تعبئة المربعات (بضائعك اليومية)
+        if (d.boxes) {
+            d.boxes.forEach((u, i) => {
+                let idx = i + 1;
+                if(document.getElementById(`b${idx}_link`)) document.getElementById(`b${idx}_link`).value = u.image || "";
+                if(document.getElementById(`b${idx}_desc`)) document.getElementById(`b${idx}_desc`).value = u.description || "";
+                if(document.getElementById(`b${idx}_price`)) document.getElementById(`b${idx}_price`).value = u.price || "";
+            });
+            
+            document.getElementById('boxes3D').innerHTML = d.boxes.map(u => {
+                const imgUrl = u.image || u;
+                const desc = u.description || "";
+                const price = u.price || 0;
+                const isFav = wishlist.some(x => x.name === desc);
+                return `
+                <div class="relative" style="min-width: 150px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-left: 10px;">
+                    <button onclick="toggleWishlist('${desc}', ${price}, '${imgUrl}')" style="position: absolute; top: 5px; right: 5px; z-index: 10;">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
+                    <div style="width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <img src="${imgUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <p style="font-size: 11px; font-weight: 800; color: #334155; text-align: center;">${desc}</p>
+                    <div style="width: 100%; margin-top: auto;">
+                        <p style="color: #ef4444; font-weight: 900; font-size: 13px; text-align: center;">${price}$</p>
+                        <button onclick="addToCart('${desc}', ${price})" style="width: 100%; background: #166534; color: white; border: none; border-radius: 8px; font-size: 10px; padding: 7px 0; font-weight: 800;">أضف للسلة 🛒</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- الإضافة الجديدة: معرض الصور المتحرك ---
+        if (d.autoSlides) {
+            // 1. تعبئة خانات الإدارة (as1, as2...)
+            d.autoSlides.forEach((url, i) => {
+                const inputEl = document.getElementById(`as${i+1}`);
+                if(inputEl) inputEl.value = url || "";
+            });
+            // 2. عرض الصور في السلايدر الجديد
+            const autoSlider = document.getElementById('autoSlider');
+            if(autoSlider) {
+                autoSlider.innerHTML = d.autoSlides.map(url => `<img src="${url}" class="slide" style="min-width:100%; width:100%; object-fit:contain;">`).join('');
+                // تشغيل التايمر إذا كان موجوداً
+                if(window.startAutoSlider) window.startAutoSlider();
+            }
+        }
+    });
+
+    // 2. مراقبة الأصناف العادية في الأسفل
+    onValue(ref(db, 'products'), (snap) => {
+        const d = snap.val();
+        allProds = d ? Object.keys(d).map(k => ({id:k, ...d[k]})) : [];
+        window.renderProducts(allProds);
+        window.renderAdminList(); 
+    });
+}
+    // مراقبة الأصناف العادية (التي تظهر في الأسفل)
+    onValue(ref(db, 'products'), (snap) => {
+        const d = snap.val();
+        allProds = d ? Object.keys(d).map(k => ({id:k, ...d[k]})) : [];
+        window.renderProducts(allProds);
+    });
+
+window.onscroll = function() {
+    const btn = document.getElementById('backToTop');
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = 'flex';
+    } else {
+        btn.style.display = 'none';
+    }
+};
+window.saveProduct = () => {
+    const n = document.getElementById('pName').value, 
+          p = document.getElementById('pPrice').value, 
+          i = document.getElementById('pImg').value, 
+          c = document.getElementById('pCat').value;
+
+    if(!n || !p) return alert("أكمل البيانات");
+
+    const productData = {
+        name: n, 
+        price: parseFloat(p), 
+        img: i || "https://via.placeholder.com/150", 
+        category: c, 
+        time: Date.now()
+    };
+
+    if (window.editingId) {
+        // تحديث المنتج الحالي
+        set(ref(db, 'products/' + window.editingId), productData)
+            .then(() => { 
+                alert("تم تحديث المنتج بنجاح ✅"); 
+                // تنظيف الفورم
+                document.getElementById('pName').value = "";
+                document.getElementById('pPrice').value = "";
+                document.getElementById('pImg').value = "";
+                window.editingId = null;
+                const btn = document.querySelector('button[onclick="saveProduct()"]');
+                if(btn) btn.innerText = "نشر المنتج";
+            });
+    } else {
+        // إضافة منتج جديد
+        push(ref(db, 'products'), productData)
+            .then(() => { 
+                alert("تم نشر المنتج بنجاح 🚀"); 
+                document.getElementById('pName').value = "";
+                document.getElementById('pPrice').value = "";
+                document.getElementById('pImg').value = "";
+            });
+    }
+};
+
+window.editProduct = (id) => {
+    const p = allProds.find(item => item.id === id);
+    if (p) {
+        document.getElementById('pName').value = p.name || "";
+        document.getElementById('pPrice').value = p.price || "";
+        document.getElementById('pImg').value = p.img || "";
+        document.getElementById('pCat').value = p.category || "بلاستيك";
+
+        window.editingId = id; // حفظ المعرف ليعرف النظام أننا نعدل صنفاً موجوداً
+
+        const btn = document.querySelector('button[onclick="saveProduct()"]');
+        if(btn) btn.innerText = "تحديث البيانات الحالية 📝";
+
+        // الصعود للأعلى لرؤية الخانات
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
+window.renderProducts = (d) => { 
+    document.getElementById('homeProductGrid').innerHTML = d.slice().reverse().map(p => {
+        const isFav = wishlist.some(x => x.name === (p.name || p.title));
+        return `
+        <div class="product-card flex flex-col items-center bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-white/50 shadow-sm relative">
+            <button onclick="toggleWishlist('${p.name}', ${p.price}, '${p.img}')" class="absolute top-2 right-2 z-10 text-lg">
+                ${isFav ? '❤️' : '🤍'}
+            </button>
+            <img src="${p.img}" class="h-24 w-full object-contain mb-1">
+            <h3 class="font-black text-[10px] text-center h-8 overflow-hidden mb-1">${p.name}</h3>
+            <div class="flex justify-between items-center w-full px-1">
+                <span class="price-tag">${p.price}$</span>
+                <button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button>
+            </div>
+        </div>`;
+    }).join(''); 
+};
+        
+        window.addToCart = (n, p) => { 
+    let item = cart.find(x => x.name === n); 
+    if(item) { item.qty++; } 
+    else { cart.push({name: n, price: p, qty: 1}); } 
+    updateBadge(); 
+
+    // إظهار الرسالة الجمالية
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2000); 
+};
+        
+        window.changeQty = (idx, d) => { cart[idx].qty += d; if(cart[idx].qty <= 0) cart.splice(idx, 1); updateBadge(); window.renderCart(); };
+       function updateBadge() { 
+    const b = document.getElementById('cartBadge'); 
+    const badgeCount = cart.reduce((a, b) => a + b.qty, 0);
+    b.innerText = badgeCount; 
+    b.style.opacity = cart.length > 0 ? "1" : "0"; 
+
+    // --- إضافة تحديث عداد النقاط بالسلة ---
+    const earnedPointsSpan = document.getElementById('earned-points');
+    if (earnedPointsSpan) {
+        // حساب المجموع الكلي حالياً في السلة
+        const currentTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        // حسب معادلتك: كل 1 دولار (أو وحدة سعر) بتعطي نقطة (أو فيك تعدلها)
+        // لنفترض كل 1$ بيعطي نقطة وحدة:
+        const points = Math.floor(currentTotal); 
+        earnedPointsSpan.innerText = points;
+    }
+}
+        
+window.renderCart = () => {
+    const l = document.getElementById('cartItemsList');
+ if (cart.length === 0) {
+        l.innerHTML = `
+            <div class="glass-card m-4 p-10 rounded-[2.5rem] flex flex-col items-center justify-center text-center relative overflow-hidden" style="min-height: 300px;">
+               <div style="margin-top:40px; opacity:0.1; font-size:50px; font-weight:900; font-style:italic; color:#14532d;">J</div>
+                
+                <div class="text-6xl mb-4 opacity-50 relative z-10">🛒</div>
+                <p class="text-gray-500 font-bold mb-6 relative z-10">سلتك بانتظار بضائعك المميزة</p>
+                <button onclick="window.swPage('cats')" class="bg-green-700 text-white px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition-transform relative z-10">إبدأ التسوق الآن</button>
+            </div>`;
+        document.getElementById('cartTotal').classList.add('hidden');
+        return;
+    }
+    let t = 0;
+    l.innerHTML = cart.map((i, idx) => {
+        t += (i.price * i.qty);
+        return `<div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-100 mb-2">
+            <div class="flex items-center gap-3">
+                <div class="flex flex-col items-center">
+                    <button onclick="window.changeQty(${idx}, 1)" class="text-green-600 font-bold text-lg">+</button>
+                    <span class="font-bold text-sm">${i.qty}</span>
+                    <button onclick="window.changeQty(${idx}, -1)" class="text-red-600 font-bold text-lg">-</button>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="font-bold text-gray-800">${i.name}</div>
+                <div class="text-green-700 font-bold text-xs">${i.price.toFixed(2)}$</div>
+            </div>
+        </div>`;
+    }).join('');
+    document.getElementById('totalPrice').innerText = t.toFixed(2);
+    document.getElementById('cartTotal').classList.remove('hidden');
+};
+
+        window.renderAdminList = () => { 
+    document.getElementById('adminProductList').innerHTML = allProds.map(p => `
+        <div class="flex justify-between items-center bg-white p-3 rounded-lg border mb-2 font-bold text-[11px] shadow-sm">
+            <div class="flex items-center gap-3">
+                <img src="${p.img}" class="w-8 h-8 object-contain rounded border">
+                <div class="flex flex-col">
+                    <span>${p.name}</span>
+                    <span class="text-green-700 text-[9px]">${p.price}$</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="editProduct('${p.id}')" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-md">تعديل 📝</button>
+                <button onclick="deleteProduct('${p.id}')" class="bg-red-100 text-red-500 px-3 py-1 rounded-md">حذف 🗑️</button>
+            </div>
+        </div>
+    `).join(''); 
+};
+        window.deleteProduct = (id) => { if(confirm("حذف؟")) remove(ref(db, 'products/'+id)); };
+        
+        window.swPage = (id, el) => { 
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page')); 
+            document.getElementById(id+'Page').classList.add('active-page'); 
+            if(el){
+                document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); 
+                el.classList.add('active');
+            } 
+            if(id==='cart') window.renderCart(); 
+        };
+        
+        window.doSearch = () => { const q = document.getElementById('smartSearch').value.toLowerCase(); window.renderProducts(allProds.filter(p=>p.name.toLowerCase().includes(q))); };
+        
+        window.filterByCat = (c) => { 
+    currentCat = c; 
+    document.getElementById('catSearch').value = ""; 
+    document.getElementById('catsMenu').classList.add('hidden'); 
+    document.getElementById('catItemsSection').classList.remove('hidden'); 
+
+    // إظهار مربعات وهمية (Skeleton) قبل تحميل الأصناف الحقيقية
+    const grid = document.getElementById('catProductGrid');
+    grid.innerHTML = `
+        <div class="p-3 rounded-2xl border bg-gray-100 h-40 skeleton"></div>
+        <div class="p-3 rounded-2xl border bg-gray-100 h-40 skeleton"></div>
+        <div class="p-3 rounded-2xl border bg-gray-100 h-40 skeleton"></div>
+        <div class="p-3 rounded-2xl border bg-gray-100 h-40 skeleton"></div>
+    `;
+
+    // تحميل الأصناف الحقيقية بعد ربع ثانية لتبين الحركة
+    setTimeout(() => {
+        const f = allProds.filter(p => p.category === c); 
+        renderCatItems(f); 
+    }, 200);
+};
+        window.doCatSearch = () => { const q = document.getElementById('catSearch').value.toLowerCase(); const f = allProds.filter(p => p.category === currentCat && p.name.toLowerCase().includes(q)); renderCatItems(f); };
+        function renderCatItems(items) { document.getElementById('catProductGrid').innerHTML = items.map(p => `<div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border"><img src="${p.img}" class="h-20 object-contain"><p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p><div class="flex justify-between items-center w-full px-1 mt-1"><span class="price-tag">${p.price}$</span><button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button></div></div>`).join(''); }
+
+        window.showCatsMenu = () => { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); };
+window.sendOrder = async () => {
+    // 1. حساب المجموع والتأكد من السلة
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (total <= 0) return alert("السلة فارغة!");
+
+    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
+    let userPhone = localStorage.getItem('userPhone');
+    if (!userPhone) {
+        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
+        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
+        localStorage.setItem('userPhone', userPhone);
+    }
+
+    // 3. جلب طريقة الدفع المختارة
+    const paymentElement = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
+
+    // 4. تحديث النقاط في Firebase (مسار loyalty)
+    try {
+        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
+        const snapshot = await get(userLoyaltyRef);
+        const currentPoints = snapshot.val() || 0;
+        const addedPoints = Math.floor(total);
+        await set(userLoyaltyRef, currentPoints + addedPoints);
+        console.log("Points updated successfully!");
+    } catch (dbError) {
+        console.error("Error updating points:", dbError);
+    }
+
+    // 5. بناء رسالة الواتساب المنسقة
+    let message = `*طلب جديد - JOUD GROUP*\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *الزبون:* ${userPhone}\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+    message += `*الأصناف المطلوبة:*\n`;
+
+    cart.forEach((item, index) => {
+        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
+    });
+
+    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
+    
+    if (paymentMethod.includes("Wish")) {
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+    }
+
+    // 6. فتح الواتساب
+    const myNumber = "96176526242";
+    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+
+    // 7. تنظيف السلة
+    cart = [];
+    updateBadge();
+    window.renderCart();
+};
+        window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
+        window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
+        window.onload = initApp;
+
+
+// دالة لجلب جميع نقاط الزبائن وعرضها في جدول الإدارة
+
+window.loadAdminLoyalty = () => {
+    const adminTableBody = document.getElementById('adminLoyaltyBody');
+    const loyaltyRef = ref(db, 'loyalty');
+    adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4 text-blue-500">جاري التحميل...</td></tr>';
+
+    get(loyaltyRef).then((snapshot) => {
+        adminTableBody.innerHTML = ''; 
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            Object.keys(data).forEach((phone) => {
+                const points = data[phone];
+                const row = `
+                    <tr class="border-b dark:border-gray-700">
+                        <td class="p-3 text-sm">${phone}</td>
+                        <td class="p-3 font-black text-green-600">${points}</td>
+                        <td class="p-3">
+                            <button onclick="editUserPoints('${phone}', ${points})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">خصم نقاط ✂️</button>
+                        </td>
+                    </tr>
+                `;
+                adminTableBody.innerHTML += row;
+            });
+        } else {
+            adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4">لا يوجد زبائن</td></tr>';
+        }
+    });
+};
+
+
+// هيدي المصفوفة فيك تخليها تاخد بياناتها من Firebase بمركز الإدارة
+const tutorialSteps = [
+    { 
+        title: "اختر أصنافك", 
+        img: "https://cdn.dribbble.com/userupload/8913721/file/original-27f29cc8cf3843454340ffa980be35f5.gif",
+        action: "swPage('cats')" // تفتح صفحة الأقسام
+    },
+    { 
+        title: "أدخل رقمك لمتابعة نقاطك", 
+        img: "https://cdn.pixabay.com/animation/2023/11/29/03/39/03-39-03-19_512.gif",
+        action: "swPage('contact')" // تفتح صفحة التواصل والنقاط
+    },
+    { 
+        title: "اطلب واتساب", 
+        img: "https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyZTIwNGw1N3R0c3ZlYnNwMnJ1N2JudmxobDN2OHZzdHRucTRxcjY3diZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/OrNkIcgmjBQeFM1vEs/giphy.gif", 
+        action: "window.open('https://wa.me/96176526242', '_blank')" // تفتح الواتساب مباشرة
+    }
+];
+
+function renderTutorial() {
+    const container = document.getElementById('tutorial-section');
+    container.innerHTML = tutorialSteps.map(step => `
+        <div class="card-3d" onclick="${step.action}" style="cursor: pointer;">
+            <div class="card-inner hover:bg-green-50 transition-colors duration-300">
+                <img src="${step.img}" class="card-img" alt="${step.title}">
+                <p class="card-text">${step.title}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// تشغيل الدالة عند تحميل الصفحة
+renderTutorial();
+
+
+    </script>
+
+<script>
+let slides = document.getElementById("slides");
+let sliderContainer = document.querySelector(".slider");
+slides.style.direction = "ltr"; 
+let startX = 0, currentTranslate = 0, prevTranslate = 0, isDragging = false;
+slides.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; isDragging = true; slides.style.transition = "none"; });
+slides.addEventListener("touchmove", (e) => { if (!isDragging) return; const currentX = e.touches[0].clientX; const diff = currentX - startX; let move = prevTranslate + diff; if (move > 20) move = 20; slides.style.transform = `translateX(${move}px)`; currentTranslate = move; });
+slides.addEventListener("touchend", () => { isDragging = false; slides.style.transition = "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)"; const minOffset = sliderContainer.offsetWidth - slides.scrollWidth - 20; if (currentTranslate > 0) currentTranslate = 0; else if (currentTranslate < minOffset) currentTranslate = minOffset; slides.style.transform = `translateX(${currentTranslate}px)`; prevTranslate = currentTranslate; });
+</script>
+
+<div id="joudPopUp" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:999999; flex-direction:column; align-items:center; justify-content:center;" onclick="if(event.target == this) this.style.display='none'">
+    <img id="joudPopImg" src="" style="max-width:90%; max-height:70%; border-radius:15px; border:2px solid #fff;">
+    <button onclick="document.getElementById('joudPopUp').style.display='none'; window.swPage('cats')" style="margin-top:20px; background:#166534; color:white; padding:12px 30px; border-radius:50px; font-family:'Tajawal'; font-weight:bold; border:2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+        🛍️ اذهب للتسوق الآن
+    </button>
+</div>
+
+<script>
+function openJoudImg(url) { 
+    const pop = document.getElementById('joudPopUp'); 
+    const img = document.getElementById('joudPopImg'); 
+    img.src = url; 
+    pop.style.display = 'flex'; 
+}
+function initSliderTouch() {
+    const mSlider = document.getElementById('mainSlider'); if (!mSlider) return;
+    let touchStartX = 0, touchEndX = 0;
+    mSlider.querySelectorAll('img').forEach(img => { img.draggable = false; img.style.userSelect = 'none'; });
+    mSlider.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+    mSlider.addEventListener('touchend', (e) => { touchEndX = e.changedTouches[0].screenX; const diff = touchStartX - touchEndX; if (Math.abs(diff) > 50) { if (diff > 0) window.moveSlide(1); else window.moveSlide(-1); } }, {passive: true});
+}
+setInterval(() => { const slider = document.getElementById('mainSlider'); if (slider && slider.children.length > 0 && !slider.dataset.touchInit) { initSliderTouch(); slider.dataset.touchInit = "true"; } }, 1000);
+
+document.addEventListener('click', (e) => { 
+    if (e.target.tagName === 'IMG' && e.target.id !== 'joudPopImg' && !e.target.closest('.nav-item')) { 
+        openJoudImg(e.target.src); 
+    } 
+});
+
+</script>
+
+<script>
+window.getLocation = () => {
+    const mapUrl = "https://www.google.com/maps?q=33.8886,35.4955"; // مثال لموقع
+    window.open(mapUrl, '_blank');
+};
+
+
+
+
+// كود التفاعل لإظهار تفاصيل Wish
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const wishDetails = document.getElementById('wishDetails');
+        if(e.target.id === 'wishOption') {
+            wishDetails.classList.remove('hidden');
+        } else {
+            wishDetails.classList.add('hidden');
+        }
+    });
+});
+
+// دالة إرسال الطلب المعدلة
+window.sendOrder = async () => {
+    // 1. حساب المجموع والتأكد من السلة
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (total <= 0) return alert("السلة فارغة!");
+
+    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
+    let userPhone = localStorage.getItem('userPhone');
+    if (!userPhone) {
+        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
+        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
+        localStorage.setItem('userPhone', userPhone);
+    }
+
+    // 3. جلب طريقة الدفع المختارة
+    const paymentElement = document.querySelector('input[name="payment"]:checked');
+    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
+
+    // 4. تحديث النقاط في Firebase (تعديل الحسبة هنا)
+    try {
+        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
+        const snapshot = await get(userLoyaltyRef);
+        const currentPoints = snapshot.val() || 0;
+        
+        // --- التعديل هنا: كل 1 دولار يعادل نقطة واحدة ---
+        const addedPoints = Math.floor(total); 
+        
+        await set(userLoyaltyRef, currentPoints + addedPoints);
+        console.log("Points updated successfully!");
+    } catch (dbError) {
+        console.error("Error updating points:", dbError);
+    }
+
+    // 5. بناء رسالة الواتساب المنسقة (نفس كودك الأصلي تماماً)
+    let message = `*طلب جديد - JOUD GROUP*\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *الزبون:* ${userPhone}\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
+    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+    message += `*الأصناف المطلوبة:*\n`;
+
+    cart.forEach((item, index) => {
+        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
+    });
+
+    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
+    
+    if (paymentMethod.includes("Wish")) {
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+    }
+
+    // 6. فتح الواتساب
+    const myNumber = "96176526242";
+    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+
+    // 7. تنظيف السلة (نفس كودك الأصلي)
+    cart = [];
+    updateBadge();
+    window.renderCart();
+};
+
+
+window.toggleDarkMode = () => {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('joudDarkMode', isDark ? 'enabled' : 'disabled');
+    updateDarkModeBtn();
+};
+
+function updateDarkModeBtn() {
+    const isDark = document.body.classList.contains('dark-mode');
+    const circle = document.getElementById('switchCircle');
+    if (circle) {
+        circle.innerText = isDark ? '☀️' : '🌙';
+    }
+}
+
+
+// هيدا الكود بيشتغل أول ما تفتح الصفحة
+(function checkDarkMode() {
+    const savedMode = localStorage.getItem('joudDarkMode');
+    if (savedMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+    // تحديث شكل الزر بعد ما تفتح الصفحة بشوية لضمان وجود العنصر
+    setTimeout(updateDarkModeBtn, 100);
+})();
+
+
+// حفظ العروض المتمددة الجديدة
+let expandable = [];
+for(let i=1; i<=4; i++) {
+    const link = document.getElementById(`ex${i}_link`).value;
+    const text = document.getElementById(`ex${i}_text`).value;
+    const price = document.getElementById(`ex${i}_price`).value;
+    if(link) expandable.push({ image: link, caption: text, price: price });
+}
+
+// تعديل الـ set ليشمل القسم الجديد
+set(ref(db, 'settings/layout'), { cards, slides, boxes, expandable }) // أضفنا expandable هنا
+
+
+
+
+</script>
+
+
+
+
+
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69ee1ee47498ec1c377708dc/1jn52hc84';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+
+
+
+let autoCurS = 0;
+let autoInterval = null;
+
+window.startAutoSlider = () => {
+    if (autoInterval) clearInterval(autoInterval);
+    autoInterval = setInterval(() => {
+        const slider = document.getElementById('autoSlider');
+        if (!slider) return;
+        const slidesCount = slider.children.length;
+        if (slidesCount > 1) {
+            autoCurS = (autoCurS + 1) % slidesCount;
+            slider.style.transition = "transform 0.8s ease-in-out";
+            slider.style.transform = `translateX(${autoCurS * 100}%)`;
+        }
+    }, 5000); 
+    
+};
+
+</script>
+
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {};
+
+// هيدا الجزء هو اللي بيتحكم بمكان الأيقونة
+Tawk_API.customStyle = {
+    visibility: {
+        desktop: {
+            position: 'bottom-right',
+            xOffset: 15,
+            yOffset: 100 // رفعناها لـ 100 لحتى تبعد عن الشريط السفلي
+        },
+        mobile: {
+            position: 'bottom-right',
+            xOffset: 10,
+            yOffset: 110 // على التلفون رفعناها أكتر لتكشف الكلمات تماماً
+        }
+    }
+};
+
+
+window.addEventListener('load', function() {
+    const splash = document.getElementById('splash-screen');
+    setTimeout(() => {
+        splash.style.opacity = '0';
+        splash.style.visibility = 'hidden';
+    }, 1500); // تختفي بعد ثانية ونصف
+});
+
+
+</script>
+
+<div id="toast" class="toast-msg">تمت الإضافة للسلة 🛒</div>
+
+<div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</div>
+
+<script type="text/javascript">
+    // 1. وظيفة التعريف الأساسية
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'ar',
+            includedLanguages: 'en',
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+
+    // 2. وظيفة التحويل للانجليزي
+    function changeToEnglish() {
+        var combo = document.querySelector(".goog-te-combo");
+        if (combo) {
+            combo.value = 'en';
+            combo.dispatchEvent(new Event('change'));
+        } else {
+            // إذا السكريبت مش محمل، بنحمله وبننفذه
+            var s = document.createElement('script');
+            s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(s);
+            
+            // ننتظر ثانية ليتحمل ونكبس الزر تلقائياً
+            setTimeout(function() {
+                var newCombo = document.querySelector(".goog-te-combo");
+                if (newCombo) {
+                    newCombo.value = 'en';
+                    newCombo.dispatchEvent(new Event('change'));
+                }
+            }, 1500);
+        }
+    }
+
+
+    // وظيفة التحريك التلقائي لسلايدر مياه الجود
+function startMainSliderAuto() {
+    setInterval(() => {
+        // إذا كان الزبون فاتح صفحة غير الرئيسية، ما يتحرك ليوفر طاقة
+        if (document.getElementById('homePage').classList.contains('active-page')) {
+            window.moveSlide(1); // هيدي الوظيفة موجودة أصلاً بملفك
+        }
+    }, 4000); // 4000 يعني كل 4 ثواني بغير صورة
+}
+
+// تشغيل الوظيفة أول ما تفتح الصفحة
+window.addEventListener('load', startMainSliderAuto);
+
+
+
+
+// دالة لحساب النقاط بناءً على المبلغ الإجمالي
+function calculatePoints(totalAmount) {
+    const pointsPerUnit = 10; // عدد النقاط
+    const priceUnit = 100000; // لكل 100 ألف ليرة
+    return Math.floor(totalAmount / priceUnit) * pointsPerUnit;
+}
+
+// تحديث دالة updateCartUI الأصلية الموجودة في ملفك
+function updateCartUI() {
+    // ... الكود القديم الموجود عندك ...
+    
+    // حساب النقاط وعرضها
+    const total = calculateTotal(); // تأكد من استخدام دالة حساب الإجمالي لديك
+    const points = calculatePoints(total);
+    document.getElementById('earned-points').innerText = points;
+}
+
+
+
+</script>
+
+<script>
+// --- استبدل كل شيء من سطر 1515 حتى نهاية الملف بهذا الكود ---
+
+// تعريف الإعدادات
+const firebaseV8Config = {
+    apiKey: "AIzaSyDUOiMyesZVf67UaPOZGTRudpsMaQ07CKI",
+  authDomain: "joudapp-5687c.firebaseapp.com",
+  databaseURL: "https://joudapp-5687c-default-rtdb.firebaseio.com",
+  projectId: "joudapp-5687c",
+  storageBucket: "joudapp-5687c.firebasestorage.app",
+  messagingSenderId: "811463495565",
+  appId: "1:811463495565:web:70fb8c8f722d777586b7c4",
+  measurementId: "G-06EK1YCBKQ"
+};
+
+// تحميل مكتبات Firebase بشكل ديناميكي لضمان عدم التعارض
+function loadFirebaseScripts() {
+    const scripts = [
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js'
+    ];
+
+    let loadedCount = 0;
+    scripts.forEach(src => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+            loadedCount++;
+            if (loadedCount === scripts.length) {
+                initJoudMessaging();
+            }
+        };
+        document.head.appendChild(script);
+    });
+}
+
+function initJoudMessaging() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseV8Config);
+    }
+    
+    const messaging = firebase.messaging();
+
+    navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then((registration) => {
+            console.log('✅ Service Worker Registered');
+            return messaging.getToken({
+                serviceWorkerRegistration: registration,
+                vapidKey: 'BKrmCCifghl_6O4OPWTTeae8MpyxSupRQWCEclZFR4BMM8AoNfHzD62lO2dVohcdOA5_LJ0u_sZn_0gpyHYDhqM'
+            });
+        })
+        .then((token) => {
+            if (token) {
+                console.log("🚀 جود جروب - التوكن جاهز:", token);
+            } else {
+                console.warn('⚠️ اطلب من المستخدم تفعيل الإشعارات');
+            }
+        })
+        .catch((err) => {
+            console.error('❌ خطأ في الفايربيس:', err);
+        });
+}
+
+// تشغيل العملية
+loadFirebaseScripts();
+
+</script>
+
+
+
+
+
+<script type="module">
+    // (تأكد من وجود تعريف Firebase الخاص بك هنا كما في ملفك)
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    const db = getDatabase();
+
+    // وظيفة الحفظ المحدثة لتشمل القسم الجديد
+    window.updateUI = () => {
+        // ... (كود الحفظ القديم للسلايدرات والمربعات) ...
+
+        // حفظ الكروت الديناميكية الجديدة
+        let dynamicCards = [];
+        for(let i=1; i<=3; i++) {
+            const link = document.getElementById(`dyn${i}_link`).value;
+            const title = document.getElementById(`dyn${i}_title`).value;
+            const price = document.getElementById(`dyn${i}_price`).value;
+            if(link) dynamicCards.push({ image: link, title: title, price: price });
+        }
+
+        // إرسال البيانات
+        set(ref(db, 'settings/layout/dynamicCards'), dynamicCards)
+        .then(() => alert("تم تحديث الواجهة والكروت الجديدة! ✅"));
+    };
+
+    // وظيفة جلب البيانات وعرضها في الصفحة الرئيسية
+    onValue(ref(db, 'settings/layout/dynamicCards'), (snap) => {
+        const cards = snap.val();
+        if(cards) {
+            const container = document.getElementById('dynamicSlider');
+            container.innerHTML = cards.map(c => `
+                <div class="dynamic-card">
+                    <img src="${c.image}" alt="">
+                    <div class="dynamic-card-info">
+                        <div class="dynamic-card-title">${c.title}</div>
+                        <div class="dynamic-card-price">${c.price}$</div>
+                        <button onclick="addToCart('${c.title}', ${c.price})" class="mt-3 bg-white text-black px-6 py-2 rounded-full font-bold text-sm">اطلب الآن 🛒</button>
+                    </div>
+                </div>
+            
+            `).
+            join('');
+
+            // تعبئة خانات الأدمن تلقائياً
+            cards.forEach((c, i) => {
+                if(document.getElementById(`dyn${i+1}_link`)) {
+                    document.getElementById(`dyn${i+1}_link`).value = c.image;
+                    document.getElementById(`dyn${i+1}_title`).value = c.title;
+                    document.getElementById(`dyn${i+1}_price`).value = c.price;
+                }
+            });
+        }
+        
+        // --- كود التحريك التلقائي للسلايدر ---
+const container = document.getElementById('dynamicSlider');
+let scrollStep = 0;
+
+setInterval(() => {
+    if (container.children.length > 0) {
+        const cardWidth = container.children[0].offsetWidth + 15; // عرض الكارت + الفراغ (gap)
+        const maxScroll = container.scrollWidth - container.clientWidth;
+
+        if (container.scrollLeft <= -maxScroll + 10) { // التحقق إذا وصل لآخر كارت (في وضع RTL)
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+            scrollStep = 0;
+        } else {
+            container.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        }
+    }
+}, 9000); // 3000 ميلي ثانية = 3 ثواني
+    });
+
+</script>
+
+</body> 
+</html>
+
+
+

@@ -1990,7 +1990,23 @@ function initJoudMessaging() {
 
 // تشغيل العملية
 loadFirebaseScripts();
+// كود لتحديث البرنامج فوراً ومنع التعليق
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
+});
 
+self.addEventListener('activate', (event) => {
+    event.waitUntil(clients.claim());
+});
+
+self.addEventListener('fetch', (event) => {
+    // هيدا السطر بيخلي المتصفح يروح يجيب البيانات من الإنترنت دايماً
+    event.respondWith(
+        fetch(event.request).catch(() => {
+            return caches.match(event.request);
+        })
+    );
+});
 </script>
 
 

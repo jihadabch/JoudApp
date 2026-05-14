@@ -2000,7 +2000,8 @@ loadFirebaseScripts();
 <script type="module">
     // (تأكد من وجود تعريف Firebase الخاص بك هنا كما في ملفك)
     import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
- 
+    const db = getDatabase();
+
     // وظيفة الحفظ المحدثة لتشمل القسم الجديد
     window.updateUI = () => {
         // ... (كود الحفظ القديم للسلايدرات والمربعات) ...

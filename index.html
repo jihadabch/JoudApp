@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-title" content="JOUD GROUP">
     <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/j.png">
 
-    <link rel="manifest" href='data:application/manifest+json,{"name":"JOUD GROUP","short_name":"JOUD","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://img.icons8.com/color/192/000000/j.png","sizes":"192x192","type":"image/png"}]}'>
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -76,11 +76,11 @@ nav {
     justify-content: center;
     color: #475569; 
     background: rgba(255, 255, 255, 0.4) !important; /* زجاج شفاف */
-    backdrop-filter: blur(8px) !important; /* تأثير التغبيش */
+    backdrop-filter: blur(4px) !important; /* تأثير التغبيش */
     -webkit-backdrop-filter: blur(12px) !important;
     border: 1px solid rgba(255, 255, 255, 0.5) !important; /* حفة الزجاج */
-    border-radius: 30px !important; 
-    width: 37% !important; /* ليتوزعوا بالتساوي */
+    border-radius: 50px !important; 
+    width: 17% !important; /* ليتوزعوا بالتساوي */
     height: 65px !important; 
     box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
     transition: all 0.3s ease !important;
@@ -324,76 +324,6 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     border: none;
 }
 
-.btn-whatsapp {
-    background-color: #25D366;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    display: none; /* بكون مخفي بالأساس */
-    margin-top: 15px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-       /* إضافة ستايل الكارد الجديد المستوحى من الفيديو */
-        .dynamic-slider-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 15px;
-            padding: 20px;
-            scrollbar-width: none;
-        }
-        .dynamic-slider-container::-webkit-scrollbar { display: none; }
-
-        .dynamic-card {
-            flex: 0 0 85%;
-            height: 400px;
-            border-radius: 30px;
-            position: relative;
-            overflow: hidden;
-            scroll-snap-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.4s ease;
-        }
-        .dynamic-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .dynamic-card-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            padding: 30px 20px;
-            color: white;
-            text-align: right;
-        }
-        .dynamic-card-title { font-size: 24px; font-weight: 900; margin-bottom: 5px; }
-        .dynamic-card-price { font-size: 18px; color: #4ade80; font-weight: bold; }
-        
-        /* تأثير عند التمرير */
-        .dynamic-card:active { transform: scale(0.98); }
-
-        /* (باقي الستايلات الخاصة بك تبقى كما هي) */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #e4e8ee; }
-        .page { display: none; min-height: 100vh; padding-bottom: 120px; }
-        .active-page { display: block; }
-
-
-.dynamic-slider-container {
-    scroll-behavior: smooth; /* تجعل الحركة ناعمة */
-}
-
-
-
-
 
     </style>
     
@@ -514,71 +444,28 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     <main id="homePage" class="page active-page px-4 -mt-10">
         <br>
         <br>
-        <div id="tutorial-section" class="grid grid-cols-3 gap-3 p-4 bg-gray-50">
+        <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic"></h2>
+<div class="special-expand-container" id="topExpandableSection">
     </div>
-    <br>
-    <div class="dynamic-slider-container" id="dynamicSlider">
-        </div>
-<br>
-
-
-<style>
-    .card-3d {
-        perspective: 1000px;
-    }
-    .card-inner {
-        background: white;
-        border-radius: 15px;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid #f0f0f0;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .card-inner:active {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-    }
-    .card-img {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        margin-bottom: 8px;
-        filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-    }
-    .card-text {
-        font-size: 11px;
-        font-weight: bold;
-        color: #374151;
-        line-height: 1.2;
-    }
-</style>
-        
-
-        <br>
+        <br><br>
         <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">🌟 مياه الجود 💧 الجودة التي تثق بها</h2>
 <div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
     <div class="slider-container">
         <div id="autoSlider" class="slider-wrapper"></div>
     </div>
 </div>
-        
+        <br>
         <h2 class="text-right px-2 mt-4 mb-1 font-black text-green-800 text-xs italic opacity-80">🔥 أقوى العروض</h2>
         <div class="slider"><div class="slides" id="slides"></div></div>
-                <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">✨  بضائعك اليومية</h2>
-        <div class="box-3d-container" id="boxes3D"></div>
-          <div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
+        
+        <div class="bg-white p-1 rounded-[2.2rem] shadow-xl mb-6 border overflow-hidden">
             <div class="slider-container"><div id="mainSlider" class="slider-wrapper"></div></div>
         </div>
+        <h2 class="text-right px-2 mt-4 mb-2 font-black text-green-900 text-sm italic">✨  بضائعك اليومية</h2>
+        <div class="box-3d-container" id="boxes3D"></div>
        <div class="bg-white/60 backdrop-blur-md p-2 rounded-2xl shadow-sm border border-white/40 my-6 flex items-center px-4">
             <input type="text" id="smartSearch" onkeyup="doSearch()" placeholder="🔍 ابحث عن صنف..." class="w-full p-2 outline-none text-sm font-bold bg-transparent text-right">
         </div>
-      
-
         <h2 class="w-full text-right px-2 mt-8 mb-3 font-black text-green-900 text-sm italic">🛍️ تسوق من منتجاتنا</h2>
         <div id="homeProductGrid" class="grid grid-cols-2 gap-4"></div>
     </main>
@@ -590,40 +477,6 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </div>
 </main>
     <main id="adminPage" class="page px-6 pt-10 bg-white">
-            <div class="bg-purple-100 p-5 rounded-[2rem] border-2 border-purple-300 mb-6 text-right">
-        <p class="font-black text-sm mb-3 text-purple-800">🎬 إدارة قسم الكروت الديناميكية (3 كروت)</p>
-        <div id="adminDynamicContainer">
-            <script>
-                for(let i=1; i<=3; i++) {
-                    document.write(`
-                        <div class="bg-white p-3 rounded-xl border mb-3">
-                            <input type="text" id="dyn${i}_link" placeholder="رابط الصورة الحية ${i}" class="w-full p-2 border rounded mb-1 text-xs">
-                            <input type="text" id="dyn${i}_title" placeholder="العنوان العريض" class="w-full p-2 border rounded mb-1 text-xs">
-                            <input type="text" id="dyn${i}_price" placeholder="السعر أو الوصف" class="w-full p-2 border rounded text-xs">
-                        </div>
-                    `);
-                }
-            </script>
-        </div>
-    </div>
-        <div id="adminSection" style="margin-top: 50px; padding: 20px; background: #f9f9f9; border-radius: 10px;">
-    <h3>📊 إدارة نقاط الزبائن (JOUD GROUP)</h3>
-    <button onclick="loadAdminLoyalty()" style="padding: 10px 20px; background: #3498db; color: white; border: none; cursor: pointer;">
-        تحديث القائمة الآن
-    </button>
-    
-    <table style="width: 100%; margin-top: 20px; border-collapse: collapse; text-align: center;">
-        <thead>
-            <tr style="background: #2c3e50; color: white;">
-                <th style="padding: 10px;">رقم الهاتف</th>
-                <th style="padding: 10px;">إجمالي النقاط</th>
-            </tr>
-        </thead>
-        <tbody id="adminLoyaltyBody">
-    </tbody>
-            </tbody>
-    </table>
-</div>
         <div class="bg-red-50 p-4 rounded-[2rem] border-2 border-red-200 mb-6 text-right" dir="rtl">
     <p class="font-black text-sm mb-3 text-red-700">⚡ تحديث جماعي للأسعار (كل الأصناف)</p>
     <div class="flex items-center gap-2 mb-3">
@@ -637,7 +490,6 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     <p class="text-[9px] text-gray-500 mt-2 font-bold">* سيتم تطبيق النسبة على جميع المنتجات المضافة في النظام.</p>
 </div>
         <h2 class="text-xl font-black text-red-600 mb-8 text-center underline italic">لوحة الإدارة المتكاملة ⚙️</h2>
-        
         <div class="space-y-6 pb-40 text-right">
             <div class="bg-yellow-50 p-5 rounded-[2rem] border-2 border-yellow-200 mb-6 text-right">
     <p class="font-black text-sm mb-3 text-yellow-700">🔄 صور السلايدر التلقائي الجديد (5 صور)</p>
@@ -650,7 +502,24 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </div>
 </div>
             <div class="bg-blue-50 p-5 rounded-[2rem] border-2 border-blue-100">
-      
+         <div class="bg-purple-50 p-5 rounded-[2rem] border-2 border-purple-200 mb-6 text-right">
+    <p class="font-black text-sm mb-3 text-purple-700">✨ قسم العروض المتمددة (4 عروض)</p>
+    <div id="adminExpandContainer" class="space-y-4">
+        <script>
+            for(let i=1; i<=4; i++) {
+                document.write(`
+                    <div class="bg-white p-2 rounded-xl border">
+                        <input type="text" id="ex${i}_link" placeholder="رابط صورة الكرت ${i}" class="w-full p-2 border rounded mb-1 text-xs">
+                        <div class="flex gap-1">
+                            <input type="text" id="ex${i}_text" placeholder="اسم المنتج" class="w-2/3 p-2 border rounded text-xs">
+                            <input type="text" id="ex${i}_price" placeholder="السعر $" class="w-1/3 p-2 border rounded text-xs font-bold text-center">
+                        </div>
+                    </div>
+                `);
+            }
+        </script>
+    </div>
+</div>       
 <p class="font-black text-sm mb-3 text-blue-700">🖼️ صور السلايدر العلوي (5 عروض مع السعر)</p>
 <div id="adminCardsContainer" class="space-y-3 mb-6">
     <script>
@@ -745,11 +614,6 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </main>
 
     <main id="cartPage" class="page px-6 pt-10">
-        <div class="flex justify-between items-center mt-2 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
-    <span class="text-sm font-bold text-yellow-700">نقاط المكافأة لهذا الطلب:</span>
-    <span id="earned-points" class="text-lg font-black text-yellow-800">0</span>
-</div>
-<br>
         <h2 class="text-2xl font-black mb-6 text-center text-green-900 italic underline">سلتك 🛒</h2>
         <div id="cartItemsList" class="space-y-4 mb-10 text-right"></div>
         <div id="cartTotal" class="bg-white p-6 rounded-[2.5rem] text-center font-black shadow-xl border-2 border-green-100 hidden">
@@ -793,26 +657,6 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
 
     <main id="contactPage" class="page px-6 pt-10 text-right">
         <div class="px-4 py-2 text-center">
-            <div class="bg-white p-5 rounded-[2rem] border-2 border-yellow-400 mb-6 text-right shadow-md">
-    <p class="font-black text-sm mb-3 text-yellow-700"> 🏆​تسوق، جمّع، واربح! نقاطك اليوم صارت بمثابة كاش بجيبيك.. استبدلها بخصومات قوية أو قطع مجانية بتلزمك. (كل نقطة = 1 دولار)! </p>
-    <div id="loyaltyCheckSection">
-        <p class="text-[10px] text-gray-500 mb-2">أدخل رقم هاتفك لمعرفة رصيد نقاطك الحالي:</p>
-        <div class="flex gap-2">
-            <input type="number" id="checkPhoneInput" placeholder="76XXXXXX" class="w-2/3 p-2 border rounded-xl text-center font-bold text-sm">
-            <button onclick="checkMyPoints()" class="w-1/3 bg-yellow-500 text-white py-2 rounded-xl font-black text-[10px]">عرض الرصيد</button>
-        </div>
-    </div>
-    <div id="myPointsResult" class="hidden text-center py-2">
-        <p class="text-xs font-bold text-gray-600">رصيدك الحالي هو:</p>
-        <p class="text-2xl font-black text-green-700"><span id="userPointsDisplay">0</span> نقطة</p>
-        <button onclick="document.getElementById('loyaltyCheckSection').classList.remove('hidden'); document.getElementById('myPointsResult').classList.add('hidden');" class="text-[15px] text-blue-500 underline mt-2">فحص رقم آخر</button>
-        <br>
-            <a id="whatsappExchangeBtn" href="#" class="btn-whatsapp" target="_blank">
-    استبدل نقاطي عبر واتساب
-</a>
-    </div>
-
-</div>
     <p class="text-sm font-bold text-gray-700 leading-relaxed">
         مؤسسة العبوشة توفّر مجموعة متنوعة من المنتجات البلاستيكية وورق الساندويش لتلبية حاجاتكم بجودة وأسعار منافسة. 
         <br>
@@ -855,76 +699,13 @@ body.dark-mode { background-color: #0f172a !important; color: white !important; 
     </div>
     <div onclick="swPage('contact', this)" class="nav-item">
         <span class="text-xl">📞</span>
-        <span class="text-[9px] font-bold mt-1">التواصل و النقات</span>
+        <span class="text-[9px] font-bold mt-1">تواصل</span>
     </div>
 </nav>
 
     <script type="module">
-        
-        window.editUserPoints = async (phone, currentPoints) => {
-    const amount = prompt(`الرصيد الحالي لـ ${phone} هو ${currentPoints}\nأدخل عدد النقاط المراد خصمها (مثلاً 100):`);
-    
-    if (amount === null || amount === "") return;
-    
-    const pointsToRemove = parseInt(amount);
-    if (isNaN(pointsToRemove)) return alert("يرجى إدخال رقم صحيح");
 
-    if (pointsToRemove > currentPoints) {
-        if (!confirm("النقاط المراد خصمها أكبر من رصيد الزبون، هل تريد التصفير؟")) return;
-    }
 
-    const newPoints = Math.max(0, currentPoints - pointsToRemove);
-
-    try {
-        const { getDatabase, ref, set } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
-        const db = getDatabase();
-        await set(ref(db, 'loyalty/' + phone), newPoints);
-        alert("تم تحديث النقاط بنجاح! ✅ الرصيد الجديد: " + newPoints);
-        loadAdminLoyalty(); // تحديث الجدول فوراً
-    } catch (error) {
-        alert("خطأ في التحديث: " + error.message);
-    }
-};
-
-window.checkMyPoints = async () => {
-    const phone = document.getElementById('checkPhoneInput').value;
-    const resultDiv = document.getElementById('myPointsResult');
-    const inputDiv = document.getElementById('loyaltyCheckSection');
-    const display = document.getElementById('userPointsDisplay');
-    const whatsappBtn = document.getElementById('whatsappExchangeBtn');
-
-    if (!phone) return alert("يرجى إدخال رقم الهاتف أولاً");
-
-    try {
-        const { getDatabase, ref, get } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
-        const db = getDatabase();
-        const userRef = ref(db, 'loyalty/' + phone);
-        const snapshot = await get(userRef);
-
-        if (snapshot.exists()) {
-            const actualPoints = snapshot.val();
-            display.innerText = actualPoints;
-
-            // تحديث رابط الواتساب بالنقاط الحقيقية من الداتابيز
-            const myNumber = "96176526242";
-            const message = `مرحبا "JOUD GROUP"، رصيد نقاطي الحقيقي هو ${actualPoints} نقطة وأرغب في استبدالها.`;
-            whatsappBtn.href = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
-            whatsappBtn.style.display = "inline-block";
-
-        } else {
-            display.innerText = "0";
-            whatsappBtn.style.display = "none";
-            alert("هذا الرقم غير مسجل في نظام النقاط بعد.");
-        }
-
-        inputDiv.classList.add('hidden');
-        resultDiv.classList.remove('hidden');
-
-    } catch (error) {
-        console.error("Error fetching points:", error);
-        alert("حدث خطأ أثناء جلب البيانات.");
-    }
-};
 // مصفوفة لتخزين المفضلة
 let wishlist = JSON.parse(localStorage.getItem('joudWishlist')) || [];
 // هيدا السطر بيخلي التطبيق يحدث شكل القلوب والبيانات أول ما تفتح الصفحة
@@ -1024,7 +805,7 @@ window.swPage = (id, el) => {
     document.getElementById('pricePercent').value = ""; // تصفير الخانة
 };
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, remove, get} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-WfO-E0Z6_z-pYm8V6S-Hq7K-L0P1M",
@@ -1130,11 +911,6 @@ window.updateUI = () => {
 };
 
 function initApp() {
-    // تعبئة رقم الهاتف تلقائياً إذا كان موجوداً سابقاً
-const savedPhone = localStorage.getItem('userPhone');
-if (savedPhone && document.getElementById('checkPhoneInput')) {
-    document.getElementById('checkPhoneInput').value = savedPhone;
-}
     // 1. مراقبة الأقسام الرئيسية وتعبئة البيانات
     onValue(ref(db, 'settings/layout'), (snap) => {
         const d = snap.val();
@@ -1372,23 +1148,7 @@ window.renderProducts = (d) => {
 };
         
         window.changeQty = (idx, d) => { cart[idx].qty += d; if(cart[idx].qty <= 0) cart.splice(idx, 1); updateBadge(); window.renderCart(); };
-       function updateBadge() { 
-    const b = document.getElementById('cartBadge'); 
-    const badgeCount = cart.reduce((a, b) => a + b.qty, 0);
-    b.innerText = badgeCount; 
-    b.style.opacity = cart.length > 0 ? "1" : "0"; 
-
-    // --- إضافة تحديث عداد النقاط بالسلة ---
-    const earnedPointsSpan = document.getElementById('earned-points');
-    if (earnedPointsSpan) {
-        // حساب المجموع الكلي حالياً في السلة
-        const currentTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        // حسب معادلتك: كل 1 دولار (أو وحدة سعر) بتعطي نقطة (أو فيك تعدلها)
-        // لنفترض كل 1$ بيعطي نقطة وحدة:
-        const points = Math.floor(currentTotal); 
-        earnedPointsSpan.innerText = points;
-    }
-}
+        function updateBadge() { const b=document.getElementById('cartBadge'); b.innerText=cart.reduce((a,b)=>a+b.qty,0); b.style.opacity=cart.length>0?"1":"0"; }
         
 window.renderCart = () => {
     const l = document.getElementById('cartItemsList');
@@ -1481,134 +1241,40 @@ window.renderCart = () => {
         function renderCatItems(items) { document.getElementById('catProductGrid').innerHTML = items.map(p => `<div class="product-card flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border"><img src="${p.img}" class="h-20 object-contain"><p class="text-[10px] font-black mt-2 h-8 overflow-hidden text-center">${p.name}</p><div class="flex justify-between items-center w-full px-1 mt-1"><span class="price-tag">${p.price}$</span><button onclick="addToCart('${p.name}',${p.price})" class="add-btn">أضف</button></div></div>`).join(''); }
 
         window.showCatsMenu = () => { document.getElementById('catsMenu').classList.remove('hidden'); document.getElementById('catItemsSection').classList.add('hidden'); };
-window.sendOrder = async () => {
-    // 1. حساب المجموع والتأكد من السلة
-    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    if (total <= 0) return alert("السلة فارغة!");
-
-    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
-    let userPhone = localStorage.getItem('userPhone');
-    if (!userPhone) {
-        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
-        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
-        localStorage.setItem('userPhone', userPhone);
-    }
-
-    // 3. جلب طريقة الدفع المختارة
+       window.sendOrder = () => {
+    // 1. جلب الخيار اللي نقّاه الزبون (نقداً أو Wish)
     const paymentElement = document.querySelector('input[name="payment"]:checked');
-    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
+    const paymentMethod = paymentElement ? paymentElement.value : "غير محدد";
 
-    // 4. تحديث النقاط في Firebase (مسار loyalty)
-    try {
-        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
-        const snapshot = await get(userLoyaltyRef);
-        const currentPoints = snapshot.val() || 0;
-        const addedPoints = Math.floor(total);
-        await set(userLoyaltyRef, currentPoints + addedPoints);
-        console.log("Points updated successfully!");
-    } catch (dbError) {
-        console.error("Error updating points:", dbError);
-    }
-
-    // 5. بناء رسالة الواتساب المنسقة
-    let message = `*طلب جديد - JOUD GROUP*\n`;
-    message += `━━━━━━━━━━━━━━━━━━\n`;
-    message += `👤 *الزبون:* ${userPhone}\n`;
-    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
-    message += `━━━━━━━━━━━━━━━━━━\n\n`;
+    // 2. بداية الرسالة مع توضيح طريقة الدفع فوراً
+    let message = `*مرحبا Joud Group  اود طلب التالي* \n`;
+    message += `--------------------------\n`;
+    message += `💰 *طريقة الدفع:* ${paymentMethod} \n`; 
+    message += `--------------------------\n\n`;
+    
     message += `*الأصناف المطلوبة:*\n`;
 
-    cart.forEach((item, index) => {
-        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
+    // 3. إضافة البضائع من السلة (تأكد أن اسم المتغير 'cart' صحيح عندك)
+    cart.forEach(item => {
+        message += `• ${item.name} | العدد: ${item.qty} \n`;
     });
 
-    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
-    
+    // 4. المجموع النهائي
+    const total = document.getElementById('totalPrice').innerText;
+    message += `\n*المجموع النهائي:* ${total}$ \n`;
+
+    // 5. إضافة ملاحظة إذا كان الدفع Wish
     if (paymentMethod.includes("Wish")) {
-        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._`;
     }
 
-    // 6. فتح الواتساب
-    const myNumber = "96176526242";
-    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+    // 6. فتح الواتساب بالرسالة المنسقة
+    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
-
-    // 7. تنظيف السلة
-    cart = [];
-    updateBadge();
-    window.renderCart();
 };
         window.handleSecretTap = () => { window.taps=(window.taps||0)+1; if(window.taps===6){const p=prompt("الرمز:"); if(p==="joud2026")window.swPage('admin'); window.taps=0;} setTimeout(()=>window.taps=0,2000); };
         window.moveSlide = (dir) => { const w=document.getElementById('mainSlider'); const s=w.querySelectorAll('.slide'); if(s.length<=1)return; curS=(curS+dir+s.length)%s.length; w.style.transform=`translateX(${curS*100}%)`; }
         window.onload = initApp;
-
-
-// دالة لجلب جميع نقاط الزبائن وعرضها في جدول الإدارة
-
-window.loadAdminLoyalty = () => {
-    const adminTableBody = document.getElementById('adminLoyaltyBody');
-    const loyaltyRef = ref(db, 'loyalty');
-    adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4 text-blue-500">جاري التحميل...</td></tr>';
-
-    get(loyaltyRef).then((snapshot) => {
-        adminTableBody.innerHTML = ''; 
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            Object.keys(data).forEach((phone) => {
-                const points = data[phone];
-                const row = `
-                    <tr class="border-b dark:border-gray-700">
-                        <td class="p-3 text-sm">${phone}</td>
-                        <td class="p-3 font-black text-green-600">${points}</td>
-                        <td class="p-3">
-                            <button onclick="editUserPoints('${phone}', ${points})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">خصم نقاط ✂️</button>
-                        </td>
-                    </tr>
-                `;
-                adminTableBody.innerHTML += row;
-            });
-        } else {
-            adminTableBody.innerHTML = '<tr><td colspan="3" class="p-4">لا يوجد زبائن</td></tr>';
-        }
-    });
-};
-
-
-// هيدي المصفوفة فيك تخليها تاخد بياناتها من Firebase بمركز الإدارة
-const tutorialSteps = [
-    { 
-        title: "اختر أصنافك", 
-        img: "https://cdn.dribbble.com/userupload/8913721/file/original-27f29cc8cf3843454340ffa980be35f5.gif",
-        action: "swPage('cats')" // تفتح صفحة الأقسام
-    },
-    { 
-        title: "أدخل رقمك لمتابعة نقاطك", 
-        img: "https://cdn.pixabay.com/animation/2023/11/29/03/39/03-39-03-19_512.gif",
-        action: "swPage('contact')" // تفتح صفحة التواصل والنقاط
-    },
-    { 
-        title: "اطلب واتساب", 
-        img: "https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyZTIwNGw1N3R0c3ZlYnNwMnJ1N2JudmxobDN2OHZzdHRucTRxcjY3diZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/OrNkIcgmjBQeFM1vEs/giphy.gif", 
-        action: "window.open('https://wa.me/96176526242', '_blank')" // تفتح الواتساب مباشرة
-    }
-];
-
-function renderTutorial() {
-    const container = document.getElementById('tutorial-section');
-    container.innerHTML = tutorialSteps.map(step => `
-        <div class="card-3d" onclick="${step.action}" style="cursor: pointer;">
-            <div class="card-inner hover:bg-green-50 transition-colors duration-300">
-                <img src="${step.img}" class="card-img" alt="${step.title}">
-                <p class="card-text">${step.title}</p>
-            </div>
-        </div>
-    `).join('');
-}
-
-// تشغيل الدالة عند تحميل الصفحة
-renderTutorial();
-
-
     </script>
 
 <script>
@@ -1674,65 +1340,32 @@ document.querySelectorAll('input[name="payment"]').forEach(radio => {
 });
 
 // دالة إرسال الطلب المعدلة
-window.sendOrder = async () => {
-    // 1. حساب المجموع والتأكد من السلة
-    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    if (total <= 0) return alert("السلة فارغة!");
-
-    // 2. طلب رقم الهاتف لتسجيل النقاط (إذا لم يكن مسجلاً)
-    let userPhone = localStorage.getItem('userPhone');
-    if (!userPhone) {
-        userPhone = prompt("أدخل رقم هاتفك لتجميع نقاط المكافآت:");
-        if (!userPhone) return; // إلغاء العملية إذا لم يضع الرقم
-        localStorage.setItem('userPhone', userPhone);
-    }
-
-    // 3. جلب طريقة الدفع المختارة
-    const paymentElement = document.querySelector('input[name="payment"]:checked');
-    const paymentMethod = paymentElement ? paymentElement.value : "نقداً عند الاستلام";
-
-    // 4. تحديث النقاط في Firebase (تعديل الحسبة هنا)
-    try {
-        const userLoyaltyRef = ref(db, 'loyalty/' + userPhone);
-        const snapshot = await get(userLoyaltyRef);
-        const currentPoints = snapshot.val() || 0;
-        
-        // --- التعديل هنا: كل 1 دولار يعادل نقطة واحدة ---
-        const addedPoints = Math.floor(total); 
-        
-        await set(userLoyaltyRef, currentPoints + addedPoints);
-        console.log("Points updated successfully!");
-    } catch (dbError) {
-        console.error("Error updating points:", dbError);
-    }
-
-    // 5. بناء رسالة الواتساب المنسقة (نفس كودك الأصلي تماماً)
-    let message = `*طلب جديد - JOUD GROUP*\n`;
-    message += `━━━━━━━━━━━━━━━━━━\n`;
-    message += `👤 *الزبون:* ${userPhone}\n`;
-    message += `💰 *طريقة الدفع:* ${paymentMethod}\n`;
-    message += `━━━━━━━━━━━━━━━━━━\n\n`;
-    message += `*الأصناف المطلوبة:*\n`;
-
-    cart.forEach((item, index) => {
-        message += `${index + 1}- ${item.name} (العدد: ${item.qty})\n`;
-    });
-
-    message += `\n💵 *المجموع النهائي:* ${total.toFixed(2)}$\n`;
+window.sendOrder = () => {
+    // 1. جلب طريقة الدفع المختارة
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
     
-    if (paymentMethod.includes("Wish")) {
-        message += `\n⚠️ _سأقوم بإرسال صورة الإيصال للرقم 30618616-03 الآن._\n`;
+    // 2. بناء الرسالة
+    let message = `مرحبا مؤسسة الجود (JOUD GROUP) \n`;
+    message += `طلب جديد بانتظار التأكيد \n`;
+    message += `--------------------------\n`;
+    message += `طريقة الدفع: *${paymentMethod}* \n`; // هون بتطلع "نقداً عند الاستلام" أو "تحويل عبر Wish"
+    message += `--------------------------\n\n`;
+    message += `الأصناف المطلوبة:\n`;
+    
+    // 3. إضافة البضائع من السلة
+    cart.forEach(item => {
+        message += `• ${item.name} | العدد: ${item.qty} \n`;
+    });
+    
+    message += `\nالمجموع النهائي: ${document.getElementById('totalPrice').innerText}$ \n`;
+    
+    if(paymentMethod.includes("Wish")) {
+        message += `\nسأقوم بإرسال صورة إيصال التحويل فوراً.`;
     }
 
-    // 6. فتح الواتساب
-    const myNumber = "96176526242";
-    const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+    // 4. فتح الواتساب
+    const whatsappUrl = `https://wa.me/96176526242?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
-
-    // 7. تنظيف السلة (نفس كودك الأصلي)
-    cart = [];
-    updateBadge();
-    window.renderCart();
 };
 
 
@@ -1904,22 +1537,7 @@ window.addEventListener('load', startMainSliderAuto);
 
 
 
-// دالة لحساب النقاط بناءً على المبلغ الإجمالي
-function calculatePoints(totalAmount) {
-    const pointsPerUnit = 10; // عدد النقاط
-    const priceUnit = 100000; // لكل 100 ألف ليرة
-    return Math.floor(totalAmount / priceUnit) * pointsPerUnit;
-}
 
-// تحديث دالة updateCartUI الأصلية الموجودة في ملفك
-function updateCartUI() {
-    // ... الكود القديم الموجود عندك ...
-    
-    // حساب النقاط وعرضها
-    const total = calculateTotal(); // تأكد من استخدام دالة حساب الإجمالي لديك
-    const points = calculatePoints(total);
-    document.getElementById('earned-points').innerText = points;
-}
 
 
 
@@ -1992,83 +1610,6 @@ function initJoudMessaging() {
 loadFirebaseScripts();
 
 </script>
-
-
-
-
-
-<script type="module">
-    // (تأكد من وجود تعريف Firebase الخاص بك هنا كما في ملفك)
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-    const db = getDatabase();
-
-    // وظيفة الحفظ المحدثة لتشمل القسم الجديد
-    window.updateUI = () => {
-        // ... (كود الحفظ القديم للسلايدرات والمربعات) ...
-
-        // حفظ الكروت الديناميكية الجديدة
-        let dynamicCards = [];
-        for(let i=1; i<=3; i++) {
-            const link = document.getElementById(`dyn${i}_link`).value;
-            const title = document.getElementById(`dyn${i}_title`).value;
-            const price = document.getElementById(`dyn${i}_price`).value;
-            if(link) dynamicCards.push({ image: link, title: title, price: price });
-        }
-
-        // إرسال البيانات
-        set(ref(db, 'settings/layout/dynamicCards'), dynamicCards)
-        .then(() => alert("تم تحديث الواجهة والكروت الجديدة! ✅"));
-    };
-
-    // وظيفة جلب البيانات وعرضها في الصفحة الرئيسية
-    onValue(ref(db, 'settings/layout/dynamicCards'), (snap) => {
-        const cards = snap.val();
-        if(cards) {
-            const container = document.getElementById('dynamicSlider');
-            container.innerHTML = cards.map(c => `
-                <div class="dynamic-card">
-                    <img src="${c.image}" alt="">
-                    <div class="dynamic-card-info">
-                        <div class="dynamic-card-title">${c.title}</div>
-                        <div class="dynamic-card-price">${c.price}$</div>
-                        <button onclick="addToCart('${c.title}', ${c.price})" class="mt-3 bg-white text-black px-6 py-2 rounded-full font-bold text-sm">اطلب الآن 🛒</button>
-                    </div>
-                </div>
-            
-            `).
-            join('');
-
-            // تعبئة خانات الأدمن تلقائياً
-            cards.forEach((c, i) => {
-                if(document.getElementById(`dyn${i+1}_link`)) {
-                    document.getElementById(`dyn${i+1}_link`).value = c.image;
-                    document.getElementById(`dyn${i+1}_title`).value = c.title;
-                    document.getElementById(`dyn${i+1}_price`).value = c.price;
-                }
-            });
-        }
-        
-        // --- كود التحريك التلقائي للسلايدر ---
-const container = document.getElementById('dynamicSlider');
-let scrollStep = 0;
-
-setInterval(() => {
-    if (container.children.length > 0) {
-        const cardWidth = container.children[0].offsetWidth + 15; // عرض الكارت + الفراغ (gap)
-        const maxScroll = container.scrollWidth - container.clientWidth;
-
-        if (container.scrollLeft <= -maxScroll + 10) { // التحقق إذا وصل لآخر كارت (في وضع RTL)
-            container.scrollTo({ left: 0, behavior: 'smooth' });
-            scrollStep = 0;
-        } else {
-            container.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-        }
-    }
-}, 9000); // 3000 ميلي ثانية = 3 ثواني
-    });
-
-</script>
-
 </body> 
 </html>
 
